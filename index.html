@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.2
+  Meaning Mine v4.3
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.2</title>
+<title>Meaning Mine v4.3</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +51,8 @@ body{
   background-size:auto,22px 22px,22px 22px;
   background-attachment:fixed;
   color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;
-  padding-inline:16px;padding-block:18px 36px;min-height:100%;
+  padding-inline:16px;padding-block:18px 36px;
+  position:relative;min-height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
 }
 button{font:inherit;color:inherit}
 button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
@@ -299,8 +300,9 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 #menu .bigbtn{font-size:21px;padding:10px 28px}
 #sbBody{max-height:54vh;overflow-y:auto}
 .seg button[disabled]{opacity:.35;cursor:not-allowed}
-.toprow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start}
-@media (max-width:620px){.toprow{grid-template-columns:minmax(0,1fr)}}
+.toprow{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
+#soloField .nickrow{max-width:none}
+#soloField input[type=text]{max-width:none}
 #groupField{grid-column:1/-1}
 .gnames{display:flex;flex-wrap:wrap;gap:8px}
 .gnames .gn{flex:1 1 170px;max-width:260px}
@@ -406,10 +408,10 @@ body:not(.t-night) .gbtn:nth-child(7n+5) b{color:#a43ae0} body:not(.t-night) .gb
 body:not(.t-night) .gbtn:nth-child(7n+7) b{color:#e8409a}
 body.t-ocean .gbtn:nth-child(7n+4) b{color:#6aa8ff} body.t-ocean .gbtn:nth-child(7n+5) b{color:#c784ff} body.t-ocean .gbtn:nth-child(7n+6) b{color:#4fe3f0}
 .gbtn.last::after{color:var(--gold-ink)}
-.vtag{position:fixed;right:12px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:5;font:700 12px/1 var(--body);color:#c9b097;background:rgba(28,16,12,.7);border:1px solid var(--trim);border-radius:999px;padding:5px 9px;pointer-events:none}
+.vtag{position:absolute;right:12px;bottom:8px;z-index:5;font:700 12px/1 var(--body);color:#c9b097;background:rgba(28,16,12,.7);border:1px solid var(--trim);border-radius:999px;padding:5px 9px;pointer-events:none}
 body:not(.start) .vtag:not(.vby){display:none}
 #vtag{pointer-events:auto;cursor:default;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:calc(4px + env(safe-area-inset-bottom,0px));left:6px}
+body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;left:6px}
 .vtag.vby{right:auto;left:12px}
 .themes{display:flex;align-items:center;gap:7px;background:var(--deep);border:1px solid var(--line);border-radius:999px;padding:5px 8px}
 .themes span{font-size:12px;font-weight:800;color:var(--muted);margin-right:2px}
@@ -525,7 +527,7 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:calc
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.2</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.3</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -734,7 +736,7 @@ const ALL = JSON.parse(document.getElementById('mmData').textContent);
 const SNDDATA = (()=>{ try{ return JSON.parse(document.getElementById('mmSnd').textContent); }catch(e){ return {}; } })();
 let GRADE = '7', KIND = 'Unit', UNITS = [], KIND_PL = 'Üniteler', SK = '', TK = '';
 const _mmk = [124,79,70,67,10,122,111,97,111,120];
-const COMBO_MS = 5000, COLS = 3, ROWS = 5, COLORS = ['ruby','amethyst','emerald','sapphire','topaz'];
+const COMBO_MS = 5000, COLS = 3, ROWS = 4, COLORS = ['ruby','amethyst','emerald','sapphire','topaz'];
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const store = {
@@ -1731,7 +1733,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.2 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.3 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -1809,7 +1811,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.2'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.3'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
