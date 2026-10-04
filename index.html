@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.9
+  Meaning Mine v4.10
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.9</title>
+<title>Meaning Mine v4.10</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -650,7 +650,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.9</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.10</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -706,6 +706,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
             <button type="button" data-v="2">2 Grup</button>
             <button type="button" data-v="3">3 Grup</button>
             <button type="button" data-v="4">4 Grup</button>
+            <button type="button" data-v="5">5 Grup</button>
           </div>
         </div>
         <div class="field" id="soloField">
@@ -720,6 +721,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
             <label class="gn" data-i="1"><i style="--c:var(--sapphire)"></i><input type="text" id="gname2" maxlength="16" autocomplete="off" aria-label="2. grubun adı"><button type="button" class="kbbtn" data-for="gname2" aria-label="Ekran klavyesini aç">⌨</button></label>
             <label class="gn" data-i="2"><i style="--c:var(--emerald)"></i><input type="text" id="gname3" maxlength="16" autocomplete="off" aria-label="3. grubun adı"><button type="button" class="kbbtn" data-for="gname3" aria-label="Ekran klavyesini aç">⌨</button></label>
             <label class="gn" data-i="3"><i style="--c:var(--topaz)"></i><input type="text" id="gname4" maxlength="16" autocomplete="off" aria-label="4. grubun adı"><button type="button" class="kbbtn" data-for="gname4" aria-label="Ekran klavyesini aç">⌨</button></label>
+            <label class="gn" data-i="4"><i style="--c:var(--amethyst)"></i><input type="text" id="gname5" maxlength="16" autocomplete="off" aria-label="5. grubun adı"><button type="button" class="kbbtn" data-for="gname5" aria-label="Ekran klavyesini aç">⌨</button></label>
           </div>
         </div>
       </div>
@@ -925,10 +927,12 @@ const unitStr = us => {
 const durStr = d => d ? (d%60 ? (d/60).toString().replace('.',',') : d/60) + ' dk' : 'Süresiz';
 
 /* ---------------- preferences (shared) + units per grade ---------------- */
+const MAXG = 5;
 const prefs = Object.assign({name:'', dur:90, sound:true, music:true, tts:true, musicVol:50, voiceVol:90,
-  mode:1, gnames:['1. Grup','2. Grup','3. Grup','4. Grup'], unitsBy:{}, lastGrade:null, dir:'en'}, store.get('mm_prefs', {}));
+  mode:1, gnames:['1. Grup','2. Grup','3. Grup','4. Grup','5. Grup'], unitsBy:{}, lastGrade:null, dir:'en'}, store.get('mm_prefs', {}));
 if(prefs.dir!=='tr') prefs.dir='en';
-if(!Array.isArray(prefs.gnames) || prefs.gnames.length<4) prefs.gnames=['1. Grup','2. Grup','3. Grup','4. Grup'];
+if(!Array.isArray(prefs.gnames)) prefs.gnames=[];
+for(let i=prefs.gnames.length;i<MAXG;i++) prefs.gnames.push((i+1)+'. Grup');   // keeps names saved by older versions
 if(!prefs.unitsBy || typeof prefs.unitsBy!=='object') prefs.unitsBy = {};
 prefs.units = [1]; prefs.set = 'all';
 if(!['night','ocean','sunset','sky'].includes(prefs.theme)) prefs.theme = 'sky';
@@ -1136,10 +1140,10 @@ $('#clearSb').addEventListener('click', ()=>{
 /* ---------------- menu ---------------- */
 const check = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="#2a1800" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function unitWords(u){ return u.w; }
-const GCOL = ['ruby','sapphire','emerald','topaz'];
+const GCOL = ['ruby','sapphire','emerald','topaz','amethyst'];
 function renderMenu(){
   if(document.activeElement !== $('#nick')) $('#nick').value = prefs.name;
-  for(let i=0;i<4;i++){ const inp = $('#gname'+(i+1)); if(document.activeElement !== inp) inp.value = prefs.gnames[i]; inp.closest('.gn').hidden = i >= prefs.mode; }
+  for(let i=0;i<MAXG;i++){ const inp = $('#gname'+(i+1)); if(document.activeElement !== inp) inp.value = prefs.gnames[i]; inp.closest('.gn').hidden = i >= prefs.mode; }
   [...$('#modeSeg').children].forEach(b=>b.setAttribute('aria-pressed', +b.dataset.v===prefs.mode));
   $('#soloField').hidden = prefs.mode > 1;
   $('#groupField').hidden = prefs.mode === 1;
@@ -1169,7 +1173,7 @@ function renderMenu(){
   fitMenu();
 }
 $('#modeSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; prefs.mode=+b.dataset.v; savePrefs(); renderMenu(); });
-for(let i=0;i<4;i++) $('#gname'+(i+1)).addEventListener('input', e=>{ prefs.gnames[i] = e.target.value; savePrefs(); });
+for(let i=0;i<MAXG;i++) $('#gname'+(i+1)).addEventListener('input', e=>{ prefs.gnames[i] = e.target.value; savePrefs(); });
 $('#musicT').addEventListener('click', ()=>{ prefs.music=!prefs.music; savePrefs(); renderMenu(); updateMusicBtn(); });
 $('#units').addEventListener('click', e=>{
   const b=e.target.closest('button'); if(!b) return; const n=+b.dataset.n;
@@ -1187,7 +1191,7 @@ $('#voiceVol').addEventListener('input', e=>{ prefs.voiceVol=+e.target.value; up
 $('#voiceVol').addEventListener('change', ()=>playWord(sampleWord()));
 $('#voiceTest').addEventListener('click', ()=>playWord(sampleWord()));
 function sampleWord(){ const u = UNITS.find(u=>prefs.units.includes(u.n)) || UNITS[0]; const w = u.w[Math.floor(Math.random()*u.w.length)][0]; return w.replace(POS,'').trim(); }
-document.querySelectorAll('#nick,#gname1,#gname2,#gname3,#gname4').forEach(inp=>inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#startBtn').click(); } }));
+document.querySelectorAll('#nick,#gname1,#gname2,#gname3,#gname4,#gname5').forEach(inp=>inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#startBtn').click(); } }));
 $('#nick').addEventListener('input', ()=>{ prefs.name=$('#nick').value.trim(); savePrefs(); if(prefs.name) $('#nickErr').hidden=true; });
 $('#setup').addEventListener('submit', e=>{
   e.preventDefault(); oskClose();
@@ -2019,7 +2023,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.9 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.10 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -2113,7 +2117,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.9'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.10'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
