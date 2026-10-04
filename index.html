@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.10
+  Meaning Mine v4.11
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.10</title>
+<title>Meaning Mine v4.11</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -445,6 +445,15 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
   conic-gradient(from 0deg at 50% 32%,rgba(255,255,255,.55),transparent 10%,rgba(255,255,255,.35) 22%,transparent 34%,rgba(255,255,255,.55) 50%,transparent 62%,rgba(255,255,255,.35) 75%,transparent 88%);
   background-size:260% 100%,100% 100%;animation:goldshine 1.5s linear infinite}
 .gem.gold::after{display:none}
+.gem.dull{--c:#cdd2d8;color:#3c434c;text-shadow:0 1px 0 rgba(255,255,255,.6);filter:none;background:linear-gradient(160deg,rgba(255,255,255,.55),rgba(255,255,255,.1) 40%,rgba(0,0,0,.12)),#cdd2d8}
+.gem.dull::before{opacity:0}
+.gem.dull::after{opacity:.35}
+#board.has-sel .tile:not(.sel) .gem.dull{filter:brightness(.8)}
+.tile.locked .gem.dull{background:linear-gradient(160deg,rgba(255,255,255,.35),rgba(0,0,0,.18)),#9aa1a9;color:#2b3036;cursor:not-allowed}
+.gem .lockic{position:absolute;top:3px;right:6px;z-index:2;font-size:clamp(11px,calc(var(--th)*.24),18px);line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.tile.unlockpop .gem{animation:unlockpop .55s ease-out}
+@keyframes unlockpop{40%{transform:scale(1.1);filter:brightness(1.25)}}
+.float.dullf{color:#d9dde2}
 @keyframes prism{from{background-position:0 0,0 0}to{background-position:300% 0,0 0}}
 @keyframes goldshine{from{background-position:130% 0,0 0}to{background-position:-130% 0,0 0}}
 .tile.goldtile{filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px rgba(170,215,255,.95)) drop-shadow(0 0 18px rgba(230,160,255,.7))}
@@ -608,6 +617,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 .hico i{width:18px;height:18px;border-radius:5px;background:linear-gradient(160deg,rgba(255,255,255,.5),rgba(0,0,0,.2)),var(--c)}
 .hcombo{background:linear-gradient(180deg,#ffd98a,var(--gold));color:var(--gold-ink)}
 .hhint{background:var(--raised);color:var(--ink)}
+.hdull{background:#cdd2d8;font-size:20px}
 .hdia .hg{width:64px;height:44px;--th:44px}
 .hdia .gem.gold{padding:0}
 .hdia .star{font-size:11px}
@@ -650,7 +660,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.10</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.11</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -832,6 +842,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
           <li><span class="hico hcombo">x3</span><div><b>Kombo</b> 5 saniye içinde art arda doğru eşleştirirsen puanın katlanır (en fazla x6). Yanlış eşleşme kombonu sıfırlar.</div></li>
           <li><span class="hico" aria-hidden="true"><i style="--c:var(--sapphire)"></i><i style="--c:var(--sapphire)"></i><i style="--c:var(--sapphire)"></i></span><div><b>Renk bonusu</b> Aynı renkten 3 ya da daha fazla taş yan yana gelirse patlar, ekstra puan verir. Zincirleme patlamalarda bonus büyür.</div></li>
           <li><span class="hico hdia" aria-hidden="true"><span class="hg"><span class="gem gold"><span class="star">✦</span><span class="txt l1"></span></span></span></span><div><b>Elmas taş</b> 3 kat puan; komboyla birlikte katlanır.</div></li>
+          <li><span class="hico hdull">🔒</span><div><b>Sönen taş</b> Yanlış eşleştirdiğin taş söner: bir sonraki doğru eşleşmene kadar kilitlenir ve artık puan vermez.</div></li>
           <li><span class="hico hhint">?</span><div><b>İpucu</b> 3 hakkın var. Bir eşleşmeyi gösterir ama kombonu sıfırlar.</div></li>
         </ul>
       </section>
@@ -1424,6 +1435,10 @@ function fillAll(first){
 /* ---------- taps ---------- */
 function onGem(g){
   if(blocked() || !g.alive || !tapOK(g.b)) return;
+  if(g.lock){
+    g.b.classList.remove('shake'); g.b.offsetWidth; g.b.classList.add('shake'); setTimeout(()=>g.b.classList.remove('shake'), 400);
+    setInfo('🔒 Bu taş kilitli. Başka bir kelimeyi doğru bulunca açılır.', true); sfx.wrong(); return;
+  }
   const s = G.sel;
   if(!s){ selectGem(g); return; }
   if(s.kind==='gem'){ const same = s.ref===g; deselect(); if(!same) selectGem(g); return; }
@@ -1471,7 +1486,7 @@ function lowestEmpty(c){ for(let r=ROWS-1;r>=0;r--) if(!G.grid[c][r]) return r; 
 function spawnColor(c, r, safe){
   const opts = shuffle(COLORS.slice());
   if(!safe) return opts[0];
-  const mat = G.grid.map(col=>col.map(g=>g&&g.alive?g.color:null));
+  const mat = G.grid.map(col=>col.map(g=>g&&g.alive&&g.color!=='dull'?g.color:null));
   for(const col of opts){ mat[c][r]=col; if(groupAt(mat,c,r).length<3) return col; }
   return opts[0];
 }
@@ -1488,19 +1503,23 @@ function spawnGem(c, e, stack, safe){
 
 function match(g, k){
   const g0 = G; G.busy = true;
-  const now = performance.now();
-  G.combo = now <= G.comboDeadline ? G.combo+1 : 1;
-  G.comboDeadline = now + COMBO_MS;
-  G.maxCombo = Math.max(G.maxCombo, G.combo);
+  const now = performance.now(), dull = g.color === 'dull';
+  if(!dull){
+    G.combo = now <= G.comboDeadline ? G.combo+1 : 1;
+    G.comboDeadline = now + COMBO_MS;
+    G.maxCombo = Math.max(G.maxCombo, G.combo);
+  }
   const gold = g.color === 'gold';
-  const mult = Math.min(G.combo, 6), pts = 100*mult*(gold ? 3 : 1);
+  const mult = Math.min(G.combo, 6), pts = dull ? 0 : 100*mult*(gold ? 3 : 1);
   G.score += pts; G.correct++; if(gold) G.golds = (G.golds||0) + 1;
   G.sinceGold = (G.sinceGold||0) + 1;
   const [x,y] = centerOf(g);
   if(gold) floatText(x, y, `+${pts}<small>ELMAS TAŞ x3${G.combo>1?` · KOMBO x${mult}`:''}</small>`, 34, 'goldf');
+  else if(dull) floatText(x, y, `+0<small>SÖNMÜŞ TAŞ</small>`, 24, 'dullf');
   else floatText(x, y, `+${pts}${G.combo>1?`<small>KOMBO x${mult}</small>`:''}`, G.combo>1?30:24);
   const w = G.E[g.e];
-  setInfo(`<span>${gold?'<b class="goldtxt">Elmas taş! 3 kat puan · </b>':''}<b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></span>`);
+  unlockGems();
+  setInfo(`<span>${gold?'<b class="goldtxt">Elmas taş! 3 kat puan · </b>':''}${dull?'<b>Sönmüş taş, puan yok · </b>':''}<b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></span>`);
   gold ? sfx.gold() : sfx.match(G.combo);
   if(G.rev && prefs.tts) playWord(w.en);
   removeGem(g);
@@ -1520,7 +1539,7 @@ function match(g, k){
 }
 
 function findClusters(){
-  const mat = G.grid.map(col=>col.map(g=>g&&g.alive&&g.color!=='gold'?g.color:null));
+  const mat = G.grid.map(col=>col.map(g=>g&&g.alive&&g.color!=='gold'&&g.color!=='dull'?g.color:null));
   const seen = new Set(), out = [];
   for(let c=0;c<COLS;c++) for(let r=0;r<ROWS;r++){
     if(!mat[c][r] || seen.has(c+','+r)) continue;
@@ -1586,27 +1605,47 @@ function makeGold(g){
 function maybeGold(){
   if(G.practice || hasGold() || (G.sinceGold||0) < GOLD_GAP || Math.random() >= GOLD_P) return;
   const sel = G.sel && G.sel.kind==='gem' ? G.sel.ref : null;
-  const pool = allGems().filter(g=>g.alive && g!==sel && g.id < G.uid - 1);   // an older gem, not the one that just fell in
+  const pool = allGems().filter(g=>g.alive && g!==sel && g.color!=='dull' && g.id < G.uid - 1);   // an older gem, not the one that just fell in
   if(!pool.length) return;
   makeGold(pool[Math.floor(Math.random()*pool.length)]);
   G.sinceGold = 0;
 }
 function afterSettle(){
   if(!G || G.over) return;
+  unlockIfStuck();
   maybeGold();
   gameWarm();
   if(!allGems().length){ if(G.dur) fillAll(false); else endGame('done'); }
   updateHud();
 }
 
+/* "sönen taş": a gem matched wrongly loses its colour for good (no points, no colour bonus, no diamond)
+   and stays locked until the player gets some other word right */
+function dullGem(g){
+  if(g.color === 'gold'){ g.el.classList.remove('goldtile'); const st = g.b.querySelector('.star'); if(st) st.remove(); g.b.className = 'gem sapphire'; }
+  g.color = 'dull'; g.b.classList.add('dull');
+  g.lock = true; g.el.classList.add('locked');
+  if(!g.b.querySelector('.lockic')) g.b.insertAdjacentHTML('beforeend', '<span class="lockic" aria-hidden="true">🔒</span>');
+  g.b.setAttribute('aria-label', 'Kilitli sönmüş taş: ' + g.b.querySelector('.txt').textContent);
+}
+function unlockGems(){
+  allGems().forEach(g=>{ if(g.alive && g.lock){
+    g.lock = false; g.el.classList.remove('locked');
+    const ic = g.b.querySelector('.lockic'); if(ic) ic.remove();
+    g.b.setAttribute('aria-label', 'Sönmüş taş: ' + g.b.querySelector('.txt').textContent);
+    g.el.classList.remove('unlockpop'); g.el.offsetWidth; g.el.classList.add('unlockpop'); setTimeout(()=>g.el.classList.remove('unlockpop'), 600);
+  }});
+}
+function unlockIfStuck(){ const live = allGems().filter(g=>g.alive); if(live.length && live.every(g=>g.lock)) unlockGems(); }
 function wrong(g, k, first){
   G.wrong++; G.combo=0; G.comboDeadline=0;
+  dullGem(g); unlockIfStuck();
   const key = first==='gem' ? g.e : k.e;
   G.missed.set(key, (G.missed.get(key)||0)+1);
   g.b.classList.remove('shake'); g.b.offsetWidth; g.b.classList.add('shake'); g.el.classList.add('bad');
   k.el.classList.remove('shake'); k.el.offsetWidth; k.el.classList.add('shake','bad');
   setTimeout(()=>{ g.b.classList.remove('shake'); g.el.classList.remove('bad'); k.el.classList.remove('shake','bad'); }, 420);
-  setInfo('Bu ikisi eşleşmiyor. Kombo sıfırlandı, tekrar dene.', true);
+  setInfo('Bu ikisi eşleşmiyor. Taş söndü: başka bir kelimeyi doğru bulunca açılır ama artık puan vermez.', true);
   sfx.wrong(); updateHud();
 }
 
@@ -1652,7 +1691,7 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden && G && !
 
 $('#hintBtn').addEventListener('click', ()=>{
   if(blocked() || G.hints<=0) return;
-  for(const g of allGems().filter(g=>g.alive)){
+  for(const g of allGems().filter(g=>g.alive && !g.lock).sort((a,b)=>(a.color==='dull')-(b.color==='dull'))){
     const k = G.cards.find(k=>k.e!=null && !k.locked && sameMeaning(g.e, k.e));
     if(k){
       deselect();
@@ -2023,7 +2062,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.10 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.11 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -2117,7 +2156,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.10'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.11'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
