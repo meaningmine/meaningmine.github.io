@@ -1,5 +1,5 @@
-// Meaning Mine service worker — v4.3 · © 2026 Veli PEKER
-const CACHE = 'meaning-mine-v4.3';
+// Meaning Mine service worker — v4.4 · © 2026 Veli PEKER
+const CACHE = 'meaning-mine-v4.4';
 const CORE = ['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','favicon.png'];
 self.addEventListener('install', e=>{
   e.waitUntil(caches.open(CACHE).then(c=>Promise.all(CORE.map(u=>fetch(new Request(u,{cache:'reload'})).then(r=>{ if(r.ok) return c.put(u,r); })))).then(()=>self.skipWaiting()));
@@ -11,6 +11,7 @@ self.addEventListener('fetch', e=>{
   const req = e.request;
   if(req.method !== 'GET') return;
   const url = new URL(req.url);
+  if(/(^|\.)cloudflareinsights\.com$/.test(url.hostname)) return;
   if(req.mode === 'navigate' && url.origin === location.origin){
     e.respondWith(caches.match('index.html').then(r=> r || fetch(req)));
     return;

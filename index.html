@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.3
+  Meaning Mine v4.4
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.3</title>
+<title>Meaning Mine v4.4</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -527,7 +527,7 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.3</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.4</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -1733,7 +1733,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.3 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.4 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -1811,7 +1811,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.3'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.4'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
@@ -1823,5 +1823,6 @@ showGrades();
 const boot = document.getElementById('boot'); if(boot) boot.remove();
 </script>
 
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "46595140635748a4b33eb73b64c3396b"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
