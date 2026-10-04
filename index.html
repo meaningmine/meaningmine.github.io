@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.4
+  Meaning Mine v4.5
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.4</title>
+<title>Meaning Mine v4.5</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,6 +194,7 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 .txt.l2{font-size:clamp(12px,calc(var(--th)*.27),19px)}
 .txt.l3{font-size:clamp(11px,calc(var(--th)*.22),16px)}
 .txt.l4{font-size:clamp(10px,calc(var(--th)*.19),14px)}
+.txt.l5{font-size:clamp(9px,calc(var(--th)*.165),12.5px);-webkit-line-clamp:4;line-height:1}
 .tile{filter:drop-shadow(0 4px 3px rgba(0,0,0,.5))}
 @media (hover:hover){.gem:hover{transform:translateY(-2px)}}
 .tile.sel{z-index:6;animation:selpulse .8s ease-in-out infinite alternate}
@@ -282,12 +283,18 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 #menu .brand{margin-bottom:10px;justify-content:space-between}
 #menu .brand > div:nth-child(2){flex:1;min-width:0}
 #menu .brand h1{font-size:clamp(26px,3.4vw,38px)}
+@media (min-width:700px){#menu .brand h1,#gradeScreen .brand h1{white-space:nowrap}}
+#menu .themes>span{display:none}
+#menu .hdr-right{gap:6px}
+#menu .hdr-right .iconbtn{padding:7px 10px}
+#menu .brand h1{font-size:clamp(24px,3vw,34px)}
 #menu .brand p{font-size:13px}
 #menu .menu{gap:14px}
 #menu .panel{gap:12px;padding:14px 16px}
 #menu .field{gap:6px}
 #menu input[type=text]{padding:9px 12px;font-size:16px}
 #menu .seg button{padding:7px 11px;font-size:13.5px}
+#startBtn.busy,.bigbtn.busy{filter:brightness(.92);transform:translateY(2px) scale(.985)}
 #menu .toggle{padding:5px 11px 5px 5px;font-size:13px}
 .units{grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:6px}
 .unit{padding:6px 9px;gap:8px}
@@ -330,7 +337,7 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 
 /* ---------- themes: night (default, dark) · ocean · sunset · sky (light) ---------- */
 body.t-ocean{background-color:#0b2a3a;background-image:radial-gradient(1100px 560px at 15% -10%,rgba(47,211,196,.22),transparent 60%),radial-gradient(900px 520px at 100% 0%,rgba(90,140,255,.18),transparent 60%),radial-gradient(circle at 50% 50%,rgba(255,255,255,.06) 1.5px,transparent 2.5px);background-size:auto,auto,24px 24px}
-body.t-ocean #gradeScreen,body.t-ocean #menu{--panel:#10394d;--wood-1:#134257;--raised:#1b5068;--deep:#0a2533;--ink:#eaf8ff;--muted:#9cc6d8;--gold:#2fd3c4;--gold-ink:#03302d;--line:rgba(47,211,196,.32);--trim:#2a6a85;--bad:#ff7a8a;--good:#3ee08f;--boxline:#4c8aa3;--swoff:#2f5f74;--rowline:rgba(255,255,255,.08);color:var(--ink)}
+body.t-ocean #gradeScreen,body.t-ocean #menu,body.t-ocean #helpOv .dialog{--panel:#10394d;--wood-1:#134257;--raised:#1b5068;--deep:#0a2533;--ink:#eaf8ff;--muted:#9cc6d8;--gold:#2fd3c4;--gold-ink:#03302d;--line:rgba(47,211,196,.32);--trim:#2a6a85;--bad:#ff7a8a;--good:#3ee08f;--boxline:#4c8aa3;--swoff:#2f5f74;--rowline:rgba(255,255,255,.08);color:var(--ink)}
 body.t-ocean #menu .lbl,body.t-ocean #gradeScreen .lbl{color:#5fe3d6}
 body.t-ocean .brand h1{color:#eaf8ff}
 body.t-ocean .brand h1 em{color:#ffc94d}
@@ -351,7 +358,7 @@ body.t-ocean #game .ghost{background:#1b5068;border-color:#2a6a85;color:#eaf8ff}
 body.t-ocean .legend{color:#9cc6d8}
 body.t-ocean .vtag{color:#cfeaf3;background:rgba(10,37,51,.75);border-color:#2a6a85}
 body.t-sunset{background-color:#ffd6c4;background-image:linear-gradient(180deg,#ffe3d3,#ffc6b8 70%,#f9b6c8),radial-gradient(circle at 50% 50%,rgba(170,50,70,.08) 1.5px,transparent 2.5px);background-size:auto,24px 24px}
-body.t-sunset #gradeScreen,body.t-sunset #menu{--panel:#fffaf6;--wood-1:#fffaf6;--raised:#ffeae2;--deep:#fff5f0;--ink:#3b1838;--muted:#7a4a64;--gold:#e8456b;--gold-ink:#ffffff;--line:rgba(200,70,100,.22);--trim:#f2b8c6;--bad:#c8213f;--good:#17a862;--boxline:#e6a2b4;--swoff:#e5c6cf;--rowline:rgba(59,24,56,.10);color:var(--ink)}
+body.t-sunset #gradeScreen,body.t-sunset #menu,body.t-sunset #helpOv .dialog{--panel:#fffaf6;--wood-1:#fffaf6;--raised:#ffeae2;--deep:#fff5f0;--ink:#3b1838;--muted:#7a4a64;--gold:#e8456b;--gold-ink:#ffffff;--line:rgba(200,70,100,.22);--trim:#f2b8c6;--bad:#c8213f;--good:#17a862;--boxline:#e6a2b4;--swoff:#e5c6cf;--rowline:rgba(59,24,56,.10);color:var(--ink)}
 body.t-sunset #menu .lbl,body.t-sunset #gradeScreen .lbl{color:#8b2fc9}
 body.t-sunset .brand h1{color:#4a1a5c}
 body.t-sunset .brand h1 em{color:#ff5e1a}
@@ -377,7 +384,7 @@ body.t-sunset .gn i{box-shadow:none}
 body.t-sunset .infobar .goldtxt{color:#3d64d8}
 body.t-sunset .infobar .bonus{color:#c77800}
 body.t-sky{background-color:#d9f2fd;background-image:radial-gradient(1100px 520px at 12% -8%,rgba(255,255,255,.95),transparent 60%),radial-gradient(900px 520px at 100% 0%,rgba(255,214,120,.35),transparent 60%),radial-gradient(circle at 50% 50%,rgba(20,120,180,.10) 1.5px,transparent 2.5px);background-size:auto,auto,24px 24px}
-body.t-sky #gradeScreen,body.t-sky #menu{--panel:#ffffff;--wood-1:#ffffff;--raised:#e6f3fb;--deep:#f4faff;--ink:#16324a;--muted:#4f6b80;--gold:#ff8a00;--gold-ink:#3a1d00;--line:rgba(24,128,190,.22);--trim:#a9d6ef;--bad:#d42c47;--good:#17b26a;--boxline:#8fbfdc;--swoff:#b9cfdd;--rowline:rgba(22,50,74,.10);color:var(--ink)}
+body.t-sky #gradeScreen,body.t-sky #menu,body.t-sky #helpOv .dialog{--panel:#ffffff;--wood-1:#ffffff;--raised:#e6f3fb;--deep:#f4faff;--ink:#16324a;--muted:#4f6b80;--gold:#ff8a00;--gold-ink:#3a1d00;--line:rgba(24,128,190,.22);--trim:#a9d6ef;--bad:#d42c47;--good:#17b26a;--boxline:#8fbfdc;--swoff:#b9cfdd;--rowline:rgba(22,50,74,.10);color:var(--ink)}
 body.t-sky #menu .lbl,body.t-sky #gradeScreen .lbl{color:#0b78b9}
 body.t-sky .brand h1{color:#123a5a}
 body.t-sky .brand h1 em{color:#ff7a00}
@@ -495,6 +502,36 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 .osk-k.ok{max-width:170px;flex-grow:2.2;background:linear-gradient(180deg,#ffd98a,var(--gold));color:var(--gold-ink)}
 .osk-k.on{background:linear-gradient(180deg,#ffd98a,var(--gold))}
 
+
+/* ---------- how to play ---------- */
+#helpOv{z-index:40}
+#helpOv .dialog{color:var(--ink)}
+body.t-sky #helpOv .dialog h3{color:#e07800}
+body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
+.dialog.helpdlg{max-width:min(1040px,96vw);gap:10px;font-size:clamp(13px,.8vw + 6px,19px)}
+.helpdlg h2{text-align:center;font-size:clamp(26px,2vw + 12px,40px)}
+.helpdlg h3{margin:4px 0 8px;font-family:var(--display);font-size:1.15em;color:var(--gold)}
+.hcols{display:grid;grid-template-columns:1fr 1.1fr;gap:22px}
+@media (max-width:760px){.hcols{grid-template-columns:1fr}}
+.hcols section{background:var(--deep);color:var(--ink);border-radius:16px;padding:14px 16px}
+.hdemo{display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 10px;--th:54px}
+.hg{display:inline-block;width:132px;height:54px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.45))}
+.hg .gem{cursor:default;pointer-events:none}
+.hc.meaning{width:132px;height:54px;cursor:default;pointer-events:none}
+.harrow{font-size:28px;font-weight:800;color:var(--gold)}
+.hsteps{margin:0;padding-left:1.3em;display:grid;gap:6px;line-height:1.35}
+.hnote{margin:10px 0 0;font-size:.88em;color:var(--muted);line-height:1.35}
+.hrules,.hplain{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:9px;line-height:1.35}
+.hrules li{display:flex;gap:12px;align-items:center}
+.hrules b{display:block;font-family:var(--display)}
+.hplain li{padding-left:1em;position:relative}.hplain li:before{content:"•";position:absolute;left:0;color:var(--gold)}
+.hico{flex:0 0 74px;height:44px;display:flex;align-items:center;justify-content:center;gap:3px;border-radius:12px;font-weight:900;font-family:var(--display);font-size:22px}
+.hico i{width:18px;height:18px;border-radius:5px;background:linear-gradient(160deg,rgba(255,255,255,.5),rgba(0,0,0,.2)),var(--c)}
+.hcombo{background:linear-gradient(180deg,#ffd98a,var(--gold));color:var(--gold-ink)}
+.hhint{background:var(--raised);color:var(--ink)}
+.hdia .hg{width:64px;height:44px;--th:44px}
+.hdia .gem.gold{padding:0}
+.hdia .star{font-size:11px}
 /* ---------- overlays ---------- */
 .overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:rgba(18,6,6,.84);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto}
 .dialog{background:linear-gradient(180deg,var(--wood-1),var(--panel));border:2px solid var(--trim);border-radius:22px;padding:22px;width:100%;max-width:640px;display:grid;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.55);margin:auto}
@@ -527,7 +564,7 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.4</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.5</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -539,7 +576,7 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
       <h1>Meaning <em>Mine</em></h1>
       <p>İngilizce kelimeyi Türkçe anlamıyla eşleştir, aynı renkleri bir araya getir⁣⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠‌⁠⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠⁠‌⁠⁣</p>
     </div>
-    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div></div>
+    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button></div>
   </header>
   <div class="panel gradepick">
     <h2>Kaçıncı sınıf?</h2>
@@ -555,7 +592,7 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
       <h1>Meaning <em>Mine</em> <span class="gradebadge"><span class="gradeNum"></span>. Sınıf</span></h1>
       <p><span class="gradeNum"></span>. sınıf İngilizce kelimeleri · taşı anlamıyla eşleştir, aynı renkleri bir araya getir</p>
     </div>
-    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
+    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
   </header>
 
   <div class="menu">
@@ -601,6 +638,13 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 
     <div class="sidecol">
       <div class="panel" id="sidePanel">
+      <div class="field">
+        <span class="lbl">Yön</span>
+        <div class="seg" id="dirSeg">
+          <button type="button" data-v="en">İngilizce → Türkçe</button>
+          <button type="button" data-v="tr">Türkçe → İngilizce</button>
+        </div>
+      </div>
       <div class="field">
         <span class="lbl">Oyun süresi <span class="hint-text" id="durHint" style="text-transform:none;letter-spacing:0;font-weight:600"></span></span>
         <div class="seg" id="durSeg">
@@ -674,6 +718,39 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 </section>
 
 <!-- rotate to landscape -->
+<div class="overlay" id="helpOv" hidden>
+  <div class="dialog helpdlg" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">Nasıl oynanır?</h2>
+    <div class="hcols">
+      <section>
+        <h3>Oyun</h3>
+        <div class="hdemo" aria-hidden="true"><span class="hg"><span class="gem emerald"><span class="txt l1">where</span></span></span><span class="harrow">→</span><span class="hc meaning"><span class="txt l1">nerede</span></span></div>
+        <ol class="hsteps">
+          <li>Sınıfını ve ünitelerini seç, adını yaz, <b>Başla</b>’ya bas.</li>
+          <li>Soldaki taşa dokun, sağdaki kartlarda anlamını bul. Önce karta da dokunabilirsin.</li>
+          <li>Doğru eşleşen taş kaybolur, yukarıdan yeni taşlar düşer.</li>
+          <li>Süre bitmeden olabildiğince çok kelime eşleştir.</li>
+        </ol>
+        <p class="hnote"><b>Yön:</b> “İngilizce → Türkçe” seçiliyken taşlarda İngilizce, kartlarda Türkçe yazar. “Türkçe → İngilizce” seçersen tam tersi olur; doğru eşleşmede İngilizcesi okunur.</p>
+      </section>
+      <section>
+        <h3>Puanını büyüt</h3>
+        <ul class="hrules">
+          <li><span class="hico hcombo">x3</span><div><b>Kombo</b> 5 saniye içinde art arda doğru eşleştirirsen puanın katlanır (en fazla x6). Yanlış eşleşme kombonu sıfırlar.</div></li>
+          <li><span class="hico" aria-hidden="true"><i style="--c:var(--sapphire)"></i><i style="--c:var(--sapphire)"></i><i style="--c:var(--sapphire)"></i></span><div><b>Renk bonusu</b> Aynı renkten 3 ya da daha fazla taş yan yana gelirse patlar, ekstra puan verir. Zincirleme patlamalarda bonus büyür.</div></li>
+          <li><span class="hico hdia" aria-hidden="true"><span class="hg"><span class="gem gold"><span class="star">✦</span><span class="txt l1"></span></span></span></span><div><b>Elmas taş</b> 3 kat puan; komboyla birlikte katlanır.</div></li>
+          <li><span class="hico hhint">?</span><div><b>İpucu</b> 3 hakkın var. Bir eşleşmeyi gösterir ama kombonu sıfırlar.</div></li>
+        </ul>
+        <h3>Sınıfta grup yarışması</h3>
+        <ul class="hplain">
+          <li>2, 3 ya da 4 grup seçilir; gruplar sırayla ve aynı sürede oynar.</li>
+          <li>Her turdan sonra sıralama görünür. <b>“Yarışmayı bitir”</b>e basılınca kazanan kürsüde ilan edilir.</li>
+        </ul>
+      </section>
+    </div>
+    <div class="actions" style="justify-content:center"><button type="button" class="bigbtn" id="helpClose">Anladım</button></div>
+  </div>
+</div>
 <div class="overlay" id="rotateOv" hidden>
   <div class="dialog" style="max-width:380px;text-align:center">
     <svg class="rotate-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="6" width="24" height="44" rx="4" fill="none" stroke="#dca646" stroke-width="3"/><circle cx="32" cy="44" r="2" fill="#dca646"/><path d="M50 52a18 18 0 0 1-18 8" fill="none" stroke="#c9b097" stroke-width="2.5" stroke-linecap="round"/><path d="M33 56l-2 4 4 1.5" fill="none" stroke="#c9b097" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -756,7 +833,8 @@ const durStr = d => d ? (d%60 ? (d/60).toString().replace('.',',') : d/60) + ' d
 
 /* ---------------- preferences (shared) + units per grade ---------------- */
 const prefs = Object.assign({name:'', dur:90, sound:true, music:true, tts:true, musicVol:50, voiceVol:90,
-  mode:1, gnames:['1. Grup','2. Grup','3. Grup','4. Grup'], unitsBy:{}, lastGrade:null}, store.get('mm_prefs', {}));
+  mode:1, gnames:['1. Grup','2. Grup','3. Grup','4. Grup'], unitsBy:{}, lastGrade:null, dir:'en'}, store.get('mm_prefs', {}));
+if(prefs.dir!=='tr') prefs.dir='en';
 if(!Array.isArray(prefs.gnames) || prefs.gnames.length<4) prefs.gnames=['1. Grup','2. Grup','3. Grup','4. Grup'];
 if(!prefs.unitsBy || typeof prefs.unitsBy!=='object') prefs.unitsBy = {};
 prefs.units = [1]; prefs.set = 'all';
@@ -941,7 +1019,7 @@ function scoreTable(list, meT, limit){
   if(!list.length) return '<div class="sb-empty">Bugün henüz oyun oynanmadı.<br>İlk skoru sen yaz!</div>';
   const rows = list.slice(0, limit).map((s,i)=>`<tr class="${s.t===meT?'me':''}">
       <td class="rk"><span class="medal">${i+1}</span></td>
-      <td class="who"><b>${esc(s.name)}</b><small>${esc(unitStr(s.units))} · ${esc(durStr(s.dur))} · kombo x${s.combo}</small></td>
+      <td class="who"><b>${esc(s.name)}</b><small>${esc(unitStr(s.units))} · ${esc(durStr(s.dur))} · kombo x${s.combo}${s.dir==='tr'?' · TR→EN':''}</small></td>
       <td class="pts">${s.score.toLocaleString('tr-TR')}</td></tr>`).join('');
   return `<table class="sb"><tbody>${rows}</tbody></table>`;
 }
@@ -980,13 +1058,14 @@ function renderMenu(){
   if(prefs.mode > 1 && prefs.dur === 0) prefs.dur = 90;
   [...$('#durSeg').children].forEach(b=>{ b.setAttribute('aria-pressed', +b.dataset.v===prefs.dur); b.disabled = prefs.mode>1 && b.dataset.v==='0'; });
   $('#durHint').textContent = prefs.mode > 1 ? '(grup yarışmasında her grup aynı süreyle oynar)' : '';
+  [...$('#dirSeg').children].forEach(b=>b.setAttribute('aria-pressed', b.dataset.v===prefs.dir));
   $('#soundT').setAttribute('aria-pressed', prefs.sound);
   $('#musicT').setAttribute('aria-pressed', prefs.music);
   $('#ttsT').setAttribute('aria-pressed', prefs.tts);
   $('#musicVol').value = prefs.musicVol; $('#musicVolO').textContent = prefs.musicVol;
   $('#voiceVol').value = prefs.voiceVol; $('#voiceVolO').textContent = prefs.voiceVol;
   const n = buildEntries(sel).length;
-  $('#summary').innerHTML = sel.length ? `<b>${GRADE}. sınıf</b> · ${esc(unitStr(sel))} · <b>${n}</b> kelime${prefs.mode>1?` · <b>${prefs.mode} grup</b>`:''}` : 'Henüz seçim yapılmadı';
+  $('#summary').innerHTML = sel.length ? `<b>${GRADE}. sınıf</b> · ${esc(unitStr(sel))} · <b>${n}</b> kelime${prefs.dir==='tr'?' · <b>TR→EN</b>':''}${prefs.mode>1?` · <b>${prefs.mode} grup</b>`:''}` : 'Henüz seçim yapılmadı';
   $('#startBtn').textContent = prefs.mode > 1 ? 'Yarışmayı başlat' : 'Başla';
   $('#startBtn').disabled = !sel.length;
   if(sel.length) $('#unitErr').hidden = true;
@@ -1003,6 +1082,7 @@ $('#units').addEventListener('click', e=>{
 });
 $('#allUnits').addEventListener('click', ()=>{ prefs.units=UNITS.map(u=>u.n); savePrefs(); renderMenu(); });
 $('#noUnits').addEventListener('click', ()=>{ prefs.units=[]; savePrefs(); renderMenu(); });
+$('#dirSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; prefs.dir=b.dataset.v; savePrefs(); renderMenu(); });
 $('#durSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; prefs.dur=+b.dataset.v; savePrefs(); renderMenu(); });
 $('#soundT').addEventListener('click', ()=>{ prefs.sound=!prefs.sound; savePrefs(); renderMenu(); if(prefs.sound) sfx.tap(); });
 $('#ttsT').addEventListener('click', ()=>{ prefs.tts=!prefs.tts; savePrefs(); renderMenu(); });
@@ -1018,14 +1098,24 @@ $('#setup').addEventListener('submit', e=>{
   const sel = prefs.units.filter(n=>UNITS.some(u=>u.n===n));
   if(prefs.mode === 1 && !prefs.name){ $('#nickErr').hidden=false; $('#nick').focus(); return; }
   if(!sel.length){ $('#unitErr').hidden=false; return; }
+  if(starting) return;
   enterFullscreen();
-  if(prefs.mode > 1){
-    const names = prefs.gnames.slice(0, prefs.mode).map((n,i)=>n.trim() || `${i+1}. Grup`);
-    startTournament(names, sel, prefs.dur || 90);
-  } else {
-    startGame({ grade:GRADE, units:sel, set:'all', dur:prefs.dur, name:prefs.name });
-  }
+  const btn = $('#startBtn'); btn.classList.add('busy');
+  afterPaint(()=>{
+    btn.classList.remove('busy');
+    if(prefs.mode > 1){
+      const names = prefs.gnames.slice(0, prefs.mode).map((n,i)=>n.trim() || `${i+1}. Grup`);
+      startTournament(names, sel, prefs.dur || 90, prefs.dir);
+    } else {
+      startGame({ grade:GRADE, units:sel, set:'all', dur:prefs.dur, name:prefs.name, dir:prefs.dir });
+    }
+  });
 });
+/* paint the button feedback first, do the heavy start work right after (keeps taps feeling instant) */
+let starting = false;
+function afterPaint(fn){ starting = true; requestAnimationFrame(()=>setTimeout(()=>{ starting = false; fn(); }, 0)); }
+/* create the audio engine on the first touch, so pressing Başla does not have to */
+document.addEventListener('pointerdown', ()=>setTimeout(()=>{ const c = actx(); if(c && c.state==='suspended' && c.resume) c.resume().catch(()=>{}); }, 0), {once:true, capture:true});
 
 const POS = /\s*\((?:n|v|adj|adv|prep)\)\s*$/i;
 function buildEntries(units){
@@ -1046,7 +1136,7 @@ const board = $('#board'), cardsEl = $('#cards');
 function show(id){ ['gradeScreen','menu','game'].forEach(s=>$('#'+s).hidden = s!==id); document.body.classList.toggle('start', id!=='game'); oskClose(); window.scrollTo(0,0); }
 const lenClass = s => {
   const lw = Math.max(...s.split(/[\s\/]+/).map(w=>w.length));
-  let k = s.length<=10?1:s.length<=18?2:s.length<=28?3:4;
+  let k = s.length<=10?1:s.length<=18?2:s.length<=28?3:s.length<=33?4:5;
   if(lw>=12) k=Math.max(k,4); else if(lw>=10) k=Math.max(k,3); else if(lw>=8) k=Math.max(k,2);
   return 'l'+k;
 };
@@ -1072,9 +1162,9 @@ function startGame(cfg, practiceEntries){
         grid: Array.from({length:COLS}, ()=>Array(ROWS).fill(null)), cards: [],
         queue: shuffle(E.map((_,i)=>i)), sel:null, busy:false, over:false, paused:false, uid:0,
         score:0, bonus:0, bonusCount:0, combo:0, maxCombo:0, comboDeadline:0, correct:0, wrong:0, missed:new Map(),
-        hints:3, start:performance.now(), pausedMs:0, pauseAt:0, lastSec:-1 };
+        hints:3, start:performance.now(), pausedMs:0, pauseAt:0, lastSec:-1, rev: cfg.dir==='tr' };
   for(let i=0;i<COLS*ROWS;i++){
-    const b = document.createElement('button'); b.type='button'; b.className='meaning'; b.lang='tr';
+    const b = document.createElement('button'); b.type='button'; b.className='meaning'; b.lang=G.rev?'en':'tr';
     b.innerHTML = '<span class="txt"></span>';
     const k = {i, e:null, el:b, locked:false};
     b.addEventListener('click', ()=>onCard(k));
@@ -1085,11 +1175,12 @@ function startGame(cfg, practiceEntries){
   $('#hName').textContent = cfg.name;
   $('#hName').style.color = isGroup ? `var(--${GCOL[cfg.group]})` : '';
   $('#hUnits').textContent = G.practice ? 'Tekrar turu · yanlış kelimeler' : isGroup ? `Tur ${T.round} · ${unitStr(cfg.units)}` : `${GRADE}. sınıf · ${unitStr(cfg.units)}`;
+  if(G.rev) $('#hUnits').textContent += ' · TR→EN';
   $('#hTimeLbl').textContent = G.dur ? 'Süre' : 'Kalan kelime';
   $('#hTime').textContent = G.dur ? fmtTime(G.dur) : '';
   $('#hTimeBox').classList.remove('low');
   $('#hintBtn').textContent = 'İpucu (3)'; $('#hintBtn').disabled = false;
-  setInfo('Bir taşa, sonra onun Türkçe anlamına dokun. Karttan da başlayabilirsin.');
+  setInfo(G.rev ? 'Bir taşa, sonra onun İngilizcesine dokun. Karttan da başlayabilirsin.' : 'Bir taşa, sonra onun Türkçe anlamına dokun. Karttan da başlayabilirsin.');
   layout();
   fillAll(true);
   updateHud();
@@ -1144,14 +1235,16 @@ function dropIn(g, fromRow, delay){
 
 const GOLD_P = .1;
 const hasGold = () => allGems().some(g=>g.alive && g.color==='gold');
+const gemText = e => G.rev ? G.E[e].tr : G.E[e].en;
+const cardText = e => G.rev ? G.E[e].en : G.E[e].tr;
 function mkGem(e, color){
-  const text = G.E[e].en;
+  const text = gemText(e), LN = G.rev ? 'Türkçe' : 'İngilizce';
   const el = document.createElement('div'); el.className='tile';
-  const b = document.createElement('button'); b.type='button'; b.lang='en';
+  const b = document.createElement('button'); b.type='button'; b.lang=G.rev?'tr':'en';
   b.className = `gem ${color}`;
-  b.setAttribute('aria-label', 'İngilizce: '+text);
+  b.setAttribute('aria-label', LN+': '+text);
   b.innerHTML = `${color==='gold'?'<span class="star">✦</span>':''}<span class="txt ${lenClass(text)}"></span>`;
-  if(color==='gold'){ el.classList.add('goldtile'); b.setAttribute('aria-label', 'Elmas taş, İngilizce: '+text); }
+  if(color==='gold'){ el.classList.add('goldtile'); b.setAttribute('aria-label', 'Elmas taş, '+LN+': '+text); }
   b.querySelector('.txt').textContent = text;
   el.appendChild(b);
   const g = {id:++G.uid, e, color, el, b, c:0, r:0, alive:true};
@@ -1163,11 +1256,11 @@ function mkGem(e, color){
 
 function setCard(k, e, anim){
   k.e = e; k.locked = false;
-  const b = k.el, txt = e==null ? '' : G.E[e].tr, sp = b.querySelector('.txt');
+  const b = k.el, txt = e==null ? '' : cardText(e), sp = b.querySelector('.txt');
   b.classList.remove('flipout','sel','bad','hintglow');
   b.classList.toggle('empty', e==null); b.disabled = e==null;
   sp.textContent = txt; sp.className = 'txt '+lenClass(txt);
-  b.setAttribute('aria-label', e==null ? 'Boş kart' : 'Türkçe: '+txt);
+  b.setAttribute('aria-label', e==null ? 'Boş kart' : (G.rev?'İngilizce: ':'Türkçe: ')+txt);
   if(anim && e!=null){ b.classList.remove('flipin'); b.offsetWidth; b.classList.add('flipin'); }
 }
 
@@ -1232,7 +1325,7 @@ function onCard(k){
   if(s.kind==='card'){ const same = s.ref===k; deselect(); if(!same) selectCard(k); return; }
   attempt(s.ref, k, 'gem');
 }
-function selectGem(g){ G.sel={kind:'gem',ref:g}; g.el.classList.add('sel'); board.classList.add('has-sel'); sfx.tap(); if(prefs.tts) playWord(G.E[g.e].en); }
+function selectGem(g){ G.sel={kind:'gem',ref:g}; g.el.classList.add('sel'); board.classList.add('has-sel'); sfx.tap(); if(prefs.tts && !G.rev) playWord(G.E[g.e].en); }
 function selectCard(k){ G.sel={kind:'card',ref:k}; k.el.classList.add('sel'); cardsEl.classList.add('has-sel'); sfx.tap(); }
 function deselect(){ board.classList.remove('has-sel'); cardsEl.classList.remove('has-sel'); if(!G||!G.sel) return; G.sel.ref.el.classList.remove('sel'); G.sel=null; }
 function attempt(g, k, first){ deselect(); if(sameMeaning(g.e, k.e)) match(g,k); else wrong(g,k,first); }
@@ -1297,6 +1390,7 @@ function match(g, k){
   const w = G.E[g.e];
   setInfo(`<span>${gold?'<b class="goldtxt">Elmas taş! 3 kat puan · </b>':''}<b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></span>`);
   gold ? sfx.gold() : sfx.match(G.combo);
+  if(G.rev && prefs.tts) playWord(w.en);
   removeGem(g);
   k.locked = true; k.el.classList.add('flipout');
   updateHud();
@@ -1454,7 +1548,7 @@ function endGame(reason){
   let rankHtml = '', list = [];
   const saved = !G.practice && G.correct>0;
   if(saved){
-    const entry = {name:G.cfg.name, score:G.score, grade:G.cfg.grade, units:G.cfg.units, set:G.cfg.set, dur:G.cfg.dur, combo:Math.min(G.maxCombo,6), bonus:G.bonus, correct:G.correct, wrong:G.wrong, t:Date.now()};
+    const entry = {name:G.cfg.name, score:G.score, grade:G.cfg.grade, units:G.cfg.units, set:G.cfg.set, dur:G.cfg.dur, combo:Math.min(G.maxCombo,6), bonus:G.bonus, correct:G.correct, wrong:G.wrong, dir:G.rev?'tr':'en', t:Date.now()};
     saveScore(entry); lastT = entry.t;
     list = sortedScores();
     const rank = list.findIndex(s=>s.t===entry.t)+1;
@@ -1564,12 +1658,21 @@ function fitMenu(){
 window.addEventListener('resize', ()=>{ clearTimeout(fitMenu.t); fitMenu.t = setTimeout(fitMenu, 120); });
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitMenu);
 
+
+/* ---------------- how to play ---------------- */
+function openHelp(){ oskClose(); $('#helpOv').hidden = false; $('#helpClose').focus(); }
+function closeHelp(){ $('#helpOv').hidden = true; }
+document.querySelectorAll('.helpbtn').forEach(b=>b.addEventListener('click', openHelp));
+$('#helpClose').addEventListener('click', closeHelp);
+$('#helpOv').addEventListener('click', e=>{ if(e.target === $('#helpOv')) closeHelp(); });
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && !$('#helpOv').hidden) closeHelp(); });
+
 /* ---------------- group contest ---------------- */
 let T = null;
 const saveT = () => store.set(TK, T);
 const gTotal = g => g.rounds.reduce((a,b)=>a+(b||0), 0);
-function startTournament(names, units, dur){
-  T = { active:true, round:1, idx:0, units, dur, groups: names.map((n,i)=>({name:n, c:GCOL[i], rounds:[]})) };
+function startTournament(names, units, dur, dir){
+  T = { active:true, round:1, idx:0, units, dur, dir:dir||'en', groups: names.map((n,i)=>({name:n, c:GCOL[i], rounds:[]})) };
   saveT(); showTurn();
 }
 function standingsHtml(hi){
@@ -1595,7 +1698,7 @@ function showTurn(){
   show('game'); board.innerHTML=''; cardsEl.innerHTML='';
   $('#resultOv').hidden = true;
   $('#turnCard').innerHTML = `
-    <div class="note" style="font-size:14px">Tur ${T.round} · ${T.idx+1}. sıra / ${T.groups.length} grup · ${esc(unitStr(T.units))} · ${esc(durStr(T.dur))}</div>
+    <div class="note" style="font-size:14px">Tur ${T.round} · ${T.idx+1}. sıra / ${T.groups.length} grup · ${esc(unitStr(T.units))} · ${esc(durStr(T.dur))}${T.dir==='tr'?' · TR→EN':''}</div>
     <div><div class="lbl">Sıra sizde</div><div class="turn-name" style="--c:var(--${g.c})">${esc(g.name)}</div></div>
     <p class="note" style="margin:0;font-size:14px">Grup tahtaya gelsin. Hazır olunca “Başla”ya basın, süre o an başlar.</p>
     ${any ? `<div><div class="lbl" style="margin-bottom:6px">Puan durumu</div>${standingsHtml(T.idx)}</div>` : ''}
@@ -1605,8 +1708,9 @@ function showTurn(){
     </div>`;
   $('#turnOv').hidden = false;
   $('#turnGo').addEventListener('click', ()=>{
-    $('#turnOv').hidden = true; enterFullscreen();
-    startGame({ grade:GRADE, units:T.units, set:'all', dur:T.dur, name:g.name, group:T.idx });
+    if(starting) return;
+    enterFullscreen(); $('#turnGo').classList.add('busy');
+    afterPaint(()=>{ $('#turnOv').hidden = true; startGame({ grade:GRADE, units:T.units, set:'all', dur:T.dur, name:g.name, group:T.idx, dir:T.dir||'en' }); });
   });
   $('#turnMenu').addEventListener('click', toMenu);
 }
@@ -1733,7 +1837,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.4 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.5 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -1811,7 +1915,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.4'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.5'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
