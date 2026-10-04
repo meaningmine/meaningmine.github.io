@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.5
+  Meaning Mine v4.6
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.5</title>
+<title>Meaning Mine v4.6</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -281,7 +281,9 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 
 /* ---------- compact one-screen menu ---------- */
 #menu .brand{margin-bottom:10px;justify-content:space-between}
-#menu .brand > div:nth-child(2){flex:1;min-width:0}
+#menu .brand > div:nth-child(2){flex:none;min-width:0}
+#menu .brand p{display:none}
+#menu .brand .gemrow{display:none}
 #menu .brand h1{font-size:clamp(26px,3.4vw,38px)}
 @media (min-width:700px){#menu .brand h1,#gradeScreen .brand h1{white-space:nowrap}}
 #menu .themes>span{display:none}
@@ -305,7 +307,9 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 .unit.qw .nm b{color:var(--gold)}
 #menu .start{padding-top:12px}
 #menu .bigbtn{font-size:21px;padding:10px 28px}
-#sbBody{max-height:54vh;overflow-y:auto}
+#sbBody{max-height:420px;overflow-y:auto}
+.dialog.scoresdlg{max-width:560px}
+#scoresBtn .cnt{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--gold);color:var(--gold-ink);font-size:12px}
 .seg button[disabled]{opacity:.35;cursor:not-allowed}
 .toprow{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
 #soloField .nickrow{max-width:none}
@@ -337,7 +341,7 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 
 /* ---------- themes: night (default, dark) · ocean · sunset · sky (light) ---------- */
 body.t-ocean{background-color:#0b2a3a;background-image:radial-gradient(1100px 560px at 15% -10%,rgba(47,211,196,.22),transparent 60%),radial-gradient(900px 520px at 100% 0%,rgba(90,140,255,.18),transparent 60%),radial-gradient(circle at 50% 50%,rgba(255,255,255,.06) 1.5px,transparent 2.5px);background-size:auto,auto,24px 24px}
-body.t-ocean #gradeScreen,body.t-ocean #menu,body.t-ocean #helpOv .dialog{--panel:#10394d;--wood-1:#134257;--raised:#1b5068;--deep:#0a2533;--ink:#eaf8ff;--muted:#9cc6d8;--gold:#2fd3c4;--gold-ink:#03302d;--line:rgba(47,211,196,.32);--trim:#2a6a85;--bad:#ff7a8a;--good:#3ee08f;--boxline:#4c8aa3;--swoff:#2f5f74;--rowline:rgba(255,255,255,.08);color:var(--ink)}
+body.t-ocean #gradeScreen,body.t-ocean #menu,body.t-ocean #helpOv .dialog,body.t-ocean #scoresOv .dialog{--panel:#10394d;--wood-1:#134257;--raised:#1b5068;--deep:#0a2533;--ink:#eaf8ff;--muted:#9cc6d8;--gold:#2fd3c4;--gold-ink:#03302d;--line:rgba(47,211,196,.32);--trim:#2a6a85;--bad:#ff7a8a;--good:#3ee08f;--boxline:#4c8aa3;--swoff:#2f5f74;--rowline:rgba(255,255,255,.08);color:var(--ink)}
 body.t-ocean #menu .lbl,body.t-ocean #gradeScreen .lbl{color:#5fe3d6}
 body.t-ocean .brand h1{color:#eaf8ff}
 body.t-ocean .brand h1 em{color:#ffc94d}
@@ -358,7 +362,7 @@ body.t-ocean #game .ghost{background:#1b5068;border-color:#2a6a85;color:#eaf8ff}
 body.t-ocean .legend{color:#9cc6d8}
 body.t-ocean .vtag{color:#cfeaf3;background:rgba(10,37,51,.75);border-color:#2a6a85}
 body.t-sunset{background-color:#ffd6c4;background-image:linear-gradient(180deg,#ffe3d3,#ffc6b8 70%,#f9b6c8),radial-gradient(circle at 50% 50%,rgba(170,50,70,.08) 1.5px,transparent 2.5px);background-size:auto,24px 24px}
-body.t-sunset #gradeScreen,body.t-sunset #menu,body.t-sunset #helpOv .dialog{--panel:#fffaf6;--wood-1:#fffaf6;--raised:#ffeae2;--deep:#fff5f0;--ink:#3b1838;--muted:#7a4a64;--gold:#e8456b;--gold-ink:#ffffff;--line:rgba(200,70,100,.22);--trim:#f2b8c6;--bad:#c8213f;--good:#17a862;--boxline:#e6a2b4;--swoff:#e5c6cf;--rowline:rgba(59,24,56,.10);color:var(--ink)}
+body.t-sunset #gradeScreen,body.t-sunset #menu,body.t-sunset #helpOv .dialog,body.t-sunset #scoresOv .dialog{--panel:#fffaf6;--wood-1:#fffaf6;--raised:#ffeae2;--deep:#fff5f0;--ink:#3b1838;--muted:#7a4a64;--gold:#e8456b;--gold-ink:#ffffff;--line:rgba(200,70,100,.22);--trim:#f2b8c6;--bad:#c8213f;--good:#17a862;--boxline:#e6a2b4;--swoff:#e5c6cf;--rowline:rgba(59,24,56,.10);color:var(--ink)}
 body.t-sunset #menu .lbl,body.t-sunset #gradeScreen .lbl{color:#8b2fc9}
 body.t-sunset .brand h1{color:#4a1a5c}
 body.t-sunset .brand h1 em{color:#ff5e1a}
@@ -384,7 +388,7 @@ body.t-sunset .gn i{box-shadow:none}
 body.t-sunset .infobar .goldtxt{color:#3d64d8}
 body.t-sunset .infobar .bonus{color:#c77800}
 body.t-sky{background-color:#d9f2fd;background-image:radial-gradient(1100px 520px at 12% -8%,rgba(255,255,255,.95),transparent 60%),radial-gradient(900px 520px at 100% 0%,rgba(255,214,120,.35),transparent 60%),radial-gradient(circle at 50% 50%,rgba(20,120,180,.10) 1.5px,transparent 2.5px);background-size:auto,auto,24px 24px}
-body.t-sky #gradeScreen,body.t-sky #menu,body.t-sky #helpOv .dialog{--panel:#ffffff;--wood-1:#ffffff;--raised:#e6f3fb;--deep:#f4faff;--ink:#16324a;--muted:#4f6b80;--gold:#ff8a00;--gold-ink:#3a1d00;--line:rgba(24,128,190,.22);--trim:#a9d6ef;--bad:#d42c47;--good:#17b26a;--boxline:#8fbfdc;--swoff:#b9cfdd;--rowline:rgba(22,50,74,.10);color:var(--ink)}
+body.t-sky #gradeScreen,body.t-sky #menu,body.t-sky #helpOv .dialog,body.t-sky #scoresOv .dialog{--panel:#ffffff;--wood-1:#ffffff;--raised:#e6f3fb;--deep:#f4faff;--ink:#16324a;--muted:#4f6b80;--gold:#ff8a00;--gold-ink:#3a1d00;--line:rgba(24,128,190,.22);--trim:#a9d6ef;--bad:#d42c47;--good:#17b26a;--boxline:#8fbfdc;--swoff:#b9cfdd;--rowline:rgba(22,50,74,.10);color:var(--ink)}
 body.t-sky #menu .lbl,body.t-sky #gradeScreen .lbl{color:#0b78b9}
 body.t-sky .brand h1{color:#123a5a}
 body.t-sky .brand h1 em{color:#ff7a00}
@@ -503,16 +507,60 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 .osk-k.on{background:linear-gradient(180deg,#ffd98a,var(--gold))}
 
 
+
+/* ---------- compact landscape (phones turned sideways): fixed design size, then scaled to fit ---------- */
+body.compact{padding:6px 8px 8px}
+body.compact #menu{width:940px;max-width:none;flex:none}
+body.compact #gradeScreen{width:860px;max-width:none;flex:none}
+body.compact .brand{margin-bottom:8px;gap:10px}
+body.compact .brand p{display:none}
+body.compact .gemrow{display:none}
+body.compact #menu .brand h1{font-size:28px;white-space:nowrap}
+body.compact #menu .brand > div:nth-child(2){flex:none}
+body.compact #menu .hdr-right{flex-wrap:nowrap;gap:5px}
+body.compact #menu .hdr-right .iconbtn{padding:6px 8px;font-size:12.5px}
+body.compact .themes{padding:4px 6px;gap:5px}
+body.compact #gradeScreen .brand h1{font-size:34px;white-space:nowrap}
+body.compact .menu{grid-template-columns:minmax(0,1.32fr) minmax(0,1fr);gap:10px}
+body.compact #menu .panel{gap:8px;padding:10px 12px}
+body.compact .toprow{gap:8px}
+body.compact #groupField{grid-column:1/-1}
+body.compact .gnames .gn{flex:1 1 140px}
+body.compact .units{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+body.compact .unit{padding:4px 7px;gap:6px;grid-template-columns:18px minmax(0,1fr) auto}
+body.compact .unit .box{width:18px;height:18px}
+body.compact .unit .nm b{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+body.compact .unit .nm small{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+body.compact .unit .ct{font-size:11px}
+body.compact #menu .field{gap:4px}
+body.compact #menu .seg button{padding:6px 10px}
+body.compact #sidePanel .row{gap:6px}
+body.compact #menu .toggle{padding:4px 10px 4px 4px}
+body.compact #sidePanel .start{gap:6px;padding-top:6px}
+body.compact .slider{padding:3px 9px;gap:6px}
+body.compact .slider input{width:74px}
+body.compact #voiceTest{padding:5px 9px}
+body.compact #sidePanel .summary{font-size:14px}
+body.compact .credit{font-size:10.5px}
+body.compact #menu .bigbtn{font-size:24px;padding:8px 20px}
+body.compact #sidePanel #startBtn{font-size:28px;padding:8px 20px}
+body.compact .gradepick{padding:14px 16px;gap:12px}
+body.compact .gradegrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+body.compact .gbtn{min-height:86px;padding:12px 14px}
 /* ---------- how to play ---------- */
 #helpOv{z-index:40}
-#helpOv .dialog{color:var(--ink)}
+#helpOv .dialog,#scoresOv .dialog{color:var(--ink)}
+#scoresOv{z-index:40}
 body.t-sky #helpOv .dialog h3{color:#e07800}
-body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
-.dialog.helpdlg{max-width:min(1040px,96vw);gap:10px;font-size:clamp(13px,.8vw + 6px,19px)}
-.helpdlg h2{text-align:center;font-size:clamp(26px,2vw + 12px,40px)}
+body.t-sky #helpOv,body.t-sunset #helpOv,body.t-sky #scoresOv,body.t-sunset #scoresOv{background:rgba(20,40,60,.45)}
+.dialog.helpdlg{max-width:1040px;gap:10px;font-size:16px}
+.helpdlg h2{text-align:center;font-size:30px}
 .helpdlg h3{margin:4px 0 8px;font-family:var(--display);font-size:1.15em;color:var(--gold)}
-.hcols{display:grid;grid-template-columns:1fr 1.1fr;gap:22px}
-@media (max-width:760px){.hcols{grid-template-columns:1fr}}
+.hcols{display:grid;grid-template-columns:1fr 1.1fr;grid-template-areas:'a b' 'a c';gap:14px 22px}
+.hcols>section:nth-child(1){grid-area:a}.hcols>section:nth-child(2){grid-area:b}.hcols>section:nth-child(3){grid-area:c}
+body.compact .hcols{grid-template-columns:1fr 1.15fr .8fr;grid-template-areas:'a b c'}
+body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
+@media (max-width:760px) and (orientation:portrait){.hcols{grid-template-columns:1fr;grid-template-areas:'a' 'b' 'c'}}
 .hcols section{background:var(--deep);color:var(--ink);border-radius:16px;padding:14px 16px}
 .hdemo{display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 10px;--th:54px}
 .hg{display:inline-block;width:132px;height:54px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.45))}
@@ -550,6 +598,13 @@ body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
 .missed li i{display:block;color:var(--muted);font-size:13px}
 .missed li .x{float:right;color:var(--bad);font-weight:800;font-size:12px}
 .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.dialog.res2{max-width:980px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:22px;align-items:start}
+.res2 .rescol{display:grid;gap:14px;min-width:0}
+.res2 .actions{grid-column:1/-1}
+.res2 .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.res2 .missed ul{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));max-height:250px}
+@media (max-width:700px) and (orientation:portrait){.dialog.res2{grid-template-columns:minmax(0,1fr)}}
+#resultOv .sb tr.me td,body #resultOv .sb tr.me td{background:rgba(220,166,70,.22);color:inherit}
 .actions .bigbtn{font-size:19px;padding:10px 22px}
 
 @media (prefers-reduced-motion:reduce){
@@ -564,7 +619,7 @@ body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.5</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.6</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -592,7 +647,7 @@ body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
       <h1>Meaning <em>Mine</em> <span class="gradebadge"><span class="gradeNum"></span>. Sınıf</span></h1>
       <p><span class="gradeNum"></span>. sınıf İngilizce kelimeleri · taşı anlamıyla eşleştir, aynı renkleri bir araya getir</p>
     </div>
-    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
+    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn" id="scoresBtn">Günün skorları<span class="cnt" id="scoresCnt" hidden></span></button><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
   </header>
 
   <div class="menu">
@@ -677,17 +732,6 @@ body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
       <div class="credit">Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)⁣⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠‌⁠⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠⁠‌⁠⁣</div>
       </div>
 
-    <aside class="panel" id="sbPanel" aria-labelledby="sbTitle">
-        <div class="sb-head">
-          <h2 id="sbTitle">Bugünün skorları</h2>
-          <span class="sb-date" id="sbDate"></span>
-        </div>
-        <div id="sbBody"></div>
-        <div class="sb-foot">
-          <span class="note">Skorlar yalnızca bu cihazda tutulur ve her gün sıfırlanır.</span>
-          <button type="button" class="linkbtn danger" id="clearSb">Tabloyu temizle</button>
-        </div>
-      </aside>
     </div>
   </div>
 </section>
@@ -718,6 +762,20 @@ body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
 </section>
 
 <!-- rotate to landscape -->
+<div class="overlay" id="scoresOv" hidden>
+  <div class="dialog scoresdlg" role="dialog" aria-modal="true" aria-labelledby="sbTitle">
+    <div class="sb-head">
+      <h2 id="sbTitle">Günün skorları</h2>
+      <span class="sb-date" id="sbDate"></span>
+    </div>
+    <div id="sbBody"></div>
+    <div class="sb-foot">
+      <span class="note">Skorlar yalnızca bu cihazda tutulur ve her gün sıfırlanır.</span>
+      <button type="button" class="linkbtn danger" id="clearSb">Tabloyu temizle</button>
+    </div>
+    <div class="actions" style="justify-content:center"><button type="button" class="bigbtn" id="scoresClose">Kapat</button></div>
+  </div>
+</div>
 <div class="overlay" id="helpOv" hidden>
   <div class="dialog helpdlg" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
     <h2 id="helpTitle">Nasıl oynanır?</h2>
@@ -741,6 +799,8 @@ body.t-sky #helpOv,body.t-sunset #helpOv{background:rgba(20,40,60,.45)}
           <li><span class="hico hdia" aria-hidden="true"><span class="hg"><span class="gem gold"><span class="star">✦</span><span class="txt l1"></span></span></span></span><div><b>Elmas taş</b> 3 kat puan; komboyla birlikte katlanır.</div></li>
           <li><span class="hico hhint">?</span><div><b>İpucu</b> 3 hakkın var. Bir eşleşmeyi gösterir ama kombonu sıfırlar.</div></li>
         </ul>
+      </section>
+      <section class="hsec-c">
         <h3>Sınıfta grup yarışması</h3>
         <ul class="hplain">
           <li>2, 3 ya da 4 grup seçilir; gruplar sırayla ve aynı sürede oynar.</li>
@@ -1027,7 +1087,9 @@ let lastT = null;
 function renderScoreboard(){
   $('#sbDate').textContent = new Date().toLocaleDateString('tr-TR',{day:'numeric',month:'long',weekday:'long'});
   $('#sbBody').innerHTML = scoreTable(sortedScores(), lastT, 15);
-  $('#clearSb').hidden = !loadScores().length;
+  const nS = loadScores().length;
+  $('#clearSb').hidden = !nS;
+  $('#scoresCnt').hidden = !nS; $('#scoresCnt').textContent = nS;
   fitMenu();
 }
 let clearArm = null;
@@ -1564,7 +1626,9 @@ function endGame(reason){
   const missedHtml = missed.length ? `<div class="missed"><h3>Tekrar çalışılacak kelimeler (${missed.length})</h3><ul>${
     missed.map(([e,n])=>{ const w=G.E[e]; return `<li><span class="x">${n}×</span><b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></li>`; }).join('')
   }</ul></div>` : `<div class="note">Hiç yanlış yapmadın, harika!</div>`;
+  $('#resultCard').className = 'dialog res2';
   $('#resultCard').innerHTML = `
+    <div class="rescol">
     <div><h2>${title}</h2><div class="note">${esc(G.cfg.name)} · ${G.practice?'Tekrar turu':`${GRADE}. sınıf · ${esc(unitStr(G.cfg.units))}`}</div></div>
     <div><div class="score-big">${G.score.toLocaleString('tr-TR')}</div>${rankHtml}</div>
     <div class="stats">
@@ -1576,8 +1640,10 @@ function endGame(reason){
       <div><small>Elmas taş</small><b>${G.golds||0}</b></div>
     </div>
     ${G.dur ? '' : `<div class="note">Süre: ${fmtTime(secs)}</div>`}
+    </div><div class="rescol">
     ${missedHtml}
     ${saved ? `<div><div class="lbl" style="margin-bottom:6px">Bugünün ilk 5'i</div>${scoreTable(list, lastT, 5)}</div>` : ''}
+    </div>
     <div class="actions">
       <button type="button" class="bigbtn" id="againBtn">Tekrar oyna</button>
       ${missed.length ? '<button type="button" class="ghost" id="practiceBtn">Yanlışları çalış</button>' : ''}
@@ -1634,32 +1700,63 @@ matchMedia('(orientation:portrait)').addEventListener?.('change', ()=>{ checkRot
 
 /* ---------------- start page fits one screen ---------------- */
 /* scale a whole screen to fill the window (big smart boards) or to fit (small screens) */
+function setCompact(){ document.body.classList.toggle('compact', !isPortrait() && innerHeight <= 560); }
 function fitScreen(el){
   if(!el || el.hidden) return;
-  el.style.transform = ''; el.style.marginBottom = ''; el.style.marginLeft = '';
+  setCompact();
   const isGame = el.id === 'game';
-  if(!isGame && innerWidth < 640 && isPortrait()) return;     // narrow phone held upright: scroll instead
+  if(!isGame && innerWidth < 640 && isPortrait()){ el.style.transform = ''; el.style.marginBottom = ''; el.style.marginLeft = ''; return; }   // narrow phone held upright: scroll instead
+  /* sizes are read with the current scale kept in place: a momentarily oversized screen would make phones enlarge their viewport */
   const bs = getComputedStyle(document.body);
-  const cw = document.documentElement.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
-  const ch = innerHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 4;
   const w = el.offsetWidth, h = el.offsetHeight;
   if(!w || !h) return;
-  let k = Math.min(ch / h, cw / w, 2.6);
-  if(!isGame && k < .7) k = Math.min(1, cw / w);       // too tall to fit readably (phone landscape): keep size, let it scroll
-  k = Math.max(isGame ? .3 : .5, k);
+  const cw0 = document.documentElement.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
+  if(!el.style.transform && w > cw0){ el.style.transformOrigin = 'top left'; el.style.transform = `scale(${cw0/w})`; el.style.marginBottom = (h*cw0/w - h) + 'px'; }
+  const cw = document.documentElement.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
+  const ch = innerHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 4;
+  if(!w || !h) return;
+  let k = Math.min(ch / h, cw / w, 2.6);                // landscape: always fit the whole screen, never scroll
+  k = Math.max(.3, k);
   el.style.transformOrigin = 'top left';
   el.style.transform = `scale(${k})`;
   el.style.marginLeft = ((cw - w*k) / 2) + 'px';
   el.style.marginBottom = (h*k - h) + 'px';
 }
+/* pop-up windows: grow on big boards, shrink to fit small screens, so the page never scrolls */
+function fitDialog(ov){
+  const d = ov && !ov.hidden && ov.querySelector('.dialog'); if(!d) return;
+  d.style.zoom = '';
+  if(innerWidth < 640 && isPortrait()) return;
+  const up = Math.max(1, Math.min(innerWidth/1280, innerHeight/720));
+  const W = innerWidth - 24, H = innerHeight - 24;
+  let k = 1;
+  for(let i=0;i<4;i++){                     // zoom can re-flow the window, so measure again after each step
+    const r = d.getBoundingClientRect(); if(!r.width || !r.height) return;
+    const f = Math.min(W / r.width, H / r.height);
+    const nk = Math.max(.35, Math.min(up, k * f));
+    if(Math.abs(nk - k) < .01) break;
+    k = nk; d.style.zoom = k;
+  }
+}
+function fitDialogs(){ document.querySelectorAll('.overlay').forEach(fitDialog); }
+new MutationObserver(muts=>{ const seen = new Set(); muts.forEach(m=>{ const ov = m.target.closest ? m.target.closest('.overlay') : null; if(ov && !seen.has(ov)){ seen.add(ov); requestAnimationFrame(()=>fitDialog(ov)); } }); })
+  .observe(document.body, {subtree:true, attributes:true, attributeFilter:['hidden'], childList:true});
+window.addEventListener('resize', ()=>{ clearTimeout(fitDialogs.t); fitDialogs.t = setTimeout(fitDialogs, 130); });
 function fitMenu(){
   ['#gradeScreen','#menu'].forEach(id=>{ const el = $(id); if(el && !el.hidden) fitScreen(el); });
 }
 window.addEventListener('resize', ()=>{ clearTimeout(fitMenu.t); fitMenu.t = setTimeout(fitMenu, 120); });
+if(window.ResizeObserver){ const ro = new ResizeObserver(()=>{ cancelAnimationFrame(fitMenu.r); fitMenu.r = requestAnimationFrame(fitMenu); }); ['#gradeScreen','#menu'].forEach(id=>ro.observe($(id))); }
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitMenu);
 
 
 /* ---------------- how to play ---------------- */
+function openScores(){ oskClose(); renderScoreboard(); $('#scoresOv').hidden = false; $('#scoresClose').focus(); }
+function closeScores(){ $('#scoresOv').hidden = true; }
+$('#scoresBtn').addEventListener('click', openScores);
+$('#scoresClose').addEventListener('click', closeScores);
+$('#scoresOv').addEventListener('click', e=>{ if(e.target === $('#scoresOv')) closeScores(); });
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && !$('#scoresOv').hidden) closeScores(); });
 function openHelp(){ oskClose(); $('#helpOv').hidden = false; $('#helpClose').focus(); }
 function closeHelp(){ $('#helpOv').hidden = true; }
 document.querySelectorAll('.helpbtn').forEach(b=>b.addEventListener('click', openHelp));
@@ -1732,7 +1829,9 @@ function endGroupGame(reason){
   const missedHtml = missed.length ? `<div class="missed"><h3>Bu turda karışan kelimeler (${missed.length})</h3><ul style="max-height:140px">${
     missed.map(([e,n])=>{ const w=G.E[e]; return `<li><span class="x">${n}×</span><b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></li>`; }).join('')
   }</ul></div>` : '';
+  $('#resultCard').className = 'dialog res2';
   $('#resultCard').innerHTML = `
+    <div class="rescol">
     <div><div class="note">${reason==='time' ? 'Süre doldu' : 'Oyun bitti'} · Tur ${T.round}</div>
       <h2 style="color:var(--${g.c})">${esc(g.name)}</h2></div>
     <div class="score-big">${G.score.toLocaleString('tr-TR')}</div>
@@ -1743,9 +1842,11 @@ function endGroupGame(reason){
       <div><small>En iyi kombo</small><b>x${Math.min(G.maxCombo,6)||0}</b></div>
       <div><small>Renk bonusu</small><b>${G.bonus.toLocaleString('tr-TR')}</b></div>
     </div>
+    </div><div class="rescol">
     <div><div class="lbl" style="margin-bottom:6px">${roundDone ? `Tur ${T.round} sonu puan durumu` : 'Puan durumu'}</div>${standingsHtml(gi)}</div>
     ${leaderHtml}
     ${missedHtml}
+    </div>
     <div class="actions">
       ${roundDone
         ? `<button type="button" class="bigbtn" id="grpNext">Bir tur daha</button><button type="button" class="ghost" id="grpFinish">Yarışmayı bitir</button>`
@@ -1808,11 +1909,15 @@ function showPodium(){
     return `<div class="pod p${Math.min(p,3)}" style="--c:var(--${x.g.c})"><div class="who">${esc(x.g.name)}</div><div class="pts">${x.tot.toLocaleString('tr-TR')} puan</div><div class="step">${p}</div></div>`; }).join('');
   const rounds = T.round;
   const tie = ranked.length>1 && ranked[0].tot===ranked[1].tot;
+  $('#resultCard').className = 'dialog res2';
   $('#resultCard').innerHTML = `
+    <div class="rescol">
     <div><div class="note">${rounds} tur oynandı · ${esc(unitStr(T.units))}</div>
     <h2>${tie ? 'Yarışma berabere bitti!' : `Kazanan: <span style="color:var(--${ranked[0].g.c})">${esc(ranked[0].g.name)}</span>`}</h2></div>
     <div class="podium" style="grid-template-columns:repeat(${order.length},minmax(0,1fr))">${pods}</div>
+    </div><div class="rescol">
     <div><div class="lbl" style="margin-bottom:6px">Son puan durumu</div>${standingsHtml(-1)}</div>
+    </div>
     <div class="actions"><button type="button" class="bigbtn" id="podMenu">Menüye dön</button></div>`;
   $('#resultOv').hidden = false;
   T.active = false; saveT(); const done = T;
@@ -1837,7 +1942,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.5 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.6 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -1915,7 +2020,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.5'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.6'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
