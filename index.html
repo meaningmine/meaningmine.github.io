@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.6
+  Meaning Mine v4.8
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.6</title>
+<title>Meaning Mine v4.8</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -288,7 +288,9 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 @media (min-width:700px){#menu .brand h1,#gradeScreen .brand h1{white-space:nowrap}}
 #menu .themes>span{display:none}
 #menu .hdr-right{gap:6px}
-#menu .hdr-right .iconbtn{padding:7px 10px}
+#menu .hdr-right .iconbtn{padding:7px 9px}
+#menu .brand{flex-wrap:nowrap}
+#menu .themes{gap:5px;padding:4px 6px}
 #menu .brand h1{font-size:clamp(24px,3vw,34px)}
 #menu .brand p{font-size:13px}
 #menu .menu{gap:14px}
@@ -341,7 +343,7 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 
 /* ---------- themes: night (default, dark) · ocean · sunset · sky (light) ---------- */
 body.t-ocean{background-color:#0b2a3a;background-image:radial-gradient(1100px 560px at 15% -10%,rgba(47,211,196,.22),transparent 60%),radial-gradient(900px 520px at 100% 0%,rgba(90,140,255,.18),transparent 60%),radial-gradient(circle at 50% 50%,rgba(255,255,255,.06) 1.5px,transparent 2.5px);background-size:auto,auto,24px 24px}
-body.t-ocean #gradeScreen,body.t-ocean #menu,body.t-ocean #helpOv .dialog,body.t-ocean #scoresOv .dialog{--panel:#10394d;--wood-1:#134257;--raised:#1b5068;--deep:#0a2533;--ink:#eaf8ff;--muted:#9cc6d8;--gold:#2fd3c4;--gold-ink:#03302d;--line:rgba(47,211,196,.32);--trim:#2a6a85;--bad:#ff7a8a;--good:#3ee08f;--boxline:#4c8aa3;--swoff:#2f5f74;--rowline:rgba(255,255,255,.08);color:var(--ink)}
+body.t-ocean #gradeScreen,body.t-ocean #menu,body.t-ocean #helpOv .dialog,body.t-ocean #scoresOv .dialog,body.t-ocean #soundOv .dialog{--panel:#10394d;--wood-1:#134257;--raised:#1b5068;--deep:#0a2533;--ink:#eaf8ff;--muted:#9cc6d8;--gold:#2fd3c4;--gold-ink:#03302d;--line:rgba(47,211,196,.32);--trim:#2a6a85;--bad:#ff7a8a;--good:#3ee08f;--boxline:#4c8aa3;--swoff:#2f5f74;--rowline:rgba(255,255,255,.08);color:var(--ink)}
 body.t-ocean #menu .lbl,body.t-ocean #gradeScreen .lbl{color:#5fe3d6}
 body.t-ocean .brand h1{color:#eaf8ff}
 body.t-ocean .brand h1 em{color:#ffc94d}
@@ -362,7 +364,7 @@ body.t-ocean #game .ghost{background:#1b5068;border-color:#2a6a85;color:#eaf8ff}
 body.t-ocean .legend{color:#9cc6d8}
 body.t-ocean .vtag{color:#cfeaf3;background:rgba(10,37,51,.75);border-color:#2a6a85}
 body.t-sunset{background-color:#ffd6c4;background-image:linear-gradient(180deg,#ffe3d3,#ffc6b8 70%,#f9b6c8),radial-gradient(circle at 50% 50%,rgba(170,50,70,.08) 1.5px,transparent 2.5px);background-size:auto,24px 24px}
-body.t-sunset #gradeScreen,body.t-sunset #menu,body.t-sunset #helpOv .dialog,body.t-sunset #scoresOv .dialog{--panel:#fffaf6;--wood-1:#fffaf6;--raised:#ffeae2;--deep:#fff5f0;--ink:#3b1838;--muted:#7a4a64;--gold:#e8456b;--gold-ink:#ffffff;--line:rgba(200,70,100,.22);--trim:#f2b8c6;--bad:#c8213f;--good:#17a862;--boxline:#e6a2b4;--swoff:#e5c6cf;--rowline:rgba(59,24,56,.10);color:var(--ink)}
+body.t-sunset #gradeScreen,body.t-sunset #menu,body.t-sunset #helpOv .dialog,body.t-sunset #scoresOv .dialog,body.t-sunset #soundOv .dialog{--panel:#fffaf6;--wood-1:#fffaf6;--raised:#ffeae2;--deep:#fff5f0;--ink:#3b1838;--muted:#7a4a64;--gold:#e8456b;--gold-ink:#ffffff;--line:rgba(200,70,100,.22);--trim:#f2b8c6;--bad:#c8213f;--good:#17a862;--boxline:#e6a2b4;--swoff:#e5c6cf;--rowline:rgba(59,24,56,.10);color:var(--ink)}
 body.t-sunset #menu .lbl,body.t-sunset #gradeScreen .lbl{color:#8b2fc9}
 body.t-sunset .brand h1{color:#4a1a5c}
 body.t-sunset .brand h1 em{color:#ff5e1a}
@@ -388,7 +390,7 @@ body.t-sunset .gn i{box-shadow:none}
 body.t-sunset .infobar .goldtxt{color:#3d64d8}
 body.t-sunset .infobar .bonus{color:#c77800}
 body.t-sky{background-color:#d9f2fd;background-image:radial-gradient(1100px 520px at 12% -8%,rgba(255,255,255,.95),transparent 60%),radial-gradient(900px 520px at 100% 0%,rgba(255,214,120,.35),transparent 60%),radial-gradient(circle at 50% 50%,rgba(20,120,180,.10) 1.5px,transparent 2.5px);background-size:auto,auto,24px 24px}
-body.t-sky #gradeScreen,body.t-sky #menu,body.t-sky #helpOv .dialog,body.t-sky #scoresOv .dialog{--panel:#ffffff;--wood-1:#ffffff;--raised:#e6f3fb;--deep:#f4faff;--ink:#16324a;--muted:#4f6b80;--gold:#ff8a00;--gold-ink:#3a1d00;--line:rgba(24,128,190,.22);--trim:#a9d6ef;--bad:#d42c47;--good:#17b26a;--boxline:#8fbfdc;--swoff:#b9cfdd;--rowline:rgba(22,50,74,.10);color:var(--ink)}
+body.t-sky #gradeScreen,body.t-sky #menu,body.t-sky #helpOv .dialog,body.t-sky #scoresOv .dialog,body.t-sky #soundOv .dialog{--panel:#ffffff;--wood-1:#ffffff;--raised:#e6f3fb;--deep:#f4faff;--ink:#16324a;--muted:#4f6b80;--gold:#ff8a00;--gold-ink:#3a1d00;--line:rgba(24,128,190,.22);--trim:#a9d6ef;--bad:#d42c47;--good:#17b26a;--boxline:#8fbfdc;--swoff:#b9cfdd;--rowline:rgba(22,50,74,.10);color:var(--ink)}
 body.t-sky #menu .lbl,body.t-sky #gradeScreen .lbl{color:#0b78b9}
 body.t-sky .brand h1{color:#123a5a}
 body.t-sky .brand h1 em{color:#ff7a00}
@@ -498,6 +500,11 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 .nickrow{display:flex;gap:6px;align-items:center;max-width:400px}
 .osk{position:fixed;left:0;right:0;bottom:0;z-index:60;background:linear-gradient(180deg,#3a2419,#1c100c);border-top:2px solid var(--trim);box-shadow:0 -10px 30px rgba(0,0,0,.5);padding:10px 10px calc(10px + env(safe-area-inset-bottom,0px))}
 .osk-in{max-width:980px;margin:0 auto;display:grid;gap:7px}
+.osk-x{position:absolute;top:-22px;right:14px;width:46px;height:46px;border-radius:50%;border:2px solid var(--trim);background:linear-gradient(180deg,#5a3626,#2a160f);color:#fff;font-size:22px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.45);display:grid;place-items:center}
+.osk-x:active{transform:translateY(2px)}
+.osk-echo{display:flex;align-items:baseline;gap:10px;min-height:32px;padding:2px 64px 2px 6px;color:#f3e3c8;font-size:15px;overflow:hidden;white-space:nowrap}
+.osk-echo span{opacity:.7;font-weight:700}
+.osk-echo b{font-size:22px;color:#fff;border-bottom:2px solid var(--gold);min-width:14px}
 .osk-row{display:flex;gap:7px;justify-content:center}
 .osk-k{flex:1 1 0;max-width:78px;min-height:clamp(44px,7vh,62px);border:0;border-radius:10px;cursor:pointer;font-family:var(--body);font-weight:800;font-size:clamp(17px,2.6vh,24px);color:var(--parch-ink);background:linear-gradient(180deg,#f6ead0,var(--parch-2));box-shadow:0 3px 0 rgba(0,0,0,.45);touch-action:manipulation;user-select:none}
 .osk-k:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.45)}
@@ -509,7 +516,8 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 
 
 /* ---------- compact landscape (phones turned sideways): fixed design size, then scaled to fit ---------- */
-body.compact{padding:6px 8px 8px}
+body.compact{padding:6px 8px 32px}
+body.compact #menu .themes{display:none}
 body.compact #menu{width:940px;max-width:none;flex:none}
 body.compact #gradeScreen{width:860px;max-width:none;flex:none}
 body.compact .brand{margin-bottom:8px;gap:10px}
@@ -526,6 +534,12 @@ body.compact #menu .panel{gap:8px;padding:10px 12px}
 body.compact .toprow{gap:8px}
 body.compact #groupField{grid-column:1/-1}
 body.compact .gnames .gn{flex:1 1 140px}
+#sidePanel .gnames .gn{flex:1 1 40%;max-width:none}
+/* left panel: unit tiles grow to fill the column height (bigger touch targets on boards) */
+#setup{display:flex;flex-direction:column}
+#unitsField{flex:1;display:flex;flex-direction:column}
+#unitsField .units{flex:1;grid-auto-rows:1fr;align-content:stretch}
+body.compact #unitsField .units{flex:none;grid-auto-rows:auto}
 body.compact .units{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
 body.compact .unit{padding:4px 7px;gap:6px;grid-template-columns:18px minmax(0,1fr) auto}
 body.compact .unit .box{width:18px;height:18px}
@@ -549,10 +563,25 @@ body.compact .gradegrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 body.compact .gbtn{min-height:86px;padding:12px 14px}
 /* ---------- how to play ---------- */
 #helpOv{z-index:40}
-#helpOv .dialog,#scoresOv .dialog{color:var(--ink)}
-#scoresOv{z-index:40}
+#helpOv .dialog,#scoresOv .dialog,#soundOv .dialog{color:var(--ink)}
+#scoresOv,#soundOv{z-index:40}
+.dialog.sounddlg{max-width:520px;gap:14px}
+.sounddlg h2{text-align:center}
+.sgrid{display:grid;gap:10px}
+.sounddlg .toggle{font-size:16px;padding:8px 14px 8px 8px}
+.sounddlg .slider{display:flex;font-size:16px;padding:6px 14px}
+.sounddlg .slider input{flex:1;width:auto}
+.sounddlg #voiceTest{justify-self:start;font-size:15px;padding:8px 14px}
+body.t-sky #soundOv .lbl{color:#0b78b9}
+/* side column: same height as the left panel, start button at the bottom */
+.menu{align-items:stretch}
+.sidecol{align-content:stretch}
+#sidePanel{display:flex;flex-direction:column}
+#sidePanel .start{margin-top:auto}
+#menu #sidePanel #startBtn{font-size:40px;padding:22px 24px}
+body.compact #menu #sidePanel #startBtn{font-size:34px;padding:16px 20px}
 body.t-sky #helpOv .dialog h3{color:#e07800}
-body.t-sky #helpOv,body.t-sunset #helpOv,body.t-sky #scoresOv,body.t-sunset #scoresOv{background:rgba(20,40,60,.45)}
+body.t-sky #helpOv,body.t-sunset #helpOv,body.t-sky #scoresOv,body.t-sunset #scoresOv,body.t-sky #soundOv,body.t-sunset #soundOv{background:rgba(20,40,60,.45)}
 .dialog.helpdlg{max-width:1040px;gap:10px;font-size:16px}
 .helpdlg h2{text-align:center;font-size:30px}
 .helpdlg h3{margin:4px 0 8px;font-family:var(--display);font-size:1.15em;color:var(--gold)}
@@ -619,7 +648,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.6</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.8</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -647,13 +676,26 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
       <h1>Meaning <em>Mine</em> <span class="gradebadge"><span class="gradeNum"></span>. Sınıf</span></h1>
       <p><span class="gradeNum"></span>. sınıf İngilizce kelimeleri · taşı anlamıyla eşleştir, aynı renkleri bir araya getir</p>
     </div>
-    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn" id="scoresBtn">Günün skorları<span class="cnt" id="scoresCnt" hidden></span></button><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
+    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn" id="soundBtn"><span id="soundIco" aria-hidden="true">🔊</span> Ses</button><button type="button" class="iconbtn" id="scoresBtn">Günün skorları<span class="cnt" id="scoresCnt" hidden></span></button><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
   </header>
 
   <div class="menu">
     <form class="panel" id="setup" novalidate>
       <div id="resumeBox" class="resume" hidden></div>
 
+      <div class="field" id="unitsField">
+        <div class="row" style="justify-content:space-between">
+          <span class="lbl"><span id="unitsLbl">Üniteler</span> <span class="hint-text" style="text-transform:none;letter-spacing:0;font-weight:600">(bir veya birden fazla seç)</span></span>
+          <span class="row" style="gap:6px"><button type="button" class="linkbtn" id="allUnits">Tümünü seç</button><button type="button" class="linkbtn" id="noUnits">Temizle</button></span>
+        </div>
+        <div class="units" id="units"></div>
+        <div class="err" id="unitErr" hidden></div>
+      </div>
+
+    </form>
+
+    <div class="sidecol">
+      <div class="panel" id="sidePanel">
       <div class="toprow">
         <div class="field">
           <span class="lbl">Kim oynuyor?</span>
@@ -681,19 +723,6 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
       </div>
 
       <div class="field">
-        <div class="row" style="justify-content:space-between">
-          <span class="lbl"><span id="unitsLbl">Üniteler</span> <span class="hint-text" style="text-transform:none;letter-spacing:0;font-weight:600">(bir veya birden fazla seç)</span></span>
-          <span class="row" style="gap:6px"><button type="button" class="linkbtn" id="allUnits">Tümünü seç</button><button type="button" class="linkbtn" id="noUnits">Temizle</button></span>
-        </div>
-        <div class="units" id="units"></div>
-        <div class="err" id="unitErr" hidden></div>
-      </div>
-
-    </form>
-
-    <div class="sidecol">
-      <div class="panel" id="sidePanel">
-      <div class="field">
         <span class="lbl">Yön</span>
         <div class="seg" id="dirSeg">
           <button type="button" data-v="en">İngilizce → Türkçe</button>
@@ -708,20 +737,6 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
           <button type="button" data-v="120">2 dk</button>
           <button type="button" data-v="180">3 dk</button>
           <button type="button" data-v="0">Süresiz</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <span class="lbl">Ses</span>
-        <div class="row">
-          <button type="button" class="toggle" id="soundT"><span class="sw"></span>Oyun sesleri</button>
-          <button type="button" class="toggle" id="musicT"><span class="sw"></span>Gerilim müziği</button>
-          <button type="button" class="toggle" id="ttsT"><span class="sw"></span>Dokununca kelimeyi oku</button>
-        </div>
-        <div class="row">
-          <label class="slider" for="musicVol">Müzik <input type="range" id="musicVol" min="0" max="100" step="5"><output id="musicVolO"></output></label>
-          <label class="slider" for="voiceVol">Kelime sesi <input type="range" id="voiceVol" min="0" max="100" step="5"><output id="voiceVolO"></output></label>
-          <button type="button" class="iconbtn" id="voiceTest">Sesi dinle</button>
         </div>
       </div>
 
@@ -762,6 +777,22 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 </section>
 
 <!-- rotate to landscape -->
+<div class="overlay" id="soundOv" hidden>
+  <div class="dialog sounddlg" role="dialog" aria-modal="true" aria-labelledby="soundTitle">
+    <h2 id="soundTitle">🔊 Ses</h2>
+    <div class="sgrid">
+      <button type="button" class="toggle" id="soundT"><span class="sw"></span>Oyun sesleri</button>
+      <button type="button" class="toggle" id="musicT"><span class="sw"></span>Gerilim müziği</button>
+      <button type="button" class="toggle" id="ttsT"><span class="sw"></span>Dokununca kelimeyi oku</button>
+    </div>
+    <div class="sgrid">
+      <label class="slider" for="musicVol">Müzik <input type="range" id="musicVol" min="0" max="100" step="5"><output id="musicVolO"></output></label>
+      <label class="slider" for="voiceVol">Kelime sesi <input type="range" id="voiceVol" min="0" max="100" step="5"><output id="voiceVolO"></output></label>
+      <button type="button" class="iconbtn" id="voiceTest">Sesi dinle</button>
+    </div>
+    <div class="actions" style="justify-content:center"><button type="button" class="bigbtn" id="soundClose">Kapat</button></div>
+  </div>
+</div>
 <div class="overlay" id="scoresOv" hidden>
   <div class="dialog scoresdlg" role="dialog" aria-modal="true" aria-labelledby="sbTitle">
     <div class="sb-head">
@@ -1124,6 +1155,7 @@ function renderMenu(){
   $('#soundT').setAttribute('aria-pressed', prefs.sound);
   $('#musicT').setAttribute('aria-pressed', prefs.music);
   $('#ttsT').setAttribute('aria-pressed', prefs.tts);
+  updSoundIco();
   $('#musicVol').value = prefs.musicVol; $('#musicVolO').textContent = prefs.musicVol;
   $('#voiceVol').value = prefs.voiceVol; $('#voiceVolO').textContent = prefs.voiceVol;
   const n = buildEntries(sel).length;
@@ -1149,10 +1181,11 @@ $('#durSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); 
 $('#soundT').addEventListener('click', ()=>{ prefs.sound=!prefs.sound; savePrefs(); renderMenu(); if(prefs.sound) sfx.tap(); });
 $('#ttsT').addEventListener('click', ()=>{ prefs.tts=!prefs.tts; savePrefs(); renderMenu(); });
 $('#musicVol').addEventListener('input', e=>{ prefs.musicVol=+e.target.value; $('#musicVolO').textContent=prefs.musicVol; savePrefs(); musicVolNow(); });
-$('#voiceVol').addEventListener('input', e=>{ prefs.voiceVol=+e.target.value; $('#voiceVolO').textContent=prefs.voiceVol; savePrefs(); if(VG) VG.gain.value = prefs.voiceVol/100; });
+$('#voiceVol').addEventListener('input', e=>{ prefs.voiceVol=+e.target.value; updSoundIco(); $('#voiceVolO').textContent=prefs.voiceVol; savePrefs(); if(VG) VG.gain.value = prefs.voiceVol/100; });
 $('#voiceVol').addEventListener('change', ()=>playWord(sampleWord()));
 $('#voiceTest').addEventListener('click', ()=>playWord(sampleWord()));
 function sampleWord(){ const u = UNITS.find(u=>prefs.units.includes(u.n)) || UNITS[0]; const w = u.w[Math.floor(Math.random()*u.w.length)][0]; return w.replace(POS,'').trim(); }
+document.querySelectorAll('#nick,#gname1,#gname2,#gname3,#gname4').forEach(inp=>inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#startBtn').click(); } }));
 $('#nick').addEventListener('input', ()=>{ prefs.name=$('#nick').value.trim(); savePrefs(); if(prefs.name) $('#nickErr').hidden=true; });
 $('#setup').addEventListener('submit', e=>{
   e.preventDefault(); oskClose();
@@ -1700,7 +1733,14 @@ matchMedia('(orientation:portrait)').addEventListener?.('change', ()=>{ checkRot
 
 /* ---------------- start page fits one screen ---------------- */
 /* scale a whole screen to fill the window (big smart boards) or to fit (small screens) */
-function setCompact(){ document.body.classList.toggle('compact', !isPortrait() && innerHeight <= 560); }
+function setCompact(){
+  const c = !isPortrait() && innerHeight <= 560;
+  document.body.classList.toggle('compact', c);
+  /* phones: player fields go to the left column (the right one would be too tall); otherwise they sit above direction/duration */
+  const tr = document.querySelector('.toprow');
+  if(tr){ const host = c ? $('#setup') : $('#sidePanel'); const ref = c ? $('#unitsField') : host.firstElementChild;
+    if(tr.parentNode !== host) host.insertBefore(tr, ref); }
+}
 function fitScreen(el){
   if(!el || el.hidden) return;
   setCompact();
@@ -1751,6 +1791,13 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitMenu);
 
 
 /* ---------------- how to play ---------------- */
+function updSoundIco(){ $('#soundIco').textContent = (!prefs.sound && !prefs.music && prefs.voiceVol<=0) ? '🔇' : '🔊'; }
+function openSound(){ oskClose(); $('#soundOv').hidden = false; $('#soundClose').focus(); }
+function closeSound(){ $('#soundOv').hidden = true; }
+$('#soundBtn').addEventListener('click', openSound);
+$('#soundClose').addEventListener('click', closeSound);
+$('#soundOv').addEventListener('click', e=>{ if(e.target === $('#soundOv')) closeSound(); });
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && !$('#soundOv').hidden) closeSound(); });
 function openScores(){ oskClose(); renderScoreboard(); $('#scoresOv').hidden = false; $('#scoresClose').focus(); }
 function closeScores(){ $('#scoresOv').hidden = true; }
 $('#scoresBtn').addEventListener('click', openScores);
@@ -1942,7 +1989,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.6 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.8 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -1962,30 +2009,43 @@ $('#chgGrade').addEventListener('click', showGrades);
 
 /* ---------------- on-screen keyboard ---------------- */
 const OSK_ROWS = [['1','2','3','4','5','6','7','8','9','0'],['q','w','e','r','t','y','u','ı','o','p','ğ','ü'],['a','s','d','f','g','h','j','k','l','ş','i'],['⇧','z','x','c','v','b','n','m','ö','ç','.','⌫'],['-',' ','Tamam']];
-let oskInput = null, oskShift = true;
+let oskInput = null, oskShift = true, oskOpenT = 0;
 const isLetter = k => k.length===1 && k.toLocaleUpperCase('tr') !== k.toLocaleLowerCase('tr');
 function oskRender(){
-  $('#osk').innerHTML = `<div class="osk-in">${OSK_ROWS.map(r=>`<div class="osk-row">${r.map(k=>{
+  $('#osk').innerHTML = `<button type="button" class="osk-x" data-k="close" aria-label="Klavyeyi kapat">✕</button><div class="osk-in"><div class="osk-echo" aria-hidden="true"><span>${esc(oskInput && oskInput.id==='nick' ? 'Adın' : (oskInput ? (oskInput.getAttribute('aria-label')||'').replace(/^(\d)\. grubun adı$/,'$1. grup') : ''))}</span><b id="oskEcho"></b></div>${OSK_ROWS.map(r=>`<div class="osk-row">${r.map(k=>{
     const cls = k===' ' ? 'space' : k==='Tamam' ? 'ok' : (k==='⇧'||k==='⌫') ? 'wide'+(k==='⇧'&&oskShift?' on':'') : '';
     const label = k===' ' ? 'boşluk' : (oskShift && isLetter(k)) ? k.toLocaleUpperCase('tr') : k;
     return `<button type="button" class="osk-k ${cls}" data-k="${esc(k)}">${esc(label)}</button>`;
   }).join('')}</div>`).join('')}</div>`;
 }
+/* touch screens: the device keyboard must never open for the name boxes, only ours */
+function noSysKb(inp){ inp.setAttribute('inputmode','none'); inp.setAttribute('virtualkeyboardpolicy','manual'); }
+function hideSysKb(){ try{ if(navigator.virtualKeyboard && navigator.virtualKeyboard.hide) navigator.virtualKeyboard.hide(); }catch(e){} }
+function oskEchoUpd(){ const e = $('#oskEcho'); if(e && oskInput) e.textContent = oskInput.value; }
+document.addEventListener('input', e=>{ if(e.target === oskInput) oskEchoUpd(); });
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && oskInput){ const i = oskInput; oskClose(); i.blur(); } });
 function oskOpen(inp){
+  if(oskInput === inp && !$('#osk').hidden) return;
+  noSysKb(inp);
+  if(document.activeElement === inp && !inp.dataset.osk){ inp.blur(); }   // focused earlier with the device keyboard: drop it first
+  inp.dataset.osk = '1';
   oskInput = inp; oskShift = !inp.value; oskRender();
-  $('#osk').hidden = false;
+  $('#osk').hidden = false; oskOpenT = performance.now(); oskEchoUpd();
   try{ inp.focus({preventScroll:true}); const n = inp.value.length; inp.setSelectionRange(n, n); }catch(e){}
+  hideSysKb(); setTimeout(hideSysKb, 60);
 }
 function oskClose(){
   if(!oskInput && $('#osk').hidden) return;
+  if(oskInput) delete oskInput.dataset.osk;
   $('#osk').hidden = true; oskInput = null;
 }
 $('#osk').addEventListener('pointerdown', e=>e.preventDefault());
 $('#osk').addEventListener('mousedown', e=>e.preventDefault());
 $('#osk').addEventListener('click', e=>{
   const b = e.target.closest('button'); if(!b || !oskInput) return;
+  if(performance.now() - oskOpenT < 400) return;   // the tap that opened the keyboard must not also press a key under the finger
   const k = b.dataset.k, inp = oskInput;
-  if(k === 'Tamam'){ oskClose(); inp.blur(); return; }
+  if(k === 'Tamam' || k === 'close'){ oskClose(); inp.blur(); return; }
   if(k === '⇧'){ oskShift = !oskShift; oskRender(); return; }
   let v = inp.value, s = inp.selectionStart ?? v.length, en = inp.selectionEnd ?? v.length, pos = s;
   if(k === '⌫'){
@@ -1997,19 +2057,22 @@ $('#osk').addEventListener('click', e=>{
     v = v.slice(0,s) + ch + v.slice(en); pos = s + ch.length;
     if(oskShift && isLetter(k)){ oskShift = false; oskRender(); }
   }
-  inp.value = v;
+  inp.value = v; oskEchoUpd();
   try{ inp.focus({preventScroll:true}); inp.setSelectionRange(pos, pos); }catch(e){}
   inp.dispatchEvent(new Event('input', {bubbles:true}));
 });
 const touchy = () => (navigator.maxTouchPoints || 0) > 0 || matchMedia('(pointer:coarse)').matches;
 document.querySelectorAll('#menu input[type=text]').forEach(inp=>{
+  if(touchy()) noSysKb(inp);
   inp.addEventListener('pointerdown', e=>{
-    if(e.pointerType === 'touch' || e.pointerType === 'pen' || touchy()){ inp.setAttribute('inputmode','none'); setTimeout(()=>oskOpen(inp), 0); }
+    if(e.pointerType === 'touch' || e.pointerType === 'pen' || touchy()){ noSysKb(inp); setTimeout(()=>oskOpen(inp), 0); }
   });
+  /* any other way in (label tap, "write your name" warning, Tab key on a touch screen) opens ours too */
+  inp.addEventListener('focus', ()=>{ if(touchy()) setTimeout(()=>{ if(document.activeElement === inp) oskOpen(inp); }, 0); });
 });
 document.querySelectorAll('.kbbtn').forEach(b=>{
   b.addEventListener('mousedown', e=>e.preventDefault());
-  b.addEventListener('click', e=>{ e.preventDefault(); const inp = document.getElementById(b.dataset.for); inp.setAttribute('inputmode','none'); oskOpen(inp); });
+  b.addEventListener('click', e=>{ e.preventDefault(); const inp = document.getElementById(b.dataset.for); oskOpen(inp); });
 });
 document.addEventListener('pointerdown', e=>{
   if(!oskInput) return;
@@ -2020,7 +2083,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.6'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.8'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
