@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Meaning Mine v4.8
+  Meaning Mine v4.9
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v4.8</title>
+<title>Meaning Mine v4.9</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -448,6 +448,8 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 @keyframes prism{from{background-position:0 0,0 0}to{background-position:300% 0,0 0}}
 @keyframes goldshine{from{background-position:130% 0,0 0}to{background-position:-130% 0,0 0}}
 .tile.goldtile{filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px rgba(170,215,255,.95)) drop-shadow(0 0 18px rgba(230,160,255,.7))}
+.gem.goldin{animation:goldin .65s ease-out}
+@keyframes goldin{0%{transform:scale(.6) rotate(-12deg);filter:brightness(2)}60%{transform:scale(1.15)}100%{transform:none}}
 .gem.gold .star{position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:13px;line-height:1;color:#5d8bff;text-shadow:0 0 6px #fff}
 .float.goldf{color:#e8f4ff;font-size:34px;text-shadow:0 0 10px #8fc7ff,0 2px 8px rgba(0,0,0,.9)}
 .float.goldf small{color:#bfe1ff}
@@ -648,7 +650,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 <body>
 
 
-<div class="vtag" id="vtag" aria-label="Sürüm">v4.8</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v4.9</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Kelimeler ve sesler hazırlanıyor</span></div>
 
@@ -1328,7 +1330,7 @@ function dropIn(g, fromRow, delay){
   place(g);
 }
 
-const GOLD_P = .1;
+const GOLD_P = .25, GOLD_GAP = 3;   // diamond: at most one on the board, at least 3 matches apart (~1 in 7 matches)
 const hasGold = () => allGems().some(g=>g.alive && g.color==='gold');
 const gemText = e => G.rev ? G.E[e].tr : G.E[e].en;
 const cardText = e => G.rev ? G.E[e].en : G.E[e].tr;
@@ -1359,6 +1361,16 @@ function setCard(k, e, anim){
   if(anim && e!=null){ b.classList.remove('flipin'); b.offsetWidth; b.classList.add('flipin'); }
 }
 
+/* a new word must not appear exactly where the old card was: it takes a random card's place and that card's word
+   moves into the emptied slot (both flip), so the pair can only be found by reading */
+function placeNewCard(k, e){
+  if(e == null){ setCard(k, null, true); return; }
+  const sel = G.sel && G.sel.kind==='card' ? G.sel.ref : null;
+  const others = G.cards.filter(c=>c!==k && c.e!=null && !c.locked && c!==sel);
+  if(!others.length){ setCard(k, e, true); return; }
+  const j = others[Math.floor(Math.random()*others.length)];
+  setCard(k, j.e, true); setCard(j, e, true);
+}
 function takeEntry(){
   if(!G.queue.length){
     if(!G.dur) return null;
@@ -1463,7 +1475,7 @@ function spawnGem(c, e, stack, safe){
   let r = lowestEmpty(c);
   if(r<0){ for(let k=0;k<COLS;k++){ r=lowestEmpty(k); if(r>=0){ c=k; break; } } }
   if(r<0) return null;
-  const color = (!G.practice && !hasGold() && Math.random() < GOLD_P) ? 'gold' : spawnColor(c, r, safe);
+  const color = spawnColor(c, r, safe);
   const g = mkGem(e, color);
   g.c=c; g.r=r; G.grid[c][r]=g;
   dropIn(g, -1-stack, stack*70);
@@ -1479,6 +1491,7 @@ function match(g, k){
   const gold = g.color === 'gold';
   const mult = Math.min(G.combo, 6), pts = 100*mult*(gold ? 3 : 1);
   G.score += pts; G.correct++; if(gold) G.golds = (G.golds||0) + 1;
+  G.sinceGold = (G.sinceGold||0) + 1;
   const [x,y] = centerOf(g);
   if(gold) floatText(x, y, `+${pts}<small>ELMAS TAŞ x3${G.combo>1?` · KOMBO x${mult}`:''}</small>`, 34, 'goldf');
   else floatText(x, y, `+${pts}${G.combo>1?`<small>KOMBO x${mult}</small>`:''}`, G.combo>1?30:24);
@@ -1496,7 +1509,7 @@ function match(g, k){
     if(e!=null){
       spawnGem(g.c, e, 0, Math.random() < .5);
     }
-    setCard(k, e, true);
+    placeNewCard(k, e);
     gameWarm();
     setTimeout(()=>resolveColors(1, g0), 520);
   }, 240);
@@ -1551,15 +1564,32 @@ function resolveColors(level, g0){
         const e = takeEntry();
         perCol[g.c] = (perCol[g.c] ?? -1) + 1;
         if(e!=null) spawnGem(g.c, e, perCol[g.c], true);
-        if(g.card) setCard(g.card, e, true);
+        if(g.card) placeNewCard(g.card, e);
       });
       setTimeout(()=>resolveColors(level+1, g0), 460);
     }, 220);
   }, 320);
 }
 
+function makeGold(g){
+  g.color = 'gold'; g.el.classList.add('goldtile');
+  g.b.className = 'gem gold goldin';
+  const text = g.b.querySelector('.txt').textContent;
+  if(!g.b.querySelector('.star')) g.b.insertAdjacentHTML('afterbegin', '<span class="star">✦</span>');
+  g.b.setAttribute('aria-label', 'Elmas taş, '+(G.rev?'Türkçe':'İngilizce')+': '+text);
+  setTimeout(()=>g.b.classList.remove('goldin'), 700);
+}
+function maybeGold(){
+  if(G.practice || hasGold() || (G.sinceGold||0) < GOLD_GAP || Math.random() >= GOLD_P) return;
+  const sel = G.sel && G.sel.kind==='gem' ? G.sel.ref : null;
+  const pool = allGems().filter(g=>g.alive && g!==sel && g.id < G.uid - 1);   // an older gem, not the one that just fell in
+  if(!pool.length) return;
+  makeGold(pool[Math.floor(Math.random()*pool.length)]);
+  G.sinceGold = 0;
+}
 function afterSettle(){
   if(!G || G.over) return;
+  maybeGold();
   gameWarm();
   if(!allGems().length){ if(G.dur) fillAll(false); else endGame('done'); }
   updateHud();
@@ -1989,7 +2019,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear();
-  document.title = `Meaning Mine v4.8 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v4.9 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -2083,7 +2113,7 @@ document.addEventListener('pointerdown', e=>{
 checkRotate(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.8'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v4.9'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());
