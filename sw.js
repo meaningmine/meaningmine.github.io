@@ -1,5 +1,6 @@
-// Meaning Mine service worker — v4.11 · © 2026 Veli PEKER
-const CACHE = 'meaning-mine-v4.11';
+// Meaning Mine service worker — v5.0 · © 2026 Veli PEKER
+const CACHE = 'meaning-mine-v5.0';
+const SNDC = 'mm-sounds';   // pronunciation files: kept across versions (their names change only when their content does)
 const CORE = ['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','favicon.png'];
 self.addEventListener('install', e=>{
   e.waitUntil(caches.open(CACHE).then(c=>Promise.all(CORE.map(u=>fetch(new Request(u,{cache:'reload'})).then(r=>{ if(r.ok) return c.put(u,r); })))).then(()=>self.skipWaiting()));
@@ -12,6 +13,14 @@ self.addEventListener('fetch', e=>{
   if(req.method !== 'GET') return;
   const url = new URL(req.url);
   if(/(^|\.)cloudflareinsights\.com$/.test(url.hostname)) return;
+  const sm = url.origin === location.origin && url.pathname.match(/ses-(\d)\.[0-9a-f]+\.json$/);
+  if(sm){
+    e.respondWith(caches.open(SNDC).then(c=>c.match(req).then(hit=> hit || fetch(req).then(res=>{
+      if(res.ok){ c.put(req, res.clone()); c.keys().then(ks=>ks.forEach(k=>{ const p = new URL(k.url).pathname; if(p.includes('ses-'+sm[1]+'.') && p !== url.pathname) c.delete(k); })); }
+      return res;
+    }))));
+    return;
+  }
   if(req.mode === 'navigate' && url.origin === location.origin){
     e.respondWith(caches.match('index.html').then(r=> r || fetch(req)));
     return;
