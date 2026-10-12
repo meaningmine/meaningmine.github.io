@@ -1,9 +1,10 @@
 <!doctype html>
 <!--
-  Meaning Mine v5.0
+  Meaning Mine v6.0
   © 2026 Veli PEKER. Tüm hakları saklıdır.
   Bu oyunun kodu, tasarımı ve içeriği Veli PEKER tarafından hazırlanmıştır.
   Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)
+  Yazı tipleri: Baloo 2, Nunito (SIL Open Font License 1.1)
 -->
 <html lang="tr">
 <head>
@@ -21,11 +22,14 @@
 <meta name="apple-mobile-web-app-title" content="Meaning Mine">
 <meta name="application-name" content="Meaning Mine">
 <meta name="description" content="2–8. sınıf İngilizce kelime eşleştirme oyunu">
-<title>Meaning Mine v5.0</title>
+<title>Meaning Mine v6.0</title>
 <style>html,body{height:auto}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
+<link rel="preload" href="font-baloo2.774e6371.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="font-nunito.492b3f44.woff" as="font" type="font/woff" crossorigin>
+<style>@font-face{font-family:"Baloo 2";src:url(font-baloo2.774e6371.woff) format("woff");font-weight:400 800;font-style:normal;font-display:swap}@font-face{font-family:"Nunito";src:url(font-nunito.492b3f44.woff) format("woff");font-weight:200 1000;font-style:normal;font-display:swap}</style>
+</head>
+<body>
+
 <style>
 /* Layout: a Victorian curio cabinet. Menu = setup panel + today's scoreboard. Game = gem cabinet (English) beside a rack of parchment cards (Turkish). Single warm-dark look on purpose. */
 :root{
@@ -164,7 +168,7 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 @keyframes pulse{50%{opacity:.45}}
 
 #stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
-@media (max-width:700px) and (orientation:portrait){#stage{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:700px) and (orientation:portrait){body:not(.rot) #stage{grid-template-columns:minmax(0,1fr)}}
 #boardCol,#cardsCol{min-width:0}
 .cabinet{border-radius:16px;background:linear-gradient(180deg,var(--wood-1),var(--wood-2));border:3px solid var(--trim);box-shadow:inset 0 0 0 2px rgba(0,0,0,.5),inset 0 0 40px rgba(0,0,0,.6),0 10px 26px rgba(0,0,0,.45)}
 .board{position:relative;overflow:hidden;touch-action:manipulation}
@@ -261,24 +265,32 @@ input[type=text]::placeholder{color:#8a715e;font-weight:500}
 .legend{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12.5px}
 
 /* ---------- short landscape screens (phones turned sideways) ---------- */
-@media (max-height:560px){
-  body{padding-block:8px 16px}
-  .hud{margin-bottom:6px;grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr))}
-  .stat{padding:3px 10px}
-  .stat b{font-size:18px}
-  .stat.player b{font-size:15px}
-  .stat small{font-size:9.5px}
-  .stat.player span{display:none}
-  #stage{gap:10px}
-  .infobar{margin-top:8px;min-height:0;padding:6px 12px;font-size:13px}
-  .infobar b{font-size:15px}
-  .controls{margin-top:8px}
-  .ghost{padding:6px 12px;font-size:13px}
-  .legend{display:none}
-}
+body.compact{padding-block:8px 16px}
+body.compact .hud{margin-bottom:6px;grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr))}
+body.compact .stat{padding:3px 10px}
+body.compact .stat b{font-size:18px}
+body.compact .stat.player b{font-size:15px}
+body.compact .stat small{font-size:9.5px}
+body.compact .stat.player span{display:none}
+body.compact #stage{gap:10px}
+body.compact .infobar{margin-top:8px;min-height:0;padding:6px 12px;font-size:13px}
+body.compact .infobar b{font-size:15px}
+body.compact .controls{margin-top:8px}
+body.compact .ghost{padding:6px 12px;font-size:13px}
+body.compact .legend{display:none}
 .rotate-ico{width:74px;height:74px;margin:0 auto;animation:turn 2.2s ease-in-out infinite}
 @keyframes turn{0%,25%{transform:rotate(0)}55%,100%{transform:rotate(-90deg)}}
 
+/* ---------- phone held upright: the landscape app is drawn turned 90°, so the player just turns the phone ---------- */
+body.rot{position:fixed;top:0;left:var(--pw);width:var(--ph);height:var(--pw);min-height:0;transform-origin:top left;transform:rotate(90deg);overflow:hidden}
+/* viewport units follow the physical screen, so sideways sizes use the logical width (--ph) / height (--pw) instead */
+body.rot .cdn{font-size:min(calc(var(--pw)*.34),220px)}
+body.rot .cdn.go{font-size:min(calc(var(--pw)*.2),130px)}
+body.rot .osk-k{min-height:clamp(34px,calc(var(--pw)*.085),52px)}
+body.rot .score-big{font-size:clamp(46px,calc(var(--ph)*.11),66px)}
+body.rot .turn-name{font-size:clamp(40px,calc(var(--ph)*.09),68px)}
+body.rot .pod .who{font-size:clamp(17px,calc(var(--ph)*.024),24px)}
+body.rot .gradepick h2{font-size:clamp(28px,calc(var(--ph)*.04),40px)}
 /* ---------- compact one-screen menu ---------- */
 #menu .brand{margin-bottom:10px;justify-content:space-between}
 #menu .brand > div:nth-child(2){flex:none;min-width:0}
@@ -490,6 +502,7 @@ body:not(.start) .vtag.vby{opacity:.6;font-size:10px;padding:4px 7px;bottom:4px;
 .gbtn b{font-family:var(--display);font-size:46px;line-height:1;color:var(--ink)}
 .gbtn b small{font-size:20px;color:var(--muted);margin-left:4px}
 .gbtn span{color:var(--muted);font-size:13px}
+.gbtn.busy{transform:scale(.97);filter:brightness(.95)}
 .gbtn.last{border-color:var(--gold);background:linear-gradient(180deg,rgba(220,166,70,.28),var(--deep))}
 .gbtn.last::after{content:"Son seçilen";position:absolute;top:10px;right:12px;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:var(--gold);color:var(--gold-ink);border-radius:999px;padding:3px 8px}
 @media (hover:hover){.gbtn:hover{border-color:var(--gold)}}
@@ -601,7 +614,7 @@ body.t-sky #helpOv,body.t-sunset #helpOv,body.t-sky #scoresOv,body.t-sunset #sco
 .hcols>section:nth-child(1){grid-area:a}.hcols>section:nth-child(2){grid-area:b}.hcols>section:nth-child(3){grid-area:c}
 body.compact .hcols{grid-template-columns:1fr 1.15fr .8fr;grid-template-areas:'a b c'}
 body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
-@media (max-width:760px) and (orientation:portrait){.hcols{grid-template-columns:1fr;grid-template-areas:'a' 'b' 'c'}}
+@media (max-width:760px) and (orientation:portrait){body:not(.rot) .hcols{grid-template-columns:1fr;grid-template-areas:'a' 'b' 'c'}}
 .hcols section{background:var(--deep);color:var(--ink);border-radius:16px;padding:14px 16px}
 .hdemo{display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 10px;--th:54px}
 .hg{display:inline-block;width:132px;height:54px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.45))}
@@ -645,7 +658,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 .res2 .actions{grid-column:1/-1}
 .res2 .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
 .res2 .missed ul{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));max-height:250px}
-@media (max-width:700px) and (orientation:portrait){.dialog.res2{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:700px) and (orientation:portrait){body:not(.rot) .dialog.res2{grid-template-columns:minmax(0,1fr)}}
 #resultOv .sb tr.me td,body #resultOv .sb tr.me td{background:rgba(220,166,70,.22);color:inherit}
 .actions .bigbtn{font-size:19px;padding:10px 22px}
 
@@ -656,12 +669,170 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
   .tile.sel{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 2px #fff) drop-shadow(0 0 14px #ffb300)}
   .meaning.sel{box-shadow:0 0 0 4px #fff,0 0 0 8px #ffb300}
 }
+/* ================= v6.0 interface: icon buttons, avatar, settings row, new HUD, faceted gems, miner kids ================= */
+body{--chip:#4a3127;--chipline:#6e4b2c;--chipink:#f7ecd9;--chipsub:#c9b097;--chipsh:rgba(0,0,0,.35);--avbg:rgba(255,190,120,.16)}
+body.t-ocean{--chip:#13435a;--chipline:#2a6a85;--chipink:#eaf8ff;--chipsub:#8fd9e6;--chipsh:rgba(0,0,0,.28);--avbg:rgba(47,211,196,.16)}
+body.t-sunset{--chip:#fffaf6;--chipline:#f2b8c6;--chipink:#3b1838;--chipsub:#8b2fc9;--chipsh:#e9b3c2;--avbg:#ffeae2}
+body.t-sky{--chip:#ffffff;--chipline:#cfe6f5;--chipink:#16324a;--chipsub:#0b78b9;--chipsh:#b9d6ea;--avbg:#fff3e6}
+/* round icon buttons with a small label */
+.ib{display:inline-flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;cursor:pointer;font:800 11.5px/1.1 var(--body);color:var(--chipink);min-width:52px;position:relative;-webkit-tap-highlight-color:transparent}
+.ib>i{font-style:normal;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--chip);border:2px solid var(--chipline);box-shadow:0 3px 0 var(--chipsh);font-size:21px;line-height:1;transition:transform .12s,box-shadow .12s}
+.ib:hover>i{transform:translateY(-1px)}
+.ib:active>i{transform:translateY(2px);box-shadow:0 1px 0 var(--chipsh)}
+.ib>i svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ib>span{white-space:nowrap}
+.ib em{position:absolute;top:-5px;right:0;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#ff6a00;color:#fff;font:800 12px/20px var(--body);font-style:normal;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.ib em[hidden]{display:none}
+.ib:disabled{opacity:.45;cursor:default}
+.ib.off>i{opacity:.6}
+.ib>i.pal{background:conic-gradient(#3a151a 0 25%,#2fd3c4 0 50%,#e8456b 0 75%,#ffb86b 0)}
+.ib[hidden]{display:none}
+.hdr-right{gap:10px;align-items:flex-start}
+#menu .hdr-right{gap:8px}
+.thwrap{position:relative;display:flex}
+.thwrap .themes,body.compact #menu .thwrap .themes{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);z-index:40;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:7px 9px;gap:8px}
+.thwrap.open .themes,body.compact #menu .thwrap.open .themes{display:flex}
+.thwrap .themes>span{display:none}
+#gradeScreen .brand p{display:none}
+#gradeScreen{width:min(900px,100%)}
+#menu .credit{display:none}
+/* mini gems (header row, legend, group marker) */
+.mg{display:inline-block;width:18px;height:13px;vertical-align:-1px}
+.gemrow i{background:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));width:24px;height:17px}
+.gemrow i:nth-child(1){background:var(--gs-ruby) 0 0/100% 100%;clip-path:polygon(9% 0,91% 0,100% 24%,100% 76%,91% 100%,9% 100%,0 76%,0 24%)}
+.gemrow i:nth-child(2){background:var(--gs-amethyst) 0 0/100% 100%;clip-path:ellipse(50% 50%);border-radius:0}
+.gemrow i:nth-child(3){background:var(--gs-emerald) 0 0/100% 100%;clip-path:polygon(14% 0,86% 0,100% 20%,100% 80%,86% 100%,14% 100%,0 80%,0 20%);border-radius:0}
+.gemrow i:nth-child(4){background:var(--gs-sapphire) 0 0/100% 100%;clip-path:polygon(8% 0,92% 0,100% 8%,100% 92%,92% 100%,8% 100%,0 92%,0 8%);border-radius:0}
+.gemrow i:nth-child(5){background:var(--gs-topaz) 0 0/100% 100%;clip-path:polygon(11% 0,89% 0,100% 50%,89% 100%,11% 100%,0 50%)}
+/* gem words: soft dark outline keeps every word readable on the cut faces */
+.gem:not(.dull) .txt{text-shadow:0 0 2px rgba(0,0,0,.6),0 1px 0 rgba(0,0,0,.5),1px 0 1px rgba(0,0,0,.35),-1px 0 1px rgba(0,0,0,.35),0 2px 5px rgba(0,0,0,.35)}
+/* avatar picker */
+.avs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.avs button{width:50px;height:50px;border-radius:15px;border:2px solid var(--line);background:var(--deep);font-size:27px;line-height:1;cursor:pointer;padding:0;display:grid;place-items:center;transition:transform .12s}
+.avs button:hover{transform:translateY(-2px)}
+.avs button[aria-pressed=true]{border-color:var(--gold);background:var(--avbg);box-shadow:0 0 0 3px rgba(255,150,40,.28)}
+/* collapsed settings */
+.setrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;text-align:left;background:var(--deep);border:2px dashed var(--line);border-radius:14px;padding:10px 12px;margin:4px 0 10px;cursor:pointer;font-weight:800;font-size:14.5px;color:var(--ink)}
+.setrow .chips{display:flex;gap:6px;flex-wrap:wrap}
+.setrow .chip{background:var(--raised);border:1px solid var(--line);border-radius:999px;padding:4px 11px;white-space:nowrap}
+.setrow .go{margin-left:auto;color:var(--gold);white-space:nowrap}
+.setbox{display:grid;gap:4px;margin-bottom:8px}
+.setbox[hidden]{display:none}
+/* miner kids */
+.hkid{flex:1 1 0;min-width:0;align-self:stretch;min-height:60px;background:var(--kid-pick) center bottom/contain no-repeat;pointer-events:none;transform-origin:50% 100%;animation:kidbob 3.8s ease-in-out infinite}
+.gkcell{display:block;min-height:96px;background:var(--kid-cart) center bottom/contain no-repeat;pointer-events:none;animation:kidbob 4.2s ease-in-out infinite}
+.gkcell[hidden]{display:none}
+.dkid{display:inline-block;width:40px;height:46px;vertical-align:-10px;margin-right:8px;background:center bottom/contain no-repeat}
+.dkid.k-pick{background-image:var(--kid-pick)}.dkid.k-gem{background-image:var(--kid-gem)}
+.gkid{flex:none;width:80px;align-self:stretch;min-height:64px;margin-top:-22px;background:var(--kid-gem) center bottom/contain no-repeat;pointer-events:none;transform-origin:50% 100%}
+.gkid.cheer{animation:kidcheer .55s ease-out}
+.gkid.jump{animation:kidjump .75s ease-out}
+@keyframes kidbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes kidcheer{0%{transform:none}35%{transform:translateY(-8px) rotate(-4deg)}70%{transform:translateY(0) rotate(3deg)}100%{transform:none}}
+@keyframes kidjump{0%{transform:none}25%{transform:translateY(-20px) scale(1.05) rotate(-6deg)}50%{transform:translateY(0) scale(.97,1.04)}70%{transform:translateY(-8px) rotate(4deg)}100%{transform:none}}
+/* game HUD */
+#game .hud{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;margin-bottom:12px}
+#game .hud .stat{background:var(--chip);border:2px solid var(--chipline);color:var(--chipink);box-shadow:0 3px 0 var(--chipsh);min-width:0}
+#game .hud .stat small{display:none}
+#game .stat.player{justify-self:start;display:flex;align-items:center;gap:10px;border-radius:999px;padding:5px 18px 5px 5px;max-width:100%}
+#game .stat.player .av{font-style:normal;flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--avbg);font-size:24px;line-height:1}
+#game .stat.player .av .mg{width:28px;height:21px}
+#game .stat.player .pw{min-width:0}
+#game .stat.player b{font-size:19px;line-height:1.1}
+#game .stat.player span{color:var(--chipsub);font-size:12.5px;font-weight:700}
+#game .stat.score{justify-self:center;display:flex;align-items:center;gap:8px;background:linear-gradient(180deg,#ffd34d,#ff9a1a);border:0;border-radius:999px;padding:0 26px 0 12px;box-shadow:0 4px 0 #d9700a,0 6px 14px rgba(255,140,0,.25);color:#4a2400}
+#game .stat.score>i{font-style:normal;font-size:27px;line-height:1}
+#game .stat.score b{font-size:34px;line-height:1.35}
+.hud-r{justify-self:end;display:flex;align-items:center;gap:10px}
+#game .stat.combo{position:relative;overflow:hidden;display:flex;align-items:center;gap:5px;border-radius:999px;padding:5px 16px 7px;opacity:.6;transition:opacity .2s,background .2s}
+#game .stat.combo>i{font-style:normal;font-size:20px;line-height:1}
+#game .stat.combo b{font-size:22px;line-height:1.1}
+#game .stat.combo.hot{opacity:1;background:linear-gradient(180deg,#ff6a3d,#e8263b);border-color:#b8122c;color:#fff;box-shadow:0 4px 0 #a5122a}
+#game .stat.combo.hot b{color:#fff}
+#game .stat.combo .combobar{position:absolute;left:12px;right:12px;bottom:3px;height:3px;margin:0;background:rgba(255,255,255,.25);border-radius:2px}
+#game .stat.combo .combobar i{background:#ffe08a}
+#game .stat.time{--tc:#2fbf71;width:64px;height:64px;flex:none;border-radius:50%;padding:0;border:0;display:grid;place-items:center;background:conic-gradient(var(--tc) calc(var(--tp,1)*360deg),rgba(127,127,127,.25) 0);box-shadow:none}
+#game .stat.time b{width:52px;height:52px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-size:17px;color:var(--chipink);overflow:visible}
+#game .stat.time.untimed b{font-size:12px;letter-spacing:-.3px}
+#game .stat.time.low{--tc:#e8263b}
+#game .stat.time.low b{color:#e8263b}
+/* bottom bar */
+#game .controls{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;justify-content:flex-start;margin-top:12px}
+#game .controls .nc{display:flex;gap:10px;flex:none}
+#game .infobar{flex:1 1 auto;min-width:0;margin:0;border-radius:22px;background:var(--chip);border:2px solid var(--chipline);color:var(--chipink);min-height:48px;padding:7px 18px;font-size:15px;justify-content:center;text-align:center;line-height:1.3;box-shadow:0 3px 0 var(--chipsh)}
+#game .infobar.bad{border-color:#ff6b7a;background:linear-gradient(0deg,rgba(255,107,122,.12),rgba(255,107,122,.12)),var(--chip)}
+#game .infobar.lg{color:var(--chipsub);font-weight:700;font-size:14px}
+.lgd .mgs{display:inline-flex;gap:2px;vertical-align:-1px}
+.lgd .sep{margin:0 6px;opacity:.6}
+.mg.dia{width:auto;height:auto;color:#5d8bff;font-size:15px;font-style:normal}
+/* result: stars + kid */
+.resscore{display:flex;align-items:center;gap:14px}
+.resscore .rkid{flex:none;width:72px;height:96px;background:var(--kid-gem) center bottom/contain no-repeat}
+.stars{display:flex;gap:6px;line-height:1}
+.stars span{font-size:40px;color:rgba(127,127,127,.35)}
+.stars span.on{color:#ffc21a;text-shadow:0 2px 0 #c98a00,0 0 14px rgba(255,194,26,.55);animation:starpop .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes starpop{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:none;opacity:1}}
+.sb .sav{margin-right:6px}
+.hcredit{margin:10px 0 0;text-align:center;font-size:12.5px;color:var(--muted)}
+/* small landscape screens (phones) */
+body.compact .ib{font-size:10.5px;min-width:44px}
+body.compact .ib>i{width:38px;height:38px;font-size:17px}
+body.compact .ib>i svg{width:17px;height:17px}
+body.compact .ib em{min-width:17px;height:17px;font-size:10.5px;line-height:17px;top:-4px}
+body.compact #menu .hdr-right{gap:5px}
+body.compact .hkid{min-height:48px}
+body.compact .avs{gap:6px;margin-bottom:6px}
+body.compact .avs button{width:40px;height:40px;font-size:21px;border-radius:12px}
+body.compact .setrow{padding:7px 10px;font-size:13px;margin:2px 0 6px}
+body.compact .setrow .chip{padding:3px 9px}
+body.compact #game .hud{margin-bottom:6px;gap:8px}
+body.compact #game .stat.player{padding:3px 12px 3px 3px;gap:7px}
+body.compact #game .stat.player .av{width:30px;height:30px;font-size:17px}
+body.compact #game .stat.player b{font-size:14px}
+body.compact #game .stat.player span{font-size:10.5px}
+body.compact #game .stat.score{padding:0 18px 0 9px}
+body.compact #game .stat.score>i{font-size:19px}
+body.compact #game .stat.score b{font-size:24px}
+body.compact #game .stat.combo{padding:3px 11px 5px}
+body.compact #game .stat.combo b{font-size:16px}
+body.compact #game .stat.combo>i{font-size:14px}
+body.compact #game .stat.time{width:46px;height:46px}
+body.compact #game .stat.time b{width:37px;height:37px;font-size:12.5px}
+body.compact #game .stat.time.untimed b{font-size:9.5px}
+body.compact #game .controls{margin-top:6px;gap:8px}
+body.compact #game .controls .nc{gap:6px}
+body.compact #game .infobar{min-height:38px;padding:4px 12px;font-size:12.5px;border-radius:16px}
+body.compact #game .infobar.lg{font-size:11.5px}
+body.compact .gkid{width:52px;min-height:44px;margin-top:-10px}
+body.compact .stars span{font-size:30px}
+body.compact .resscore .rkid{width:52px;height:70px}
+.skid{display:none}
+body.compact #sidePanel{display:flex;flex-direction:column}
+body.compact .skid{display:block;flex:1 1 0;min-height:0;margin:2px 0 6px;background:var(--kid-cart) center/contain no-repeat;animation:kidbob 4.2s ease-in-out infinite}
+body.compact .hkid{visibility:hidden}
+body.compact #game .stat.player .av{width:34px;height:34px;font-size:19px}
+body.compact #game .stat.player b{font-size:16px}
+body.compact #game .stat.score b{font-size:27px}
+@media (prefers-reduced-motion:reduce){.skid,.hkid,.gkcell,.gkid.cheer,.gkid.jump,.stars span.on{animation:none}}
+:root{--gs-ruby:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23e6495d%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23e0213a%22/%3E%3Cstop offset=%221%22 stop-color=%22%238b1424%22/%3E%3C/linearGradient%3E%3CradialGradient id=%22t%22 cx=%22.42%22 cy=%22.38%22 r=%22.75%22%3E%3Cstop offset=%220%22 stop-color=%22%23e96475%22/%3E%3Cstop offset=%22.55%22 stop-color=%22%23e0213a%22/%3E%3Cstop offset=%221%22 stop-color=%22%23b81b30%22/%3E%3C/radialGradient%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%22.30%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.40%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E%3Cstop offset=%22.48%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.56%22 stop-color=%22%23fff%22 stop-opacity=%22.18%22/%3E%3Cstop offset=%22.62%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points=%229.00,0.00 91.00,0.00 100.00,24.00 100.00,76.00 91.00,100.00 9.00,100.00 0.00,76.00 0.00,24.00%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2211.87,6.00 88.13,6.00 50.00,22.00%22 fill=%22%23fff%22 fill-opacity=%220.30%22/%3E%3Cpolygon points=%2211.87,6.00 50.00,22.00 24.58,22.00%22 fill=%22%23000%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2288.13,6.00 75.42,22.00 50.00,22.00%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2288.13,6.00 96.50,27.12 78.21,28.72%22 fill=%22%23fff%22 fill-opacity=%220.19%22/%3E%3Cpolygon points=%2288.13,6.00 78.21,28.72 75.42,22.00%22 fill=%22%23000%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2296.50,27.12 81.00,35.44 78.21,28.72%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%2296.50,27.12 96.50,72.88 81.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%2296.50,27.12 81.00,50.00 81.00,35.44%22 fill=%22%23000%22 fill-opacity=%220.19%22/%3E%3Cpolygon points=%2296.50,72.88 81.00,64.56 81.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2296.50,72.88 88.13,94.00 78.21,71.28%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2296.50,72.88 78.21,71.28 81.00,64.56%22 fill=%22%23000%22 fill-opacity=%220.22%22/%3E%3Cpolygon points=%2288.13,94.00 75.42,78.00 78.21,71.28%22 fill=%22%23fff%22 fill-opacity=%220.02%22/%3E%3Cpolygon points=%2288.13,94.00 11.87,94.00 50.00,78.00%22 fill=%22%23fff%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2288.13,94.00 50.00,78.00 75.42,78.00%22 fill=%22%23000%22 fill-opacity=%220.20%22/%3E%3Cpolygon points=%2211.87,94.00 24.58,78.00 50.00,78.00%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2211.87,94.00 3.50,72.88 21.79,71.28%22 fill=%22%23fff%22 fill-opacity=%220.19%22/%3E%3Cpolygon points=%2211.87,94.00 21.79,71.28 24.58,78.00%22 fill=%22%23000%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%223.50,72.88 19.00,64.56 21.79,71.28%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%223.50,72.88 3.50,27.12 19.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.29%22/%3E%3Cpolygon points=%223.50,72.88 19.00,50.00 19.00,64.56%22 fill=%22%23000%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%223.50,27.12 19.00,35.44 19.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%223.50,27.12 11.87,6.00 21.79,28.72%22 fill=%22%23fff%22 fill-opacity=%220.34%22/%3E%3Cpolygon points=%223.50,27.12 21.79,28.72 19.00,35.44%22 fill=%22%23000%22 fill-opacity=%220.06%22/%3E%3Cpolygon points=%2211.87,6.00 24.58,22.00 21.79,28.72%22 fill=%22%23fff%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2224.58,22.00 75.42,22.00 81.00,35.44 81.00,64.56 75.42,78.00 24.58,78.00 19.00,64.56 19.00,35.44%22 fill=%22url(%23t)%22/%3E%3Cpolygon points=%2224.58,22.00 75.42,22.00 81.00,35.44 81.00,64.56 75.42,78.00 24.58,78.00 19.00,64.56 19.00,35.44%22 fill=%22url(%23s)%22/%3E%3Cpolygon points=%2224.58,22.00 75.42,22.00 81.00,35.44 81.00,64.56 75.42,78.00 24.58,78.00 19.00,64.56 19.00,35.44%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%22.6%22/%3E%3Cpolygon points=%2211.87,6.00 88.13,6.00 96.50,27.12 96.50,72.88 88.13,94.00 11.87,94.00 3.50,72.88 3.50,27.12%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.35%22 stroke-width=%22.5%22/%3E%3Cpolygon points=%229.00,0.00 91.00,0.00 100.00,24.00 100.00,76.00 91.00,100.00 9.00,100.00 0.00,76.00 0.00,24.00%22 fill=%22none%22 stroke=%22%2370101d%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M18.860500000000002 8.999999999999998 Q19.460500000000003 13.399999999999999 22.0605 13.999999999999998 Q19.460500000000003 14.599999999999998 18.860500000000002 19.0 Q18.2605 14.599999999999998 15.660500000000003 13.999999999999998 Q18.2605 13.399999999999999 18.860500000000002 8.999999999999998Z%22 fill=%22%23fff%22 opacity=%22.9%22/%3E%3C/svg%3E");--gs-topaz:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23f8a746%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23f7941d%22/%3E%3Cstop offset=%221%22 stop-color=%22%23995c12%22/%3E%3C/linearGradient%3E%3CradialGradient id=%22t%22 cx=%22.42%22 cy=%22.38%22 r=%22.75%22%3E%3Cstop offset=%220%22 stop-color=%22%23f9b461%22/%3E%3Cstop offset=%22.55%22 stop-color=%22%23f7941d%22/%3E%3Cstop offset=%221%22 stop-color=%22%23cb7918%22/%3E%3C/radialGradient%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%22.30%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.40%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E%3Cstop offset=%22.48%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.56%22 stop-color=%22%23fff%22 stop-opacity=%22.18%22/%3E%3Cstop offset=%22.62%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points=%2211.00,0.00 89.00,0.00 100.00,50.00 89.00,100.00 11.00,100.00 0.00,50.00%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2213.73,6.00 86.27,6.00 50.00,22.00%22 fill=%22%23fff%22 fill-opacity=%220.30%22/%3E%3Cpolygon points=%2213.73,6.00 50.00,22.00 25.82,22.00%22 fill=%22%23000%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2286.27,6.00 74.18,22.00 50.00,22.00%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2286.27,6.00 96.50,50.00 77.59,36.00%22 fill=%22%23fff%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2286.27,6.00 77.59,36.00 74.18,22.00%22 fill=%22%23000%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2296.50,50.00 81.00,50.00 77.59,36.00%22 fill=%22%23fff%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2296.50,50.00 86.27,94.00 77.59,64.00%22 fill=%22%23fff%22 fill-opacity=%220.05%22/%3E%3Cpolygon points=%2296.50,50.00 77.59,64.00 81.00,50.00%22 fill=%22%23000%22 fill-opacity=%220.21%22/%3E%3Cpolygon points=%2286.27,94.00 74.18,78.00 77.59,64.00%22 fill=%22%23fff%22 fill-opacity=%220.03%22/%3E%3Cpolygon points=%2286.27,94.00 13.73,94.00 50.00,78.00%22 fill=%22%23fff%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2286.27,94.00 50.00,78.00 74.18,78.00%22 fill=%22%23000%22 fill-opacity=%220.20%22/%3E%3Cpolygon points=%2213.73,94.00 25.82,78.00 50.00,78.00%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2213.73,94.00 3.50,50.00 22.41,64.00%22 fill=%22%23fff%22 fill-opacity=%220.22%22/%3E%3Cpolygon points=%2213.73,94.00 22.41,64.00 25.82,78.00%22 fill=%22%23000%22 fill-opacity=%220.12%22/%3E%3Cpolygon points=%223.50,50.00 19.00,50.00 22.41,64.00%22 fill=%22%23fff%22 fill-opacity=%220.10%22/%3E%3Cpolygon points=%223.50,50.00 13.73,6.00 22.41,36.00%22 fill=%22%23fff%22 fill-opacity=%220.33%22/%3E%3Cpolygon points=%223.50,50.00 22.41,36.00 19.00,50.00%22 fill=%22%23000%22 fill-opacity=%220.07%22/%3E%3Cpolygon points=%2213.73,6.00 25.82,22.00 22.41,36.00%22 fill=%22%23fff%22 fill-opacity=%220.15%22/%3E%3Cpolygon points=%2225.82,22.00 74.18,22.00 81.00,50.00 74.18,78.00 25.82,78.00 19.00,50.00%22 fill=%22url(%23t)%22/%3E%3Cpolygon points=%2225.82,22.00 74.18,22.00 81.00,50.00 74.18,78.00 25.82,78.00 19.00,50.00%22 fill=%22url(%23s)%22/%3E%3Cpolygon points=%2225.82,22.00 74.18,22.00 81.00,50.00 74.18,78.00 25.82,78.00 19.00,50.00%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%22.6%22/%3E%3Cpolygon points=%2213.73,6.00 86.27,6.00 96.50,50.00 86.27,94.00 13.73,94.00 3.50,50.00%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.35%22 stroke-width=%22.5%22/%3E%3Cpolygon points=%2211.00,0.00 89.00,0.00 100.00,50.00 89.00,100.00 11.00,100.00 0.00,50.00%22 fill=%22none%22 stroke=%22%237c4a0e%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M20.3795 8.999999999999998 Q20.9795 13.399999999999999 23.5795 13.999999999999998 Q20.9795 14.599999999999998 20.3795 19.0 Q19.7795 14.599999999999998 17.1795 13.999999999999998 Q19.7795 13.399999999999999 20.3795 8.999999999999998Z%22 fill=%22%23fff%22 opacity=%22.9%22/%3E%3C/svg%3E");--gs-sapphire:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%235080ec%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%232a64e8%22/%3E%3Cstop offset=%221%22 stop-color=%22%231a3e90%22/%3E%3C/linearGradient%3E%3CradialGradient id=%22t%22 cx=%22.42%22 cy=%22.38%22 r=%22.75%22%3E%3Cstop offset=%220%22 stop-color=%22%236a92ef%22/%3E%3Cstop offset=%22.55%22 stop-color=%22%232a64e8%22/%3E%3Cstop offset=%221%22 stop-color=%22%232252be%22/%3E%3C/radialGradient%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%22.30%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.40%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E%3Cstop offset=%22.48%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.56%22 stop-color=%22%23fff%22 stop-opacity=%22.18%22/%3E%3Cstop offset=%22.62%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points=%228.00,0.00 92.00,0.00 100.00,8.00 100.00,92.00 92.00,100.00 8.00,100.00 0.00,92.00 0.00,8.00%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2210.94,6.00 89.06,6.00 50.00,22.00%22 fill=%22%23fff%22 fill-opacity=%220.30%22/%3E%3Cpolygon points=%2210.94,6.00 50.00,22.00 23.96,22.00%22 fill=%22%23000%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2289.06,6.00 76.04,22.00 50.00,22.00%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2289.06,6.00 96.50,13.04 78.52,24.24%22 fill=%22%23fff%22 fill-opacity=%220.20%22/%3E%3Cpolygon points=%2289.06,6.00 78.52,24.24 76.04,22.00%22 fill=%22%23000%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2296.50,13.04 81.00,26.48 78.52,24.24%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%2296.50,13.04 96.50,86.96 81.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%2296.50,13.04 81.00,50.00 81.00,26.48%22 fill=%22%23000%22 fill-opacity=%220.19%22/%3E%3Cpolygon points=%2296.50,86.96 81.00,73.52 81.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2296.50,86.96 89.06,94.00 78.52,75.76%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2296.50,86.96 78.52,75.76 81.00,73.52%22 fill=%22%23000%22 fill-opacity=%220.22%22/%3E%3Cpolygon points=%2289.06,94.00 76.04,78.00 78.52,75.76%22 fill=%22%23fff%22 fill-opacity=%220.02%22/%3E%3Cpolygon points=%2289.06,94.00 10.94,94.00 50.00,78.00%22 fill=%22%23fff%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2289.06,94.00 50.00,78.00 76.04,78.00%22 fill=%22%23000%22 fill-opacity=%220.20%22/%3E%3Cpolygon points=%2210.94,94.00 23.96,78.00 50.00,78.00%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2210.94,94.00 3.50,86.96 21.48,75.76%22 fill=%22%23fff%22 fill-opacity=%220.18%22/%3E%3Cpolygon points=%2210.94,94.00 21.48,75.76 23.96,78.00%22 fill=%22%23000%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%223.50,86.96 19.00,73.52 21.48,75.76%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%223.50,86.96 3.50,13.04 19.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.29%22/%3E%3Cpolygon points=%223.50,86.96 19.00,50.00 19.00,73.52%22 fill=%22%23000%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%223.50,13.04 19.00,26.48 19.00,50.00%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%223.50,13.04 10.94,6.00 21.48,24.24%22 fill=%22%23fff%22 fill-opacity=%220.34%22/%3E%3Cpolygon points=%223.50,13.04 21.48,24.24 19.00,26.48%22 fill=%22%23000%22 fill-opacity=%220.06%22/%3E%3Cpolygon points=%2210.94,6.00 23.96,22.00 21.48,24.24%22 fill=%22%23fff%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2223.96,22.00 76.04,22.00 81.00,26.48 81.00,73.52 76.04,78.00 23.96,78.00 19.00,73.52 19.00,26.48%22 fill=%22url(%23t)%22/%3E%3Cpolygon points=%2223.96,22.00 76.04,22.00 81.00,26.48 81.00,73.52 76.04,78.00 23.96,78.00 19.00,73.52 19.00,26.48%22 fill=%22url(%23s)%22/%3E%3Cpolygon points=%2223.96,22.00 76.04,22.00 81.00,26.48 81.00,73.52 76.04,78.00 23.96,78.00 19.00,73.52 19.00,26.48%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%22.6%22/%3E%3Cpolygon points=%2210.94,6.00 89.06,6.00 96.50,13.04 96.50,86.96 89.06,94.00 10.94,94.00 3.50,86.96 3.50,13.04%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.35%22 stroke-width=%22.5%22/%3E%3Cpolygon points=%228.00,0.00 92.00,0.00 100.00,8.00 100.00,92.00 92.00,100.00 8.00,100.00 0.00,92.00 0.00,8.00%22 fill=%22none%22 stroke=%22%23153274%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M18.101 8.999999999999998 Q18.701 13.399999999999999 21.301 13.999999999999998 Q18.701 14.599999999999998 18.101 19.0 Q17.500999999999998 14.599999999999998 14.901 13.999999999999998 Q17.500999999999998 13.399999999999999 18.101 8.999999999999998Z%22 fill=%22%23fff%22 opacity=%22.9%22/%3E%3C/svg%3E");--gs-emerald:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%233db873%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%2312a854%22/%3E%3Cstop offset=%221%22 stop-color=%22%230b6834%22/%3E%3C/linearGradient%3E%3CradialGradient id=%22t%22 cx=%22.42%22 cy=%22.38%22 r=%22.75%22%3E%3Cstop offset=%220%22 stop-color=%22%2359c287%22/%3E%3Cstop offset=%22.55%22 stop-color=%22%2312a854%22/%3E%3Cstop offset=%221%22 stop-color=%22%230f8a45%22/%3E%3C/radialGradient%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%22.30%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.40%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E%3Cstop offset=%22.48%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.56%22 stop-color=%22%23fff%22 stop-opacity=%22.18%22/%3E%3Cstop offset=%22.62%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points=%2214.00,0.00 86.00,0.00 100.00,20.00 100.00,80.00 86.00,100.00 14.00,100.00 0.00,80.00 0.00,20.00%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2216.52,6.00 83.48,6.00 78.80,17.00 21.20,17.00%22 fill=%22%23fff%22 fill-opacity=%220.36%22/%3E%3Cpolygon points=%2283.48,6.00 96.50,23.60 90.00,30.20 78.80,17.00%22 fill=%22%23fff%22 fill-opacity=%220.25%22/%3E%3Cpolygon points=%2296.50,23.60 96.50,76.40 90.00,69.80 90.00,30.20%22 fill=%22%23000%22 fill-opacity=%220.36%22/%3E%3Cpolygon points=%2296.50,76.40 83.48,94.00 78.80,83.00 90.00,69.80%22 fill=%22%23000%22 fill-opacity=%220.42%22/%3E%3Cpolygon points=%2283.48,94.00 16.52,94.00 21.20,83.00 78.80,83.00%22 fill=%22%23000%22 fill-opacity=%220.38%22/%3E%3Cpolygon points=%2216.52,94.00 3.50,76.40 10.00,69.80 21.20,83.00%22 fill=%22%23000%22 fill-opacity=%220.26%22/%3E%3Cpolygon points=%223.50,76.40 3.50,23.60 10.00,30.20 10.00,69.80%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Cpolygon points=%223.50,23.60 16.52,6.00 21.20,17.00 10.00,30.20%22 fill=%22%23fff%22 fill-opacity=%220.40%22/%3E%3Cpolygon points=%2221.20,17.00 78.80,17.00 74.48,27.00 25.52,27.00%22 fill=%22%23fff%22 fill-opacity=%220.26%22/%3E%3Cpolygon points=%2278.80,17.00 90.00,30.20 84.00,36.20 74.48,27.00%22 fill=%22%23000%22 fill-opacity=%220.19%22/%3E%3Cpolygon points=%2290.00,30.20 90.00,69.80 84.00,63.80 84.00,36.20%22 fill=%22%23000%22 fill-opacity=%220.25%22/%3E%3Cpolygon points=%2290.00,69.80 78.80,83.00 74.48,73.00 84.00,63.80%22 fill=%22%23000%22 fill-opacity=%220.29%22/%3E%3Cpolygon points=%2278.80,83.00 21.20,83.00 25.52,73.00 74.48,73.00%22 fill=%22%23000%22 fill-opacity=%220.27%22/%3E%3Cpolygon points=%2221.20,83.00 10.00,69.80 16.00,63.80 25.52,73.00%22 fill=%22%23fff%22 fill-opacity=%220.18%22/%3E%3Cpolygon points=%2210.00,69.80 10.00,30.20 16.00,36.20 16.00,63.80%22 fill=%22%23fff%22 fill-opacity=%220.24%22/%3E%3Cpolygon points=%2210.00,30.20 21.20,17.00 25.52,27.00 16.00,36.20%22 fill=%22%23fff%22 fill-opacity=%220.28%22/%3E%3Cpolygon points=%2225.52,27.00 74.48,27.00 84.00,36.20 84.00,63.80 74.48,73.00 25.52,73.00 16.00,63.80 16.00,36.20%22 fill=%22url(%23t)%22/%3E%3Cpolygon points=%2225.52,27.00 74.48,27.00 84.00,36.20 84.00,63.80 74.48,73.00 25.52,73.00 16.00,63.80 16.00,36.20%22 fill=%22url(%23s)%22/%3E%3Cpolygon points=%2225.52,27.00 74.48,27.00 84.00,36.20 84.00,63.80 74.48,73.00 25.52,73.00 16.00,63.80 16.00,36.20%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%22.6%22/%3E%3Cpolygon points=%2216.52,6.00 83.48,6.00 96.50,23.60 96.50,76.40 83.48,94.00 16.52,94.00 3.50,76.40 3.50,23.60%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.35%22 stroke-width=%22.5%22/%3E%3Cpolygon points=%2214.00,0.00 86.00,0.00 100.00,20.00 100.00,80.00 86.00,100.00 14.00,100.00 0.00,80.00 0.00,20.00%22 fill=%22none%22 stroke=%22%2309542a%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M21.47 11.5 Q22.07 15.9 24.669999999999998 16.5 Q22.07 17.1 21.47 21.5 Q20.869999999999997 17.1 18.27 16.5 Q20.869999999999997 15.9 21.47 11.5Z%22 fill=%22%23fff%22 opacity=%22.9%22/%3E%3C/svg%3E");--gs-amethyst:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23b64fd8%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23a628cf%22/%3E%3Cstop offset=%221%22 stop-color=%22%23671980%22/%3E%3C/linearGradient%3E%3CradialGradient id=%22t%22 cx=%22.42%22 cy=%22.38%22 r=%22.75%22%3E%3Cstop offset=%220%22 stop-color=%22%23c168dd%22/%3E%3Cstop offset=%22.55%22 stop-color=%22%23a628cf%22/%3E%3Cstop offset=%221%22 stop-color=%22%238821aa%22/%3E%3C/radialGradient%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%22.30%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.40%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E%3Cstop offset=%22.48%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.56%22 stop-color=%22%23fff%22 stop-opacity=%22.18%22/%3E%3Cstop offset=%22.62%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points=%2298.30,62.94 85.36,85.36 62.94,98.30 37.06,98.30 14.64,85.36 1.70,62.94 1.70,37.06 14.64,14.64 37.06,1.70 62.94,1.70 85.36,14.64 98.30,37.06%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2294.92,61.39 82.88,81.11 75.93,63.52%22 fill=%22%23fff%22 fill-opacity=%220.05%22/%3E%3Cpolygon points=%2294.92,61.39 75.93,63.52 79.94,57.25%22 fill=%22%23000%22 fill-opacity=%220.21%22/%3E%3Cpolygon points=%2282.88,81.11 71.92,69.80 75.93,63.52%22 fill=%22%23fff%22 fill-opacity=%220.02%22/%3E%3Cpolygon points=%2282.88,81.11 62.04,92.50 64.97,73.42%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2282.88,81.11 64.97,73.42 71.92,69.80%22 fill=%22%23000%22 fill-opacity=%220.22%22/%3E%3Cpolygon points=%2262.04,92.50 58.02,77.05 64.97,73.42%22 fill=%22%23fff%22 fill-opacity=%220.02%22/%3E%3Cpolygon points=%2262.04,92.50 37.96,92.50 50.00,77.05%22 fill=%22%23fff%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2262.04,92.50 50.00,77.05 58.02,77.05%22 fill=%22%23000%22 fill-opacity=%220.20%22/%3E%3Cpolygon points=%2237.96,92.50 41.98,77.05 50.00,77.05%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2237.96,92.50 17.12,81.11 35.03,73.42%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2237.96,92.50 35.03,73.42 41.98,77.05%22 fill=%22%23000%22 fill-opacity=%220.17%22/%3E%3Cpolygon points=%2217.12,81.11 28.08,69.80 35.03,73.42%22 fill=%22%23fff%22 fill-opacity=%220.07%22/%3E%3Cpolygon points=%2217.12,81.11 5.08,61.39 24.07,63.52%22 fill=%22%23fff%22 fill-opacity=%220.22%22/%3E%3Cpolygon points=%2217.12,81.11 24.07,63.52 28.08,69.80%22 fill=%22%23000%22 fill-opacity=%220.12%22/%3E%3Cpolygon points=%225.08,61.39 20.06,57.25 24.07,63.52%22 fill=%22%23fff%22 fill-opacity=%220.10%22/%3E%3Cpolygon points=%225.08,61.39 5.08,38.61 20.06,50.00%22 fill=%22%23fff%22 fill-opacity=%220.29%22/%3E%3Cpolygon points=%225.08,61.39 20.06,50.00 20.06,57.25%22 fill=%22%23000%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%225.08,38.61 20.06,42.75 20.06,50.00%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%225.08,38.61 17.12,18.89 24.07,36.48%22 fill=%22%23fff%22 fill-opacity=%220.33%22/%3E%3Cpolygon points=%225.08,38.61 24.07,36.48 20.06,42.75%22 fill=%22%23000%22 fill-opacity=%220.07%22/%3E%3Cpolygon points=%2217.12,18.89 28.08,30.20 24.07,36.48%22 fill=%22%23fff%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2217.12,18.89 37.96,7.50 35.03,26.58%22 fill=%22%23fff%22 fill-opacity=%220.34%22/%3E%3Cpolygon points=%2217.12,18.89 35.03,26.58 28.08,30.20%22 fill=%22%23000%22 fill-opacity=%220.06%22/%3E%3Cpolygon points=%2237.96,7.50 41.98,22.95 35.03,26.58%22 fill=%22%23fff%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2237.96,7.50 62.04,7.50 50.00,22.95%22 fill=%22%23fff%22 fill-opacity=%220.30%22/%3E%3Cpolygon points=%2237.96,7.50 50.00,22.95 41.98,22.95%22 fill=%22%23000%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2262.04,7.50 58.02,22.95 50.00,22.95%22 fill=%22%23fff%22 fill-opacity=%220.14%22/%3E%3Cpolygon points=%2262.04,7.50 82.88,18.89 64.97,26.58%22 fill=%22%23fff%22 fill-opacity=%220.24%22/%3E%3Cpolygon points=%2262.04,7.50 64.97,26.58 58.02,22.95%22 fill=%22%23000%22 fill-opacity=%220.11%22/%3E%3Cpolygon points=%2282.88,18.89 71.92,30.20 64.97,26.58%22 fill=%22%23fff%22 fill-opacity=%220.11%22/%3E%3Cpolygon points=%2282.88,18.89 94.92,38.61 75.93,36.48%22 fill=%22%23fff%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2282.88,18.89 75.93,36.48 71.92,30.20%22 fill=%22%23000%22 fill-opacity=%220.16%22/%3E%3Cpolygon points=%2294.92,38.61 79.94,42.75 75.93,36.48%22 fill=%22%23fff%22 fill-opacity=%220.08%22/%3E%3Cpolygon points=%2294.92,38.61 94.92,61.39 79.94,50.00%22 fill=%22%23fff%22 fill-opacity=%220.09%22/%3E%3Cpolygon points=%2294.92,38.61 79.94,50.00 79.94,42.75%22 fill=%22%23000%22 fill-opacity=%220.19%22/%3E%3Cpolygon points=%2294.92,61.39 79.94,57.25 79.94,50.00%22 fill=%22%23fff%22 fill-opacity=%220.04%22/%3E%3Cpolygon points=%2279.94,57.25 71.92,69.80 58.02,77.05 41.98,77.05 28.08,69.80 20.06,57.25 20.06,42.75 28.08,30.20 41.98,22.95 58.02,22.95 71.92,30.20 79.94,42.75%22 fill=%22url(%23t)%22/%3E%3Cpolygon points=%2279.94,57.25 71.92,69.80 58.02,77.05 41.98,77.05 28.08,69.80 20.06,57.25 20.06,42.75 28.08,30.20 41.98,22.95 58.02,22.95 71.92,30.20 79.94,42.75%22 fill=%22url(%23s)%22/%3E%3Cpolygon points=%2279.94,57.25 71.92,69.80 58.02,77.05 41.98,77.05 28.08,69.80 20.06,57.25 20.06,42.75 28.08,30.20 41.98,22.95 58.02,22.95 71.92,30.20 79.94,42.75%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%22.6%22/%3E%3Cpolygon points=%2294.92,61.39 82.88,81.11 62.04,92.50 37.96,92.50 17.12,81.11 5.08,61.39 5.08,38.61 17.12,18.89 37.96,7.50 62.04,7.50 82.88,18.89 94.92,38.61%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.35%22 stroke-width=%22.5%22/%3E%3Cpolygon points=%2298.30,62.94 85.36,85.36 62.94,98.30 37.06,98.30 14.64,85.36 1.70,62.94 1.70,37.06 14.64,14.64 37.06,1.70 62.94,1.70 85.36,14.64 98.30,37.06%22 fill=%22none%22 stroke=%22%23531468%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M23.14761998444085 19.54415587728429 Q23.747619984440853 23.944155877284288 26.34761998444085 24.54415587728429 Q23.747619984440853 25.14415587728429 23.14761998444085 29.54415587728429 Q22.54761998444085 25.14415587728429 19.947619984440852 24.54415587728429 Q22.54761998444085 23.944155877284288 23.14761998444085 19.54415587728429Z%22 fill=%22%23fff%22 opacity=%22.9%22/%3E%3C/svg%3E");--kid-pick:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTUwIj48ZWxsaXBzZSBjeD0iNjAiIGN5PSIxNDYiIHJ4PSIzNCIgcnk9IjQiIGZpbGw9IiMwMDAiIG9wYWNpdHk9Ii4xMiIvPjxyZWN0IHg9IjQ2IiB5PSIxMTIiIHdpZHRoPSIxMSIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiMyZjZmZDYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI2MyIgeT0iMTEyIiB3aWR0aD0iMTEiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjMmY2ZmQ2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQzIDEzOCBxMCAtOCA5IC04IGg1IHY4IHoiIGZpbGw9IiM1YjNhMjYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNNzcgMTM4IHEwIC04IC05IC04IGgtNSB2OCB6IiBmaWxsPSIjNWIzYTI2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNiAtMTYpIHJvdGF0ZSgtMjggODYgNzApIj48cmVjdCB4PSI4MyIgeT0iNDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjY2IiByeD0iMyIgZmlsbD0iI2EwNjczYyIgc3Ryb2tlPSIjM2EyYTIyIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik01OCA1MCBRODYgMjQgMTE0IDUwIEwxMTAgNTYgUTg2IDM4IDYyIDU2IFoiIGZpbGw9IiNiOGMyY2MiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI4MCIgeT0iMzQiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiM4ZDk5YTYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L2c+PHBhdGggZD0iTTQyIDExNCBRNDAgODIgNjAgODAgUTgwIDgyIDc4IDExNCBaIiBmaWxsPSIjZmY3YTNkIiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQ2IDExNCBMNDYgOTQgTDc0IDk0IEw3NCAxMTQgWiIgZmlsbD0iIzJmNmZkNiIgc3Ryb2tlPSIjM2EyYTIyIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik00NiA5NCBMNTAgODIgTTc0IDk0IEw3MCA4MiIgc3Ryb2tlPSIjMmY2ZmQ2IiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iOTgiIHI9IjIiIGZpbGw9IiNmZmQzNGQiLz48Y2lyY2xlIGN4PSI3MCIgY3k9Ijk4IiByPSIyIiBmaWxsPSIjZmZkMzRkIi8+PHJlY3QgeD0iNTQiIHk9IjEwMCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjgiIHJ4PSIyIiBmaWxsPSIjMjU2M2M0Ii8+PHBhdGggZD0iTTQyIDkwIFEzNCAxMDQgNDQgMTEwIiBzdHJva2U9IiNmNmM5YTAiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTc4IDg4IFE5MiA4NiA5MiA3NCIgc3Ryb2tlPSIjZjZjOWEwIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik00MiA5MCBRMzQgMTA0IDQ0IDExMCBNNzggODggUTkyIDg2IDkyIDc0IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMCIvPjxjaXJjbGUgY3g9IjYwIiBjeT0iNjAiIHI9IjIwIiBmaWxsPSIjZjZjOWEwIi8+PGVsbGlwc2UgY3g9IjUyLjQiIGN5PSI2MS4wIiByeD0iMi40IiByeT0iMy4yIiBmaWxsPSIjMmIxZDE2Ii8+PGVsbGlwc2UgY3g9IjY3LjYiIGN5PSI2MS4wIiByeD0iMi40IiByeT0iMy4yIiBmaWxsPSIjMmIxZDE2Ii8+PGNpcmNsZSBjeD0iNTMuMiIgY3k9IjU5LjYiIHI9IjAuODk5OTk5OTk5OTk5OTk5OSIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjY4LjQiIGN5PSI1OS42IiByPSIwLjg5OTk5OTk5OTk5OTk5OTkiIGZpbGw9IiNmZmYiLz48ZWxsaXBzZSBjeD0iNDcuNiIgY3k9IjY3LjYiIHJ4PSIzLjIiIHJ5PSIyLjAiIGZpbGw9IiNmZjhhOGEiIG9wYWNpdHk9Ii42Ii8+PGVsbGlwc2UgY3g9IjcyLjQiIGN5PSI2Ny42IiByeD0iMy4yIiByeT0iMi4wIiBmaWxsPSIjZmY4YThhIiBvcGFjaXR5PSIuNiIvPjxwYXRoIGQ9Ik01NS4wIDY3LjYgUTYwIDczLjYgNjUuMCA2Ny42IiBmaWxsPSIjYjUzNDJmIi8+PHBhdGggZD0iTTU4LjAgNjIuNCBxMi4wIDIuNCA0LjAgMCIgc3Ryb2tlPSIjZTlhZDgwIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0zNy41OTk5OTk5OTk5OTk5OTQgNTUuNiBRMzguMCAzNS4wIDYwIDM0LjQgUTgyLjAgMzUuMCA4Mi40IDU1LjYgWiIgZmlsbD0iI2ZmYzIxYSIgc3Ryb2tlPSIjYzk4YTAwIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxyZWN0IHg9IjM0LjAiIHk9IjUyLjgiIHdpZHRoPSI1Mi4wIiBoZWlnaHQ9IjYuMCIgcng9IjMuMCIgZmlsbD0iI2ZmYjAwMCIgc3Ryb2tlPSIjYzk4YTAwIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxwYXRoIGQ9Ik01OC4wIDM0LjYgTDYyLjAgMzQuNiBMNjEuNCA1Mi44IEw1OC42IDUyLjhaIiBmaWxsPSIjZmZkOTVhIiBvcGFjaXR5PSIuOCIvPjxjaXJjbGUgY3g9IjYwIiBjeT0iNDQuMCIgcj0iNi4wIiBmaWxsPSIjZmZmNmMyIiBzdHJva2U9IiNjOThhMDAiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iNjAiIGN5PSI0NC4wIiByPSIzLjAiIGZpbGw9IiNmZmZiZTYiLz48L3N2Zz4=");--kid-cart:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzAgMTUwIj48ZWxsaXBzZSBjeD0iODUiIGN5PSIxNDYiIHJ4PSI3MCIgcnk9IjQiIGZpbGw9IiMwMDAiIG9wYWNpdHk9Ii4xMiIvPjxyZWN0IHg9IjQiIHk9IjEzOCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI0IiByeD0iMiIgZmlsbD0iIzhhNmE0YSIvPjxyZWN0IHg9IjExNCIgeT0iMTEyIiB3aWR0aD0iMTEiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjMmY2ZmQ2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iMTMxIiB5PSIxMTIiIHdpZHRoPSIxMSIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiMyZjZmZDYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMTExIDEzOCBxMCAtOCA5IC04IGg1IHY4IHoiIGZpbGw9IiM1YjNhMjYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMTQ1IDEzOCBxMCAtOCAtOSAtOCBoLTUgdjggeiIgZmlsbD0iIzViM2EyNiIgc3Ryb2tlPSIjM2EyYTIyIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMTAgMTE0IFExMDggODIgMTI4IDgwIFExNDggODIgMTQ2IDExNCBaIiBmaWxsPSIjMmZiZjcxIiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTExNCAxMTQgTDExNCA5NCBMMTQyIDk0IEwxNDIgMTE0IFoiIGZpbGw9IiMyZjZmZDYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMTE0IDk0IEwxMTggODIgTTE0MiA5NCBMMTM4IDgyIiBzdHJva2U9IiMyZjZmZDYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTE4IiBjeT0iOTgiIHI9IjIiIGZpbGw9IiNmZmQzNGQiLz48Y2lyY2xlIGN4PSIxMzgiIGN5PSI5OCIgcj0iMiIgZmlsbD0iI2ZmZDM0ZCIvPjxyZWN0IHg9IjEyMiIgeT0iMTAwIiB3aWR0aD0iMTIiIGhlaWdodD0iOCIgcng9IjIiIGZpbGw9IiMyNTYzYzQiLz48cGF0aCBkPSJNMTEyIDkyIEw5OCA5OCIgc3Ryb2tlPSIjZjZjOWEwIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMTQgMTAwIEw5OCAxMDYiIHN0cm9rZT0iI2Y2YzlhMCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMCA4Nikgc2NhbGUoMS4zKSI+PHBhdGggZD0iTS0xMCAtNCBMLTUgLTEwIEw1IC0xMCBMMTAgLTQgTDAgMTAgWiIgZmlsbD0iI2U4MjYzYiIgc3Ryb2tlPSIjM2EyYTIyIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0tMTAgLTQgTDEwIC00IE0tNSAtMTAgTC0zIC00IEwwIDEwIEwzIC00IEw1IC0xMCIgc3Ryb2tlPSIjOWQwZjIyIiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0tNSAtOSBMLTIgLTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9Ii45Ii8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUyIDgyKSBzY2FsZSgxLjUpIj48cGF0aCBkPSJNLTEwIC00IEwtNSAtMTAgTDUgLTEwIEwxMCAtNCBMMCAxMCBaIiBmaWxsPSIjMmY3ZGY2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTS0xMCAtNCBMMTAgLTQgTS01IC0xMCBMLTMgLTQgTDAgMTAgTDMgLTQgTDUgLTEwIiBzdHJva2U9IiMxNTQ2YTgiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTS01IC05IEwtMiAtNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iLjkiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzQgODYpIHNjYWxlKDEuMykiPjxwYXRoIGQ9Ik0tMTAgLTQgTC01IC0xMCBMNSAtMTAgTDEwIC00IEwwIDEwIFoiIGZpbGw9IiMyMmM1NWUiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNLTEwIC00IEwxMCAtNCBNLTUgLTEwIEwtMyAtNCBMMCAxMCBMMyAtNCBMNSAtMTAiIHN0cm9rZT0iIzExODAzYSIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNLTUgLTkgTC0yIC01IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIuOSIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MiA5NCkgc2NhbGUoMS4xKSI+PHBhdGggZD0iTS0xMCAtNCBMLTUgLTEwIEw1IC0xMCBMMTAgLTQgTDAgMTAgWiIgZmlsbD0iI2MwMjZkMyIgc3Ryb2tlPSIjM2EyYTIyIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0tMTAgLTQgTDEwIC00IE0tNSAtMTAgTC0zIC00IEwwIDEwIEwzIC00IEw1IC0xMCIgc3Ryb2tlPSIjN2IxMTg2IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0tNSAtOSBMLTIgLTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9Ii45Ii8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0IDk0KSBzY2FsZSgxLjEpIj48cGF0aCBkPSJNLTEwIC00IEwtNSAtMTAgTDUgLTEwIEwxMCAtNCBMMCAxMCBaIiBmaWxsPSIjZmY5YTFhIiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTS0xMCAtNCBMMTAgLTQgTS01IC0xMCBMLTMgLTQgTDAgMTAgTDMgLTQgTDUgLTEwIiBzdHJva2U9IiNiMzVmMDAiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTS01IC05IEwtMiAtNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iLjkiLz48L2c+PHBhdGggZD0iTTEwIDk2IEwxMDQgOTYgTDk0IDEzMiBMMjAgMTMyIFoiIGZpbGw9IiM3ZjhiOTciIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMTQgMTA0IEgxMDAgTTE3IDExNiBIOTciIHN0cm9rZT0iIzVmNmI3NyIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIzNCIgY3k9IjEzNCIgcj0iOCIgZmlsbD0iIzRhNTU2MCIgc3Ryb2tlPSIjM2EyYTIyIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iMTM0IiByPSI4IiBmaWxsPSIjNGE1NTYwIiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMzQiIGN5PSIxMzQiIHI9IjIuNSIgZmlsbD0iI2NmZDZkYyIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iMTM0IiByPSIyLjUiIGZpbGw9IiNjZmQ2ZGMiLz48Y2lyY2xlIGN4PSIxMjgiIGN5PSI2MCIgcj0iMjAiIGZpbGw9IiNmNmM5YTAiLz48ZWxsaXBzZSBjeD0iMTIwLjQiIGN5PSI2MS4wIiByeD0iMi40IiByeT0iMy4yIiBmaWxsPSIjMmIxZDE2Ii8+PGVsbGlwc2UgY3g9IjEzNS42IiBjeT0iNjEuMCIgcng9IjIuNCIgcnk9IjMuMiIgZmlsbD0iIzJiMWQxNiIvPjxjaXJjbGUgY3g9IjEyMS4yIiBjeT0iNTkuNiIgcj0iMC44OTk5OTk5OTk5OTk5OTk5IiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMTM2LjQiIGN5PSI1OS42IiByPSIwLjg5OTk5OTk5OTk5OTk5OTkiIGZpbGw9IiNmZmYiLz48ZWxsaXBzZSBjeD0iMTE1LjYiIGN5PSI2Ny42IiByeD0iMy4yIiByeT0iMi4wIiBmaWxsPSIjZmY4YThhIiBvcGFjaXR5PSIuNiIvPjxlbGxpcHNlIGN4PSIxNDAuNCIgY3k9IjY3LjYiIHJ4PSIzLjIiIHJ5PSIyLjAiIGZpbGw9IiNmZjhhOGEiIG9wYWNpdHk9Ii42Ii8+PHBhdGggZD0iTTEyMy4wIDY3LjYgUTEyOCA3My42IDEzMy4wIDY3LjYiIGZpbGw9IiNiNTM0MmYiLz48cGF0aCBkPSJNMTI2LjAgNjIuNCBxMi4wIDIuNCA0LjAgMCIgc3Ryb2tlPSIjZTlhZDgwIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMDUuNiA1NS42IFExMDYuMCAzNS4wIDEyOCAzNC40IFExNTAuMCAzNS4wIDE1MC40IDU1LjYgWiIgZmlsbD0iI2ZmYzIxYSIgc3Ryb2tlPSIjYzk4YTAwIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxyZWN0IHg9IjEwMi4wIiB5PSI1Mi44IiB3aWR0aD0iNTIuMCIgaGVpZ2h0PSI2LjAiIHJ4PSIzLjAiIGZpbGw9IiNmZmIwMDAiIHN0cm9rZT0iI2M5OGEwMCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48cGF0aCBkPSJNMTI2LjAgMzQuNiBMMTMwLjAgMzQuNiBMMTI5LjQgNTIuOCBMMTI2LjYgNTIuOFoiIGZpbGw9IiNmZmQ5NWEiIG9wYWNpdHk9Ii44Ii8+PGNpcmNsZSBjeD0iMTI4IiBjeT0iNDQuMCIgcj0iNi4wIiBmaWxsPSIjZmZmNmMyIiBzdHJva2U9IiNjOThhMDAiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTI4IiBjeT0iNDQuMCIgcj0iMy4wIiBmaWxsPSIjZmZmYmU2Ii8+PC9zdmc+");--kid-gem:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTYwIj48ZWxsaXBzZSBjeD0iNjAiIGN5PSIxNTYiIHJ4PSIzNCIgcnk9IjQiIGZpbGw9IiMwMDAiIG9wYWNpdHk9Ii4xMiIvPjxyZWN0IHg9IjQ2IiB5PSIxMjIiIHdpZHRoPSIxMSIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiMyZjZmZDYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI2MyIgeT0iMTIyIiB3aWR0aD0iMTEiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjMmY2ZmQ2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQzIDE0OCBxMCAtOCA5IC04IGg1IHY4IHoiIGZpbGw9IiM1YjNhMjYiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNNzcgMTQ4IHEwIC04IC05IC04IGgtNSB2OCB6IiBmaWxsPSIjNWIzYTI2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQyIDEyNCBRNDAgOTIgNjAgOTAgUTgwIDkyIDc4IDEyNCBaIiBmaWxsPSIjYzAyNmQzIiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQ2IDEyNCBMNDYgMTA0IEw3NCAxMDQgTDc0IDEyNCBaIiBmaWxsPSIjMmY2ZmQ2IiBzdHJva2U9IiMzYTJhMjIiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQ2IDEwNCBMNTAgOTIgTTc0IDEwNCBMNzAgOTIiIHN0cm9rZT0iIzJmNmZkNiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjEwOCIgcj0iMiIgZmlsbD0iI2ZmZDM0ZCIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTA4IiByPSIyIiBmaWxsPSIjZmZkMzRkIi8+PHJlY3QgeD0iNTQiIHk9IjExMCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjgiIHJ4PSIyIiBmaWxsPSIjMjU2M2M0Ii8+PHBhdGggZD0iTTQ0IDk4IFEzNiAxMTIgNDYgMTE4IiBzdHJva2U9IiNmNmM5YTAiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTc2IDk2IFE5MCA4MCA4OCA1MCIgc3Ryb2tlPSIjZjZjOWEwIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik00MCA3MiBxLTEwIDE0IC00IDI4IiBzdHJva2U9IiM1YjJkMTQiIHN0cm9rZS13aWR0aD0iNyIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTgwIDcyIHE4IDEyIDQgMjQiIHN0cm9rZT0iIzViMmQxNCIgc3Ryb2tlLXdpZHRoPSI3IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjcwIiByPSIyMCIgZmlsbD0iI2Y2YzlhMCIvPjxlbGxpcHNlIGN4PSI1Mi40IiBjeT0iNzEuMCIgcng9IjIuNCIgcnk9IjMuMiIgZmlsbD0iIzJiMWQxNiIvPjxlbGxpcHNlIGN4PSI2Ny42IiBjeT0iNzEuMCIgcng9IjIuNCIgcnk9IjMuMiIgZmlsbD0iIzJiMWQxNiIvPjxjaXJjbGUgY3g9IjUzLjIiIGN5PSI2OS42IiByPSIwLjg5OTk5OTk5OTk5OTk5OTkiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI2OC40IiBjeT0iNjkuNiIgcj0iMC44OTk5OTk5OTk5OTk5OTk5IiBmaWxsPSIjZmZmIi8+PGVsbGlwc2UgY3g9IjQ3LjYiIGN5PSI3Ny42IiByeD0iMy4yIiByeT0iMi4wIiBmaWxsPSIjZmY4YThhIiBvcGFjaXR5PSIuNiIvPjxlbGxpcHNlIGN4PSI3Mi40IiBjeT0iNzcuNiIgcng9IjMuMiIgcnk9IjIuMCIgZmlsbD0iI2ZmOGE4YSIgb3BhY2l0eT0iLjYiLz48cGF0aCBkPSJNNTUuMCA3Ny42IFE2MCA4My42IDY1LjAgNzcuNiIgZmlsbD0iI2I1MzQyZiIvPjxwYXRoIGQ9Ik01OC4wIDcyLjQgcTIuMCAyLjQgNC4wIDAiIHN0cm9rZT0iI2U5YWQ4MCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMzcuNTk5OTk5OTk5OTk5OTk0IDY1LjYgUTM4LjAgNDUuMCA2MCA0NC40IFE4Mi4wIDQ1LjAgODIuNCA2NS42IFoiIGZpbGw9IiNmZmMyMWEiIHN0cm9rZT0iI2M5OGEwMCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48cmVjdCB4PSIzNC4wIiB5PSI2Mi44IiB3aWR0aD0iNTIuMCIgaGVpZ2h0PSI2LjAiIHJ4PSIzLjAiIGZpbGw9IiNmZmIwMDAiIHN0cm9rZT0iI2M5OGEwMCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48cGF0aCBkPSJNNTguMCA0NC42IEw2Mi4wIDQ0LjYgTDYxLjQgNjIuOCBMNTguNiA2Mi44WiIgZmlsbD0iI2ZmZDk1YSIgb3BhY2l0eT0iLjgiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjU0LjAiIHI9IjYuMCIgZmlsbD0iI2ZmZjZjMiIgc3Ryb2tlPSIjYzk4YTAwIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjYwIiBjeT0iNTQuMCIgcj0iMy4wIiBmaWxsPSIjZmZmYmU2Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODggMzYpIHNjYWxlKDIuMSkiPjxwYXRoIGQ9Ik0tMTAgLTQgTC01IC0xMCBMNSAtMTAgTDEwIC00IEwwIDEwIFoiIGZpbGw9IiNlODI2M2IiIHN0cm9rZT0iIzNhMmEyMiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNLTEwIC00IEwxMCAtNCBNLTUgLTEwIEwtMyAtNCBMMCAxMCBMMyAtNCBMNSAtMTAiIHN0cm9rZT0iIzlkMGYyMiIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNLTUgLTkgTC0yIC01IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIuOSIvPjwvZz48ZyBmaWxsPSIjZmZkMzRkIj48cGF0aCBkPSJNMTA4IDE4IGwyIDYgbDYgMiBsLTYgMiBsLTIgNiBsLTIgLTYgbC02IC0yIGw2IC0yeiIvPjxwYXRoIGQ9Ik02OCAyMiBsMS41IDQgbDQgMS41IGwtNCAxLjUgbC0xLjUgNCBsLTEuNSAtNCBsLTQgLTEuNSBsNCAtMS41eiIvPjwvZz48L3N2Zz4=");}
+.gem.ruby,.mg.ruby{clip-path:polygon(9.0% 0.0%,91.0% 0.0%,100.0% 24.0%,100.0% 76.0%,91.0% 100.0%,9.0% 100.0%,0.0% 76.0%,0.0% 24.0%);border-radius:0}
+.gem.ruby:not(.dull),.mg.ruby{background:var(--gs-ruby) 0 0/100% 100% no-repeat}
+.gem.ruby:not(.dull)::before,.gem.ruby:not(.dull)::after{display:none}
+.gem.topaz,.mg.topaz{clip-path:polygon(11.0% 0.0%,89.0% 0.0%,100.0% 50.0%,89.0% 100.0%,11.0% 100.0%,0.0% 50.0%);border-radius:0}
+.gem.topaz:not(.dull),.mg.topaz{background:var(--gs-topaz) 0 0/100% 100% no-repeat}
+.gem.topaz:not(.dull)::before,.gem.topaz:not(.dull)::after{display:none}
+.gem.sapphire,.mg.sapphire{clip-path:polygon(8.0% 0.0%,92.0% 0.0%,100.0% 8.0%,100.0% 92.0%,92.0% 100.0%,8.0% 100.0%,0.0% 92.0%,0.0% 8.0%);border-radius:0}
+.gem.sapphire:not(.dull),.mg.sapphire{background:var(--gs-sapphire) 0 0/100% 100% no-repeat}
+.gem.sapphire:not(.dull)::before,.gem.sapphire:not(.dull)::after{display:none}
+.gem.emerald,.mg.emerald{clip-path:polygon(14.0% 0.0%,86.0% 0.0%,100.0% 20.0%,100.0% 80.0%,86.0% 100.0%,14.0% 100.0%,0.0% 80.0%,0.0% 20.0%);border-radius:0}
+.gem.emerald:not(.dull),.mg.emerald{background:var(--gs-emerald) 0 0/100% 100% no-repeat}
+.gem.emerald:not(.dull)::before,.gem.emerald:not(.dull)::after{display:none}
+.gem.amethyst,.mg.amethyst{clip-path:polygon(98.3% 62.9%,85.4% 85.4%,62.9% 98.3%,37.1% 98.3%,14.6% 85.4%,1.7% 62.9%,1.7% 37.1%,14.6% 14.6%,37.1% 1.7%,62.9% 1.7%,85.4% 14.6%,98.3% 37.1%);border-radius:0}
+.gem.amethyst:not(.dull),.mg.amethyst{background:var(--gs-amethyst) 0 0/100% 100% no-repeat}
+.gem.amethyst:not(.dull)::before,.gem.amethyst:not(.dull)::after{display:none}
 </style>
-</head>
-<body>
 
-
-<div class="vtag" id="vtag" aria-label="Sürüm">v5.0</div>
+<div class="vtag" id="vtag" aria-label="Sürüm">v6.0</div>
 <div class="vtag vby">by PEKER</div>
 <div id="boot">Meaning Mine yükleniyor…<span>Bir saniye</span></div>
 
@@ -673,7 +844,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
       <h1>Meaning <em>Mine</em></h1>
       <p>İngilizce kelimeyi Türkçe anlamıyla eşleştir, aynı renkleri bir araya getir⁣⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌‌⁠‌⁠⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠‌⁠‌‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠⁠⁠‌⁠‌⁠⁠⁠⁠⁠⁠⁠⁠⁠‌⁠‌⁠⁠‌⁠⁣</p>
     </div>
-    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button></div>
+    <div class="hdr-right"><div class="thwrap"><button type="button" class="ib thbtn" aria-haspopup="true" aria-expanded="false"><i class="pal" aria-hidden="true"></i><span>Tema</span></button><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div></div><button type="button" class="ib helpbtn"><i aria-hidden="true">❓</i><span>Yardım</span></button><button type="button" class="ib fsbtn"><i aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></i><span>Tam ekran</span></button></div>
   </header>
   <div class="panel gradepick">
     <h2>Kaçıncı sınıf?</h2>
@@ -689,7 +860,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
       <h1>Meaning <em>Mine</em> <span class="gradebadge"><span class="gradeNum"></span>. Sınıf</span></h1>
       <p><span class="gradeNum"></span>. sınıf İngilizce kelimeleri · taşı anlamıyla eşleştir, aynı renkleri bir araya getir</p>
     </div>
-    <div class="hdr-right"><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div><button type="button" class="iconbtn" id="soundBtn"><span id="soundIco" aria-hidden="true">🔊</span> Ses</button><button type="button" class="iconbtn" id="scoresBtn">Günün skorları<span class="cnt" id="scoresCnt" hidden></span></button><button type="button" class="iconbtn helpbtn">Nasıl oynanır?</button><button type="button" class="iconbtn" id="chgGrade">Sınıf değiştir</button><button type="button" class="iconbtn fsbtn">Tam ekran</button></div>
+    <span class="hkid" aria-hidden="true"></span><div class="hdr-right"><div class="thwrap"><button type="button" class="ib thbtn" aria-haspopup="true" aria-expanded="false"><i class="pal" aria-hidden="true"></i><span>Tema</span></button><div class="themes" role="group" aria-label="Tema"><span>Tema</span><button type="button" class="thm" data-t="night" title="Gece" aria-label="Gece teması" style="--sw:linear-gradient(135deg,#3a151a,#1c100c)"></button><button type="button" class="thm" data-t="ocean" title="Okyanus" aria-label="Okyanus teması" style="--sw:linear-gradient(135deg,#0b2a3a,#2fd3c4)"></button><button type="button" class="thm" data-t="sunset" title="Gün batımı" aria-label="Gün batımı teması" style="--sw:linear-gradient(135deg,#ffb86b,#e8456b)"></button><button type="button" class="thm" data-t="sky" title="Gökyüzü" aria-label="Gökyüzü teması" style="--sw:linear-gradient(135deg,#d9f2fd,#ff8a00)"></button></div></div><button type="button" class="ib" id="soundBtn"><i id="soundIco" aria-hidden="true">🔊</i><span>Ses</span></button><button type="button" class="ib" id="scoresBtn"><i aria-hidden="true">🏆</i><span>Skorlar</span><em id="scoresCnt" hidden></em></button><button type="button" class="ib helpbtn"><i aria-hidden="true">❓</i><span>Yardım</span></button><button type="button" class="ib" id="chgGrade"><i aria-hidden="true">🏠</i><span>Sınıf</span></button><button type="button" class="ib fsbtn"><i aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></i><span>Tam ekran</span></button></div>
   </header>
 
   <div class="menu">
@@ -710,19 +881,10 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
     <div class="sidecol">
       <div class="panel" id="sidePanel">
       <div class="toprow">
-        <div class="field">
-          <span class="lbl">Kim oynuyor?</span>
-          <div class="seg" id="modeSeg">
-            <button type="button" data-v="1">1 · Bireysel</button>
-            <button type="button" data-v="2">2 Grup</button>
-            <button type="button" data-v="3">3 Grup</button>
-            <button type="button" data-v="4">4 Grup</button>
-            <button type="button" data-v="5">5 Grup</button>
-          </div>
-        </div>
         <div class="field" id="soloField">
-          <label class="lbl" for="nick">Adın veya takma adın</label>
-          <div class="nickrow"><input type="text" id="nick" maxlength="18" autocomplete="off" placeholder="örn. Elif K. veya Kaptan"><button type="button" class="kbbtn" data-for="nick" aria-label="Ekran klavyesini aç">⌨</button></div>
+          <span class="lbl">Kimsin?</span>
+          <div class="avs" id="avs" role="group" aria-label="Karakterini seç"></div>
+          <div class="nickrow"><input type="text" id="nick" maxlength="18" autocomplete="off" placeholder="Adın (isteğe bağlı)" aria-label="Adın (isteğe bağlı)"><button type="button" class="kbbtn" data-for="nick" aria-label="Ekran klavyesini aç">⌨</button></div>
           <div class="err" id="nickErr" hidden>Başlamak için adını yaz.</div>
         </div>
         <div class="field" id="groupField" hidden>
@@ -737,6 +899,18 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
         </div>
       </div>
 
+      <button type="button" class="setrow" id="setRow" aria-expanded="false" aria-controls="setBox"><span class="gear" aria-hidden="true">⚙️</span><span class="chips" id="setChips"></span><span class="go" id="setGo">Değiştir ›</span></button>
+      <div class="setbox" id="setBox" hidden>
+        <div class="field">
+          <span class="lbl">Kim oynuyor?</span>
+          <div class="seg" id="modeSeg">
+            <button type="button" data-v="1">1 · Bireysel</button>
+            <button type="button" data-v="2">2 Grup</button>
+            <button type="button" data-v="3">3 Grup</button>
+            <button type="button" data-v="4">4 Grup</button>
+            <button type="button" data-v="5">5 Grup</button>
+          </div>
+        </div>
       <div class="field">
         <span class="lbl">Yön</span>
         <div class="seg" id="dirSeg">
@@ -755,6 +929,9 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
         </div>
       </div>
 
+      </div>
+
+      <span class="skid" aria-hidden="true"></span>
       <div class="start">
         <div class="summary" id="summary"></div>
         <button type="submit" form="setup" class="bigbtn" id="startBtn">Başla</button>
@@ -769,25 +946,26 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 <!-- ================= GAME ================= -->
 <section id="game" class="screen" hidden>
   <div class="hud">
-    <div class="stat player"><small id="hWho">Oyuncu</small><b id="hName"></b><span id="hUnits"></span></div>
-    <div class="stat"><small>Puan</small><b id="hScore">0</b></div>
-    <div class="stat combo" id="hComboBox"><small>Kombo</small><b id="hCombo">–</b><div class="combobar"><i id="hBar"></i></div></div>
-    <div class="stat time" id="hTimeBox"><small id="hTimeLbl">Süre</small><b id="hTime">1:30</b></div>
+    <div class="stat player"><i class="av" id="hAv" aria-hidden="true">🦊</i><div class="pw"><small id="hWho">Oyuncu</small><b id="hName"></b><span id="hUnits"></span></div></div>
+    <div class="stat score"><i aria-hidden="true">⭐</i><small>Puan</small><b id="hScore">0</b></div>
+    <div class="hud-r">
+      <div class="stat combo" id="hComboBox"><small>Kombo</small><i aria-hidden="true">🔥</i><b id="hCombo">–</b><div class="combobar"><i id="hBar"></i></div></div>
+      <div class="stat time" id="hTimeBox"><small id="hTimeLbl">Süre</small><b id="hTime">1:30</b></div>
+    </div>
   </div>
   <div id="stage">
     <div id="boardCol"><div class="board cabinet" id="board" aria-label="İngilizce kelime taşları"></div></div>
     <div id="cardsCol"><div class="cards cabinet" id="cards" aria-label="Türkçe anlam kartları"></div></div>
   </div>
-  <div class="infobar" id="info">Bir taşa, sonra onun Türkçe anlamına dokun.</div>
   <div class="controls">
-    <div class="row">
-      <button type="button" class="ghost" id="hintBtn">İpucu (3)</button>
-      <button type="button" class="ghost" id="pauseBtn">Duraklat</button>
-      <button type="button" class="ghost" id="musicBtn">Müzik: açık</button>
-      <button type="button" class="ghost fsbtn">Tam ekran</button>
+    <div class="nc">
+      <button type="button" class="ib" id="hintBtn"><i aria-hidden="true">💡</i><span>İpucu</span><em id="hintN">3</em></button>
+      <button type="button" class="ib" id="pauseBtn"><i aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg></i><span>Duraklat</span></button>
+      <button type="button" class="ib" id="musicBtn"><i aria-hidden="true" id="musicIco">🎵</i><span>Müzik</span></button>
+      <button type="button" class="ib fsbtn"><i aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></i><span>Tam ekran</span></button>
     </div>
-    <span class="legend">Aynı renk 3 taş bir araya gelirse bonus! Elmas taş 3 kat puan!</span>
-    <button type="button" class="ghost" id="endBtn">Oyunu bitir</button>
+    <span class="gkid" id="gKid" aria-hidden="true"></span>
+    <div class="infobar" id="info" aria-live="polite"></div>
   </div>
 </section>
 
@@ -811,7 +989,7 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 <div class="overlay" id="scoresOv" hidden>
   <div class="dialog scoresdlg" role="dialog" aria-modal="true" aria-labelledby="sbTitle">
     <div class="sb-head">
-      <h2 id="sbTitle">Günün skorları</h2>
+      <h2 id="sbTitle"><span class="dkid k-gem" aria-hidden="true"></span>Günün skorları</h2>
       <span class="sb-date" id="sbDate"></span>
     </div>
     <div id="sbBody"></div>
@@ -824,13 +1002,13 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
 </div>
 <div class="overlay" id="helpOv" hidden>
   <div class="dialog helpdlg" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
-    <h2 id="helpTitle">Nasıl oynanır?</h2>
+    <h2 id="helpTitle"><span class="dkid k-pick" aria-hidden="true"></span>Nasıl oynanır?</h2>
     <div class="hcols">
       <section>
         <h3>Oyun</h3>
         <div class="hdemo" aria-hidden="true"><span class="hg"><span class="gem emerald"><span class="txt l1">where</span></span></span><span class="harrow">→</span><span class="hc meaning"><span class="txt l1">nerede</span></span></div>
         <ol class="hsteps">
-          <li>Sınıfını ve ünitelerini seç, adını yaz, <b>Başla</b>’ya bas.</li>
+          <li>Sınıfını ve ünitelerini seç, karakterini seç, <b>Başla</b>’ya bas. Adını yazmak isteğe bağlı.</li>
           <li>Soldaki taşa dokun, sağdaki kartlarda anlamını bul. Önce karta da dokunabilirsin.</li>
           <li>Doğru eşleşen taş kaybolur, yukarıdan yeni taşlar düşer.</li>
           <li>Süre bitmeden olabildiğince çok kelime eşleştir.</li>
@@ -844,32 +1022,21 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
           <li><span class="hico" aria-hidden="true"><i style="--c:var(--sapphire)"></i><i style="--c:var(--sapphire)"></i><i style="--c:var(--sapphire)"></i></span><div><b>Renk bonusu</b> Aynı renkten 3 ya da daha fazla taş yan yana gelirse patlar, ekstra puan verir. Zincirleme patlamalarda bonus büyür.</div></li>
           <li><span class="hico hdia" aria-hidden="true"><span class="hg"><span class="gem gold"><span class="star">✦</span><span class="txt l1"></span></span></span></span><div><b>Elmas taş</b> 3 kat puan; komboyla birlikte katlanır.</div></li>
           <li><span class="hico hdull">🔒</span><div><b>Sönen taş</b> Yanlış eşleştirdiğin taş söner: bir sonraki doğru eşleşmene kadar kilitlenir ve artık puan vermez.</div></li>
-          <li><span class="hico hhint">?</span><div><b>İpucu</b> 3 hakkın var. Bir eşleşmeyi gösterir ama kombonu sıfırlar.</div></li>
+          <li><span class="hico hhint">💡</span><div><b>İpucu</b> 3 hakkın var. Bir eşleşmeyi gösterir ama kombonu sıfırlar.</div></li>
         </ul>
       </section>
       <section class="hsec-c">
         <h3>Sınıfta grup yarışması</h3>
         <ul class="hplain">
-          <li>2, 3 ya da 4 grup seçilir; gruplar sırayla ve aynı sürede oynar.</li>
+          <li><b>⚙️ Değiştir</b>’den 2–5 grup seçilir; gruplar sırayla ve aynı sürede oynar.</li>
           <li>Her turdan sonra sıralama görünür. <b>“Yarışmayı bitir”</b>e basılınca kazanan kürsüde ilan edilir.</li>
         </ul>
       </section>
     </div>
+    <p class="hcredit">Oyunu bitirmek için ⏸ <b>Duraklat</b>’a bas. · Seslendirme: Piper TTS · LibriTTS (CC BY 4.0)</p>
     <div class="actions" style="justify-content:center"><button type="button" class="bigbtn" id="helpClose">Anladım</button></div>
   </div>
 </div>
-<div class="overlay" id="rotateOv" hidden>
-  <div class="dialog" style="max-width:380px;text-align:center">
-    <svg class="rotate-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="6" width="24" height="44" rx="4" fill="none" stroke="#dca646" stroke-width="3"/><circle cx="32" cy="44" r="2" fill="#dca646"/><path d="M50 52a18 18 0 0 1-18 8" fill="none" stroke="#c9b097" stroke-width="2.5" stroke-linecap="round"/><path d="M33 56l-2 4 4 1.5" fill="none" stroke="#c9b097" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <h2>Yatay modda oyna</h2>
-    <p class="note" style="margin:0;font-size:14px">Taşlar ve kartlar yan yana sığsın diye telefonu yan çevir.</p>
-    <div class="actions" style="justify-content:center">
-      <button type="button" class="bigbtn" id="rotateBtn">Yatay moda geç</button>
-    </div>
-    <button type="button" class="linkbtn" id="rotateSkip">Dikey devam et</button>
-  </div>
-</div>
-
 <canvas id="confetti" hidden></canvas>
 
 <!-- countdown -->
@@ -890,9 +1057,10 @@ body.compact .dialog.helpdlg{max-width:1180px;font-size:15px}
     <p class="note" style="margin:0">Taşlar gizlendi. Hazır olunca devam et.</p>
     <div class="actions" style="justify-content:center">
       <button type="button" class="bigbtn" id="resumeBtn">Devam et</button>
+      <button type="button" class="ghost" id="endBtn">Oyunu bitir</button>
       <button type="button" class="ghost" id="quitBtn">Menüye dön</button>
     </div>
-    <p class="note" style="margin:0">Menüye dönersen bu oyunun skoru kaydedilmez.</p>
+    <p class="note" style="margin:0"><b>Oyunu bitir:</b> puanın skor tablosuna yazılır. <b>Menüye dön:</b> bu oyun kaydedilmez.</p>
   </div>
 </div>
 
@@ -920,6 +1088,12 @@ const ALL = JSON.parse(document.getElementById('mmData').textContent);
 /* v5: pronunciations come in one file per grade, fetched when the grade is picked (the page itself stays small) */
 const SNDFILES = (()=>{ try{ return JSON.parse(document.getElementById('mmSnd').textContent); }catch(e){ return {}; } })();
 const SNDDATA = {}, SNDLOAD = {};
+/* single-file (offline) edition: every grade's sounds are inside the page */
+(()=>{ const el = document.getElementById('mmSndAll'); if(!el) return;
+  try{ Object.assign(SNDDATA, JSON.parse(el.textContent)); }catch(e){}
+  Object.keys(SNDFILES).forEach(g=>{ SNDLOAD[g] = Promise.resolve(); SNDLOAD[g].done = true; });
+  el.remove();
+})();
 function loadGradeSounds(g){
   if(!SNDFILES[g] || SNDLOAD[g]) return SNDLOAD[g];
   SNDLOAD[g] = fetch(SNDFILES[g]).then(r=>{ if(!r.ok) throw 0; return r.json(); })
@@ -951,7 +1125,10 @@ const durStr = d => d ? (d%60 ? (d/60).toString().replace('.',',') : d/60) + ' d
 /* ---------------- preferences (shared) + units per grade ---------------- */
 const MAXG = 5;
 const prefs = Object.assign({name:'', dur:90, sound:true, music:true, tts:true, musicVol:50, voiceVol:90,
-  mode:1, gnames:['1. Grup','2. Grup','3. Grup','4. Grup','5. Grup'], unitsBy:{}, lastGrade:null, dir:'en'}, store.get('mm_prefs', {}));
+  mode:1, gnames:['1. Grup','2. Grup','3. Grup','4. Grup','5. Grup'], unitsBy:{}, lastGrade:null, dir:'en', av:0}, store.get('mm_prefs', {}));
+const AVATARS = [['🦊','Tilki'],['🐼','Panda'],['🦁','Aslan'],['🐸','Kurbağa'],['🐧','Penguen'],['🦄','Unicorn']];
+if(!(prefs.av>=0 && prefs.av<AVATARS.length)) prefs.av = 0;
+const playerName = () => prefs.name || AVATARS[prefs.av][1];
 if(prefs.dir!=='tr') prefs.dir='en';
 if(!Array.isArray(prefs.gnames)) prefs.gnames=[];
 for(let i=prefs.gnames.length;i<MAXG;i++) prefs.gnames.push((i+1)+'. Grup');   // keeps names saved by older versions
@@ -1054,7 +1231,7 @@ function musicStep(step, t){
   if(rem < 25 && pos % 4 === 0) mVoice('square', root*8, t, .07, .035, 4000);
   if(rem < 12 && pos % 2 === 1) mVoice('triangle', root*16, t, .05, .03, 6000);
 }
-function updateMusicBtn(){ const b = $('#musicBtn'); if(b) b.textContent = 'Müzik: ' + (prefs.music ? 'açık' : 'kapalı'); }
+function updateMusicBtn(){ const b = $('#musicBtn'); if(!b) return; $('#musicIco').textContent = prefs.music ? '🎵' : '🔇'; b.classList.toggle('off', !prefs.music); b.setAttribute('aria-pressed', prefs.music); b.title = prefs.music ? 'Müzik açık' : 'Müzik kapalı'; }
 
 function speak(text, force){
   if((!prefs.tts && !force) || !('speechSynthesis' in window)) return;
@@ -1139,7 +1316,7 @@ function scoreTable(list, meT, limit){
   if(!list.length) return '<div class="sb-empty">Bugün henüz oyun oynanmadı.<br>İlk skoru sen yaz!</div>';
   const rows = list.slice(0, limit).map((s,i)=>`<tr class="${s.t===meT?'me':''}">
       <td class="rk"><span class="medal">${i+1}</span></td>
-      <td class="who"><b>${esc(s.name)}</b><small>${esc(unitStr(s.units))} · ${esc(durStr(s.dur))} · kombo x${s.combo}${s.dir==='tr'?' · TR→EN':''}</small></td>
+      <td class="who"><b>${s.av?`<span class="sav">${s.av}</span>`:''}${esc(s.name)}</b><small>${esc(unitStr(s.units))} · ${esc(durStr(s.dur))} · kombo x${s.combo}${s.dir==='tr'?' · TR→EN':''}</small></td>
       <td class="pts">${s.score.toLocaleString('tr-TR')}</td></tr>`).join('');
   return `<table class="sb"><tbody>${rows}</tbody></table>`;
 }
@@ -1189,12 +1366,16 @@ function renderMenu(){
   $('#voiceVol').value = prefs.voiceVol; $('#voiceVolO').textContent = prefs.voiceVol;
   const n = buildEntries(sel).length;
   $('#summary').innerHTML = sel.length ? `<b>${GRADE}. sınıf</b> · ${esc(unitStr(sel))} · <b>${n}</b> kelime${prefs.dir==='tr'?' · <b>TR→EN</b>':''}${prefs.mode>1?` · <b>${prefs.mode} grup</b>`:''}` : 'Henüz seçim yapılmadı';
+  $('#avs').innerHTML = AVATARS.map(([e,n],i)=>`<button type="button" data-i="${i}" aria-pressed="${i===prefs.av}" aria-label="${n}" title="${n}">${e}</button>`).join('');
+  $('#setChips').innerHTML = `<span class="chip">${prefs.mode>1?'👥 '+prefs.mode+' grup':'👤 Bireysel'}</span><span class="chip">${prefs.dir==='tr'?'TR → EN':'EN → TR'}</span><span class="chip">⏱ ${durStr(prefs.dur)}</span>`;
   $('#startBtn').textContent = prefs.mode > 1 ? 'Yarışmayı başlat' : 'Başla';
   $('#startBtn').disabled = !sel.length;
   if(sel.length) $('#unitErr').hidden = true;
   renderResume();
   fitMenu();
 }
+$('#avs').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; prefs.av=+b.dataset.i; savePrefs(); [...$('#avs').children].forEach(x=>x.setAttribute('aria-pressed', x===b)); });
+$('#setRow').addEventListener('click', ()=>{ const box=$('#setBox'), open=box.hidden; box.hidden=!open; $('#setRow').setAttribute('aria-expanded', open); $('#setGo').textContent = open ? 'Kapat ▴' : 'Değiştir ›'; fitMenu(); });
 $('#modeSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; prefs.mode=+b.dataset.v; savePrefs(); renderMenu(); });
 for(let i=0;i<MAXG;i++) $('#gname'+(i+1)).addEventListener('input', e=>{ prefs.gnames[i] = e.target.value; savePrefs(); });
 $('#musicT').addEventListener('click', ()=>{ prefs.music=!prefs.music; savePrefs(); renderMenu(); updateMusicBtn(); });
@@ -1220,7 +1401,6 @@ $('#setup').addEventListener('submit', e=>{
   e.preventDefault(); oskClose();
   prefs.name = $('#nick').value.trim(); savePrefs();
   const sel = prefs.units.filter(n=>UNITS.some(u=>u.n===n));
-  if(prefs.mode === 1 && !prefs.name){ $('#nickErr').hidden=false; $('#nick').focus(); return; }
   if(!sel.length){ $('#unitErr').hidden=false; return; }
   if(starting) return;
   enterFullscreen();
@@ -1231,7 +1411,7 @@ $('#setup').addEventListener('submit', e=>{
       const names = prefs.gnames.slice(0, prefs.mode).map((n,i)=>n.trim() || `${i+1}. Grup`);
       startTournament(names, sel, prefs.dur || 90, prefs.dir);
     } else {
-      startGame({ grade:GRADE, units:sel, set:'all', dur:prefs.dur, name:prefs.name, dir:prefs.dir });
+      startGame({ grade:GRADE, units:sel, set:'all', dur:prefs.dur, name:playerName(), av:AVATARS[prefs.av][0], dir:prefs.dir });
     }
   });
 });
@@ -1298,13 +1478,17 @@ function startGame(cfg, practiceEntries){
   $('#hWho').textContent = isGroup ? 'Sıradaki grup' : 'Oyuncu';
   $('#hName').textContent = cfg.name;
   $('#hName').style.color = isGroup ? `var(--${GCOL[cfg.group]})` : '';
+  $('#hAv').innerHTML = isGroup ? `<span class="mg ${GCOL[cfg.group]}"></span>` : (cfg.av || AVATARS[prefs.av][0]);
+  $('#hTimeBox').classList.toggle('untimed', !G.dur); $('#hTimeBox').style.setProperty('--tp', 1);
   $('#hUnits').textContent = G.practice ? 'Tekrar turu · yanlış kelimeler' : isGroup ? `Tur ${T.round} · ${unitStr(cfg.units)}` : `${GRADE}. sınıf · ${unitStr(cfg.units)}`;
   if(G.rev) $('#hUnits').textContent += ' · TR→EN';
   $('#hTimeLbl').textContent = G.dur ? 'Süre' : 'Kalan kelime';
   $('#hTime').textContent = G.dur ? fmtTime(G.dur) : '';
   $('#hTimeBox').classList.remove('low');
-  $('#hintBtn').textContent = 'İpucu (3)'; $('#hintBtn').disabled = false;
-  setInfo(G.rev ? 'Bir taşa, sonra onun İngilizcesine dokun. Karttan da başlayabilirsin.' : 'Bir taşa, sonra onun Türkçe anlamına dokun. Karttan da başlayabilirsin.');
+  $('#hintN').textContent = 3; $('#hintN').hidden = false; $('#hintBtn').disabled = false;
+  const intro = store.get('mm_intro', 0);
+  if(intro < 3){ store.set('mm_intro', intro+1); setInfo(G.rev ? 'Bir taşa, sonra onun İngilizcesine dokun. Karttan da başlayabilirsin.' : 'Bir taşa, sonra onun Türkçe anlamına dokun. Karttan da başlayabilirsin.', false, 9000); }
+  else setInfo('');
   layout();
   fillAll(true);
   updateHud();
@@ -1485,6 +1669,8 @@ function sparks(g){
     board.appendChild(s); setTimeout(()=>s.remove(), 650);
   }
 }
+const PRAISE = ['','','GÜZEL!','HARİKA!','SÜPER!','MUHTEŞEM!','EFSANE!'];
+function kidCheer(big){ const k = $('#gKid'); if(!k) return; k.classList.remove('cheer','jump'); k.offsetWidth; k.classList.add(big?'jump':'cheer'); }
 function floatText(x,y,html,size,cls){
   const f = document.createElement('div'); f.className='float '+(cls||''); f.innerHTML=html;
   f.style.cssText = `left:${x}px;top:${y}px;font-size:${size}px`;
@@ -1535,7 +1721,8 @@ function match(g, k){
   const [x,y] = centerOf(g);
   if(gold) floatText(x, y, `+${pts}<small>ELMAS TAŞ x3${G.combo>1?` · KOMBO x${mult}`:''}</small>`, 34, 'goldf');
   else if(dull) floatText(x, y, `+0<small>SÖNMÜŞ TAŞ</small>`, 24, 'dullf');
-  else floatText(x, y, `+${pts}${G.combo>1?`<small>KOMBO x${mult}</small>`:''}`, G.combo>1?30:24);
+  else floatText(x, y, `+${pts}${G.combo>1?`<small>${PRAISE[Math.min(G.combo,6)]} · KOMBO x${mult}</small>`:''}`, G.combo>1?30:24);
+  if(!dull) kidCheer(G.combo>=3 || gold);
   const w = G.E[g.e];
   unlockGems();
   setInfo(`<span>${gold?'<b class="goldtxt">Elmas taş! 3 kat puan · </b>':''}${dull?'<b>Sönmüş taş, puan yok · </b>':''}<b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></span>`);
@@ -1668,12 +1855,17 @@ function wrong(g, k, first){
   sfx.wrong(); updateHud();
 }
 
-function setInfo(html, bad){ const el=$('#info'); el.innerHTML=html; el.classList.toggle('bad', !!bad); }
+const LEGEND = '<span class="lgd"><span class="mgs"><i class="mg ruby"></i><i class="mg ruby"></i><i class="mg ruby"></i></span> Aynı renk 3 taş = bonus <span class="sep">·</span> <span class="mg dia">✦</span> Elmas = 3 kat puan</span>';
+function setInfo(html, bad, ms){
+  const el=$('#info'); clearTimeout(setInfo.t);
+  el.innerHTML = html || LEGEND; el.classList.toggle('bad', !!(html && bad)); el.classList.toggle('lg', !html);
+  if(html) setInfo.t = setTimeout(()=>{ el.innerHTML = LEGEND; el.classList.remove('bad'); el.classList.add('lg'); }, ms || (bad ? 5200 : 4200));
+}
 function updateHud(){
   $('#hScore').textContent = G.score.toLocaleString('tr-TR');
   $('#hCombo').textContent = G.combo>1 ? 'x'+Math.min(G.combo,6) : '–';
   $('#hComboBox').classList.toggle('hot', G.combo>1);
-  if(!G.dur) $('#hTime').textContent = (G.E.length - G.correct) + ' / ' + G.E.length;
+  if(!G.dur){ $('#hTime').textContent = (G.E.length - G.correct) + ' / ' + G.E.length; $('#hTimeBox').style.setProperty('--tp', G.E.length ? (G.E.length - G.correct)/G.E.length : 0); }
 }
 
 function loop(){
@@ -1686,6 +1878,7 @@ function loop(){
     if(G.dur){
       const rem = G.dur - (now - G.start - G.pausedMs)/1000;
       const sec = Math.ceil(rem);
+      $('#hTimeBox').style.setProperty('--tp', Math.max(0, rem/G.dur).toFixed(4));
       if(sec!==G.lastSec){ G.lastSec=sec; $('#hTime').textContent = fmtTime(rem); $('#hTimeBox').classList.toggle('low', rem<=10); if(rem<=5 && rem>0) tone(880,.05,'square',.04); }
       if(rem<=0){ endGame('time'); return; }
     }
@@ -1715,7 +1908,7 @@ $('#hintBtn').addEventListener('click', ()=>{
     if(k){
       deselect();
       G.hints--; G.combo=0; G.comboDeadline=0; updateHud();
-      $('#hintBtn').textContent = `İpucu (${G.hints})`; $('#hintBtn').disabled = G.hints<=0;
+      $('#hintN').textContent = G.hints; $('#hintN').hidden = G.hints<=0; $('#hintBtn').disabled = G.hints<=0;
       g.el.classList.remove('hintglow'); g.el.offsetWidth; g.el.classList.add('hintglow');
       k.el.classList.remove('hintglow'); k.el.offsetWidth; k.el.classList.add('hintglow');
       setTimeout(()=>{ g.el.classList.remove('hintglow'); k.el.classList.remove('hintglow'); }, 2300);
@@ -1735,7 +1928,7 @@ function endGame(reason){
   let rankHtml = '', list = [];
   const saved = !G.practice && G.correct>0;
   if(saved){
-    const entry = {name:G.cfg.name, score:G.score, grade:G.cfg.grade, units:G.cfg.units, set:G.cfg.set, dur:G.cfg.dur, combo:Math.min(G.maxCombo,6), bonus:G.bonus, correct:G.correct, wrong:G.wrong, dir:G.rev?'tr':'en', t:Date.now()};
+    const entry = {name:G.cfg.name, av:G.cfg.av||'', score:G.score, grade:G.cfg.grade, units:G.cfg.units, set:G.cfg.set, dur:G.cfg.dur, combo:Math.min(G.maxCombo,6), bonus:G.bonus, correct:G.correct, wrong:G.wrong, dir:G.rev?'tr':'en', t:Date.now()};
     saveScore(entry); lastT = entry.t;
     list = sortedScores();
     const rank = list.findIndex(s=>s.t===entry.t)+1;
@@ -1747,6 +1940,7 @@ function endGame(reason){
     rankHtml = '<div class="note">Hiç eşleşme olmadığı için skor kaydedilmedi.</div>';
   }
   const title = reason==='time' ? 'Süre doldu!' : reason==='done' ? 'Tüm kelimeleri bitirdin!' : 'Oyun bitti';
+  const stars = starCount(G, secs);
   const missed = [...G.missed.entries()].sort((a,b)=>b[1]-a[1]);
   const missedHtml = missed.length ? `<div class="missed"><h3>Tekrar çalışılacak kelimeler (${missed.length})</h3><ul>${
     missed.map(([e,n])=>{ const w=G.E[e]; return `<li><span class="x">${n}×</span><b>${esc(w.en)}</b> = <span class="tr">${esc(w.tr)}</span></li>`; }).join('')
@@ -1754,8 +1948,8 @@ function endGame(reason){
   $('#resultCard').className = 'dialog res2';
   $('#resultCard').innerHTML = `
     <div class="rescol">
-    <div><h2>${title}</h2><div class="note">${esc(G.cfg.name)} · ${G.practice?'Tekrar turu':`${GRADE}. sınıf · ${esc(unitStr(G.cfg.units))}`}</div></div>
-    <div><div class="score-big">${G.score.toLocaleString('tr-TR')}</div>${rankHtml}</div>
+    <div><h2>${title}</h2><div class="note">${G.cfg.av?G.cfg.av+' ':''}${esc(G.cfg.name)} · ${G.practice?'Tekrar turu':`${GRADE}. sınıf · ${esc(unitStr(G.cfg.units))}`}</div></div>
+    <div class="resscore"><span class="rkid" aria-hidden="true"></span><div><div class="stars" role="img" aria-label="${stars} yıldız">${[1,2,3].map(i=>`<span class="${i<=stars?'on':''}" style="animation-delay:${.15+i*.22}s">★</span>`).join('')}</div><div class="score-big">${G.score.toLocaleString('tr-TR')}</div>${rankHtml}</div></div>
     <div class="stats">
       <div><small>Doğru</small><b>${G.correct}</b></div>
       <div><small>Yanlış</small><b>${G.wrong}</b></div>
@@ -1781,6 +1975,14 @@ function endGame(reason){
   if(missed.length) $('#practiceBtn').addEventListener('click', e=>{ e.currentTarget.classList.add('busy'); nextFrame(()=>startGame(cfg, missedEntries)); });
 }
 
+/* 1–3 stars: accuracy and pace (timed games), accuracy alone (untimed / practice) */
+function starCount(g, secs){
+  if(!g.correct) return 0;
+  const acc = g.correct/(g.correct+g.wrong), pace = g.dur ? g.correct/(g.dur/60) : 99;
+  if(acc >= .9 && pace >= 9) return 3;
+  if(acc >= .7 && pace >= 5) return 2;
+  return 1;
+}
 function toMenu(){
   if(G){ G.over = true; clearTimeout(G.cdT); }
   $('#cdOv').hidden = true;
@@ -1793,41 +1995,64 @@ function toMenu(){
 
 /* ---------------- fullscreen & landscape ---------------- */
 const isPhone = () => matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 900;
-const isPortrait = () => matchMedia('(orientation:portrait)').matches;
+const physPortrait = () => matchMedia('(orientation:portrait)').matches;
+/* a phone held upright shows the landscape layout turned sideways (see body.rot) */
+const ROT = () => document.body.classList.contains('rot');
+const isPortrait = () => physPortrait() && !ROT();
+const VW = () => ROT() ? innerHeight : document.documentElement.clientWidth;   // logical (landscape) viewport
+const VH = () => ROT() ? innerWidth : innerHeight;
+function setRot(){
+  const on = isPhone() && physPortrait();
+  const st = document.documentElement.style;
+  st.setProperty('--pw', innerWidth+'px'); st.setProperty('--ph', innerHeight+'px');
+  if(on !== ROT()){ document.body.classList.toggle('rot', on); window.scrollTo(0,0); }
+}
 const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
 const STANDALONE = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
 const FS_OK = !STANDALONE && !!(document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen);
-let rotateSkipped = false;
+/* the tap is painted first; the (slow) switch to fullscreen + landscape starts a frame later, still inside the tap's permission window */
 function enterFullscreen(){
-  try{
-    const el = document.documentElement, req = el.requestFullscreen || el.webkitRequestFullscreen;
-    const p = (FS_OK && req && !fsEl()) ? req.call(el, {navigationUI:'hide'}) : null;
-    if(p) document.body.classList.add('fsing');
+  const el = document.documentElement, req = el.requestFullscreen || el.webkitRequestFullscreen;
+  if(!(FS_OK && req && !fsEl())) return;
+  document.body.classList.add('fsing');
+  requestAnimationFrame(()=>setTimeout(()=>{
+    let p = null;
+    try{ p = req.call(el, {navigationUI:'hide'}); }catch(e){}
     Promise.resolve(p)
       .then(()=> matchMedia('(pointer:coarse)').matches && screen.orientation && screen.orientation.lock ? screen.orientation.lock('landscape') : null)
       .catch(()=>{})
-      .finally(()=>{ setTimeout(()=>{ checkRotate(); layout(); fitMenu(); document.body.classList.remove('fsing'); }, 350); });
-  }catch(e){}
+      .finally(()=>{ settleAfterResize(()=>{ setRot(); layout(); fitMenu(); document.body.classList.remove('fsing'); }); });
+  }, 0));
+}
+/* wait until the window has stopped changing size (fullscreen, rotation, browser bars), max ~1.2 s */
+function settleAfterResize(fn){
+  let t = null, done = false; const t0 = performance.now();
+  const fin = ()=>{ if(done) return; done = true; removeEventListener('resize', bump); clearTimeout(t); fn(); };
+  const bump = ()=>{ clearTimeout(t); t = setTimeout(fin, 220); if(performance.now() - t0 > 1200) fin(); };
+  addEventListener('resize', bump); bump();
 }
 function exitFullscreen(){ if(fsEl()){ try{ (document.exitFullscreen || document.webkitExitFullscreen).call(document); }catch(e){} } }
 function toggleFullscreen(){
   if(fsEl()){ try{ (document.exitFullscreen || document.webkitExitFullscreen).call(document); }catch(e){} }
   else enterFullscreen();
 }
-function updateFsBtns(){ document.querySelectorAll('.fsbtn').forEach(b=>{ b.hidden = !FS_OK; b.textContent = fsEl() ? 'Tam ekrandan çık' : 'Tam ekran'; }); }
+function updateFsBtns(){ document.querySelectorAll('.fsbtn').forEach(b=>{ b.hidden = !FS_OK; const l = b.querySelector('span'); if(l) l.textContent = fsEl() ? 'Küçült' : 'Tam ekran'; b.title = fsEl() ? 'Tam ekrandan çık' : 'Tam ekran'; }); }
 document.querySelectorAll('.fsbtn').forEach(b=>b.addEventListener('click', toggleFullscreen));
 ['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev, ()=>{ updateFsBtns(); setTimeout(()=>{ layout(); fitMenu(); }, 120); }));
-function checkRotate(){
-  $('#rotateOv').hidden = !(isPhone() && isPortrait() && !rotateSkipped);
-}
-$('#rotateBtn').addEventListener('click', ()=>{ enterFullscreen(); setTimeout(()=>{ if(isPortrait()) $('#rotateBtn').textContent='Telefonu yan çevir'; }, 900); });
-$('#rotateSkip').addEventListener('click', ()=>{ rotateSkipped = true; checkRotate(); });
-matchMedia('(orientation:portrait)').addEventListener?.('change', ()=>{ checkRotate(); setTimeout(()=>{ layout(); fitMenu(); }, 200); });
+function checkRotate(){ setRot(); }   // the old "turn your phone" notice is gone: upright phones get the sideways layout instead
+matchMedia('(orientation:portrait)').addEventListener?.('change', ()=>{ setRot(); setTimeout(()=>{ layout(); fitMenu(); }, 200); });
+addEventListener('resize', ()=>{ setRot(); });
+/* Android: the first touch already switches to fullscreen landscape (browsers only allow it after a tap) */
+document.addEventListener('pointerup', function firstTouch(e){
+  if(e.pointerType === 'mouse') return;
+  document.removeEventListener('pointerup', firstTouch, true);
+  if(isPhone()) enterFullscreen();
+}, true);
 
 /* ---------------- start page fits one screen ---------------- */
 /* scale a whole screen to fill the window (big smart boards) or to fit (small screens) */
 function setCompact(){
-  const c = !isPortrait() && innerHeight <= 560;
+  const c = !isPortrait() && VH() <= 560;
   document.body.classList.toggle('compact', c);
   /* phones: player fields go to the left column (the right one would be too tall); otherwise they sit above direction/duration */
   const tr = document.querySelector('.toprow');
@@ -1838,15 +2063,15 @@ function fitScreen(el){
   if(!el || el.hidden) return;
   setCompact();
   const isGame = el.id === 'game';
-  if(!isGame && innerWidth < 640 && isPortrait()){ el.style.transform = ''; el.style.marginBottom = ''; el.style.marginLeft = ''; return; }   // narrow phone held upright: scroll instead
+  if(!isGame && VW() < 640 && isPortrait()){ el.style.transform = ''; el.style.marginBottom = ''; el.style.marginLeft = ''; return; }   // narrow phone held upright: scroll instead
   /* sizes are read with the current scale kept in place: a momentarily oversized screen would make phones enlarge their viewport */
   const bs = getComputedStyle(document.body);
   const w = el.offsetWidth, h = el.offsetHeight;
   if(!w || !h) return;
-  const cw0 = document.documentElement.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
+  const cw0 = VW() - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
   if(!el.style.transform && w > cw0){ el.style.transformOrigin = 'top left'; el.style.transform = `scale(${cw0/w})`; el.style.marginBottom = (h*cw0/w - h) + 'px'; }
-  const cw = document.documentElement.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
-  const ch = innerHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 4;
+  const cw = VW() - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
+  const ch = VH() - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 4;
   if(!w || !h) return;
   let k = Math.min(ch / h, cw / w, 2.6);                // landscape: always fit the whole screen, never scroll
   k = Math.max(.3, k);
@@ -1859,12 +2084,12 @@ function fitScreen(el){
 function fitDialog(ov){
   const d = ov && !ov.hidden && ov.querySelector('.dialog'); if(!d) return;
   d.style.zoom = '';
-  if(innerWidth < 640 && isPortrait()) return;
-  const up = Math.max(1, Math.min(innerWidth/1280, innerHeight/720));
-  const W = innerWidth - 24, H = innerHeight - 24;
+  if(VW() < 640 && isPortrait()) return;
+  const up = Math.max(1, Math.min(VW()/1280, VH()/720));
+  const W = VW() - 24, H = VH() - 24;
   let k = 1;
   for(let i=0;i<4;i++){                     // zoom can re-flow the window, so measure again after each step
-    const r = d.getBoundingClientRect(); if(!r.width || !r.height) return;
+    const r0 = d.getBoundingClientRect(), r = ROT() ? {width:r0.height, height:r0.width} : r0; if(!r.width || !r.height) return;   // sideways page: screen box is turned
     const f = Math.min(W / r.width, H / r.height);
     const nk = Math.max(.35, Math.min(up, k * f));
     if(Math.abs(nk - k) < .01) break;
@@ -2020,7 +2245,7 @@ function confetti(ms){
   const cv = $('#confetti'), cx = cv.getContext && cv.getContext('2d'); if(!cx) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   cancelAnimationFrame(confRAF);
-  const W = cv.width = innerWidth, H = cv.height = innerHeight; cv.hidden = false;
+  const W = cv.width = VW(), H = cv.height = VH(); cv.hidden = false;
   const cols = ['#f0143c','#b81ee0','#0fc458','#1a6dff','#ff9800','#ffd24a','#ffffff'];
   const N = reduce ? 60 : Math.min(260, Math.round(W/5));
   const P = Array.from({length:N}, ()=>({ x:Math.random()*W, y:-20-Math.random()*H*.6, w:6+Math.random()*7, h:9+Math.random()*9,
@@ -2082,7 +2307,7 @@ function setGrade(g){
   prefs.lastGrade = g; savePrefs();
   T = store.get(TK, null); if(!T || !T.active || !Array.isArray(T.groups)) T = null;
   lastT = null; BUF.clear(); loadGradeSounds(g);
-  document.title = `Meaning Mine v5.0 · ${g}. Sınıf`;
+  document.title = `Meaning Mine v6.0 · ${g}. Sınıf`;
   document.querySelectorAll('.gradeNum').forEach(e=>e.textContent = g);
 }
 function showGrades(){
@@ -2091,14 +2316,29 @@ function showGrades(){
     const d = ALL[g], n = new Set(d.units.flatMap(u=>u.w.map(w=>w[0].toLowerCase()))).size;
     return `<button type="button" class="gbtn${g===prefs.lastGrade?' last':''}" data-g="${g}"><b>${g}<small>. sınıf</small></b><span>${d.units.length} ${d.kind==='Tema'?'tema':'ünite'} · ${n} kelime</span></button>`;
   }).join('');
-  show('gradeScreen'); fitMenu();
+  $('#gradeGrid').insertAdjacentHTML('beforeend', '<span class="gkcell" aria-hidden="true"></span>');
+  show('gradeScreen'); fitMenu(); placeGradeKid();
   const last = $('#gradeGrid .last'); if(last) last.focus({preventScroll:true});
 }
 $('#gradeGrid').addEventListener('click', e=>{
   const b = e.target.closest('button'); if(!b) return;
-  setGrade(b.dataset.g); show('menu'); renderMenu(); renderScoreboard();
+  b.classList.add('busy');
+  nextFrame(()=>{ b.classList.remove('busy'); setGrade(b.dataset.g); show('menu'); renderMenu(); renderScoreboard(); });
 });
 $('#chgGrade').addEventListener('click', showGrades);
+/* the miner kid fills the empty spot after the last grade, but never sits alone on a new row */
+function placeGradeKid(){
+  const c = $('.gkcell'), f = $('#gradeGrid .gbtn'); if(!c || !f) return;
+  c.hidden = false; c.hidden = Math.abs(c.offsetLeft - f.offsetLeft) < 2;
+}
+window.addEventListener('resize', ()=>{ clearTimeout(placeGradeKid.t); placeGradeKid.t = setTimeout(placeGradeKid, 160); });
+/* theme picker: one button, swatches pop up under it */
+document.querySelectorAll('.thbtn').forEach(b=>b.addEventListener('click', e=>{
+  e.stopPropagation(); const w = b.parentNode, open = !w.classList.contains('open');
+  document.querySelectorAll('.thwrap').forEach(x=>{ x.classList.remove('open'); x.firstElementChild.setAttribute('aria-expanded','false'); });
+  if(open){ w.classList.add('open'); b.setAttribute('aria-expanded','true'); }
+}));
+document.addEventListener('click', e=>{ if(!e.target.closest('.themes')) document.querySelectorAll('.thwrap.open').forEach(x=>{ x.classList.remove('open'); x.firstElementChild.setAttribute('aria-expanded','false'); }); });
 
 /* ---------------- on-screen keyboard ---------------- */
 const OSK_ROWS = [['1','2','3','4','5','6','7','8','9','0'],['q','w','e','r','t','y','u','ı','o','p','ğ','ü'],['a','s','d','f','g','h','j','k','l','ş','i'],['⇧','z','x','c','v','b','n','m','ö','ç','.','⌫'],['-',' ','Tamam']];
@@ -2173,10 +2413,10 @@ document.addEventListener('pointerdown', e=>{
   oskClose();
 });
 
-checkRotate(); updateMusicBtn(); updateFsBtns();
+setRot(); updateMusicBtn(); updateFsBtns();
 (()=>{ const v = $('#vtag'); let t = null;
   const who = () => String.fromCharCode(..._mmk.map(c=>c^0x2A));
-  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v5.0'; }, 4000); }, 2500); };
+  const on = e=>{ clearTimeout(t); t = setTimeout(()=>{ v.textContent = 'Meaning Mine © 2026 ' + who(); setTimeout(()=>{ v.textContent = 'v6.0'; }, 4000); }, 2500); };
   const off = ()=> clearTimeout(t);
   v.addEventListener('pointerdown', on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>v.addEventListener(ev, off));
   v.addEventListener('contextmenu', e=>e.preventDefault());

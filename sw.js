@@ -1,7 +1,7 @@
-// Meaning Mine service worker — v5.0 · © 2026 Veli PEKER
-const CACHE = 'meaning-mine-v5.0';
+// Meaning Mine service worker — v6.0 · © 2026 Veli PEKER
+const CACHE = 'meaning-mine-v6.0';
 const SNDC = 'mm-sounds';   // pronunciation files: kept across versions (their names change only when their content does)
-const CORE = ['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','favicon.png'];
+const CORE = ['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','favicon.png','font-baloo2.774e6371.woff','font-nunito.492b3f44.woff'];
 self.addEventListener('install', e=>{
   e.waitUntil(caches.open(CACHE).then(c=>Promise.all(CORE.map(u=>fetch(new Request(u,{cache:'reload'})).then(r=>{ if(r.ok) return c.put(u,r); })))).then(()=>self.skipWaiting()));
 });
